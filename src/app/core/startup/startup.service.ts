@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { MenuService, SettingsService, TitleService } from '@delon/theme';
 import { ACLService } from '@delon/acl';
 import { I18NService } from '../i18n/i18n.service';
+import { UserService } from '../../service/user.service';
 
 /**
  * 用于应用启动时
@@ -20,6 +21,7 @@ export class StartupService {
         private settingService: SettingsService,
         private aclService: ACLService,
         private titleService: TitleService,
+        private userService: UserService,
         private httpClient: HttpClient,
         private injector: Injector) { }
 
@@ -29,29 +31,76 @@ export class StartupService {
         return new Promise((resolve, reject) => {
             zip(
                 this.httpClient.get(`assets/i18n/${this.i18n.defaultLang}.json`),
-                this.httpClient.get('assets/app-data.json')
-            ).subscribe(([langData, appData]) => {
+                this.httpClient.get('assets/app-data.json'),
+                this.userService.getUser()
+            ).subscribe(([langData, appData, userData]) => {
+              console.log(userData);
                 // setting language data
                 this.translate.setTranslation(this.i18n.defaultLang, langData);
                 this.translate.setDefaultLang(this.i18n.defaultLang);
 
                 // application data
-                const res: any = appData;
+                const res: any = userData;
                 // 应用信息：包括站点名、描述、年份
-                this.settingService.setApp(res.app);
+                this.settingService.setApp({
+                        name: "Eoa",
+                        description: "Even oa"
+                    });
                 // 用户信息：包括姓名、头像、邮箱地址
-                this.settingService.setUser(res.user);
+                this.settingService.setUser({
+                        name: res.userName,
+                        avatar: res.avatar,
+                        email: '',
+                        userVid: res.userVid,
+                    });
                 // ACL：设置权限为全量
-                this.aclService.setFull(true);
+                //this.aclService.setFull(true);
+                // json转数组
+                    this.aclService.setRole(res.roles.map(item=>item+""));
                 // 初始化菜单
-                this.menuService.add(res.menu);
+                this.menuService.clear();
+                    this.menuService.add(this.getMenu(res.menu));
                 // 设置页面标题的后缀
-                this.titleService.suffix = res.app.name;
+                this.titleService.suffix = 'Eoa';
 
                 resolve(res);
             }, (err: HttpErrorResponse) => {
                 resolve(null);
             });
         });
+    }
+    getMenu(arr) {
+        // 过滤不是侧边栏菜单，按父id排序
+        arr = arr.filter(item => item.menuType == 1)
+        // .sort((x, y) => {
+        //     if (x.parentId > y.parentId) return 1;
+        //     else if (x.parentId < y.parentId) return -1;
+        //     else if (x.parentId == y.parentId) {
+        //         return x.menuId > y.menuId ? 1 : -1;
+        //     }
+        // });
+        // 添加字段 同步 框架的Menu
+        arr.map(item => {
+          item.group = item.isGroup==1?true:false;
+            item.menuId = item.menuId;
+            item.parentId = item.parentId;
+            item.text = item.menuName;
+            item.translate = item.menuName;
+            item.link = item.menuUrl;
+            item.icon = item.menuLogo;
+        });
+        // 列表变json 增加children
+        for (let i = arr.length - 1; i > -1; i--) {
+            for (let j = i - 1; j > -1; j--) {
+                if (arr[i].parentId == arr[j].menuId) {
+                    arr[j].children = !arr[j].children ? [] : arr[j].children;
+                    arr[j].children.unshift(arr[i]);
+                    arr.splice(i, 1);
+                    break;
+                }
+            }
+        }
+        // console.log(arr)
+        return arr;
     }
 }

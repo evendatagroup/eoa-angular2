@@ -30,7 +30,10 @@ export class DefaultInterceptor implements HttpInterceptor {
         // 统一加上服务端前缀
         let url = req.url;
         if (!url.startsWith('https://') && !url.startsWith('http://')) {
-            url = environment.SERVER_URL + url;
+            if (url.endsWith('.json')) { url = environment.SERVER_URL + url; }
+            else {
+                url = environment.HTTP_URL + url;
+            }
         }
 
         const newReq = req.clone({
@@ -40,9 +43,11 @@ export class DefaultInterceptor implements HttpInterceptor {
         return next.handle(newReq).pipe(
                     mergeMap((event: any) => {
                         // 允许统一对请求错误处理，这是因为一个请求若是业务上错误的情况下其HTTP请求的状态是200的情况下需要
-                        if (event instanceof HttpResponse && event.status !== 200) {
+                        if (event instanceof HttpResponse && event.body.error_code!==undefined && event.body.error_code !== "0") {
                             // 业务处理：observer.error 会跳转至后面的 `catch`
                             // return ErrorObservable.create(event);
+                            alert(event.body.msg);
+                            return ErrorObservable.create(event);
                         }
                         // 若一切都正常，则后续操作
                         return Observable.create(observer => observer.next(event));
