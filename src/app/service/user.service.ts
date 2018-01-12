@@ -16,6 +16,33 @@ export class UserService {
                 });
         });
     }
+    getUserAddress() {
+      return new Promise((resolve,reject)=> {
+        this.http.get('oaUserList/getList')
+        .subscribe(res=>{
+          let arr = res.data
+          let result = arr.splice(0)
+          result.forEach(item=>{
+            this.find(result,item);
+          })
+          resolve(result.filter(item => item.deptParentId==0))
+        })
+      })
+    }
+    find(arr,item){
+      if(arr.length>0){
+        arr.forEach(i=>{
+          if(i.deptId==item.deptParentId){
+            if(!i.children){
+              i.children = []
+            }
+            i.children.push(item);
+          }else if(i.children){
+            this.find(i,item)
+          }
+        })
+      }
+    }
 
     // 获取用户信息
     getUser() {
