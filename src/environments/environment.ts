@@ -6,6 +6,7 @@
 export const environment = {
     chore: false,
     SERVER_URL: `./`,
+    // HTTP_URL: `http://localhost:8080/eoa`,
     HTTP_URL: `http://192.168.0.10/eoa/`,
     production: false,
     hmr: false,
