@@ -1,0 +1,68 @@
+<form nz-form [formGroup]="form" (ngSubmit)="_submitForm()">
+    <fieldset>
+        <legend>基本信息</legend>
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSm]="6">
+                <label for="realName" nz-form-item-required>姓名</label>
+            </div>
+            <div nz-form-control nz-col [nzSm]="18" nzHasFeedback [nzValidateStatus]="realName">
+                <!-- <nz-input formControlName="realName" nzPlaceHolder="" [nzId]="'realName'"></nz-input> -->
+                <nz-input formControlName="realName" [nzId]="'realName'"></nz-input>
+                <ng-container *ngIf="realName.dirty || realName.touched">
+                    <p nz-form-explain *ngIf="realName.errors?.required">请输入您的姓名！</p>
+                    <p nz-form-explain *ngIf="realName.errors?.checked">Only input 'cipchk'</p>
+                    <p nz-form-explain *ngIf="realName.errors?.minlength">输入长度至少为4！</p>
+                </ng-container>
+            </div>
+        </div>
+        <!-- <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSm]="6">
+                <label for="" nz-form-item-required>性别</label>
+            </div>
+            <div nz-form-control nz-col [nzSm]="18" nzHasFeedback [nzValidateStatus]="">
+                <nz-select style="width: 50%;">
+                    <nz-option [nzLabel]="'男'" [nzValue]="'男'"></nz-option>
+                    <nz-option [nzLabel]="'女'" [nzValue]="'女'"></nz-option>
+                </nz-select>
+                <div nz-form-explain *ngIf="(mobilephone.dirty || mobilephone.touched) && mobilephone.errors?.required">请选择您的性别!</div>
+            </div>
+        </div> -->
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSm]="6">
+                <label for="EMail" nz-form-item-required>E-mail</label>
+            </div>
+            <div nz-form-control nz-col [nzSm]="18" nzHasFeedback [nzValidateStatus]="EMail">
+                <nz-input formControlName="EMail" [nzId]="'EMail'"></nz-input>
+                <div nz-form-explain *ngIf="(EMail.dirty || EMail.touched) && EMail.errors?.EMail">请输入有效的邮箱！</div>
+            </div>
+        </div>
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSm]="6">
+                <label for="mobilephone" nz-form-item-required>联系方式</label>
+            </div>
+            <div nz-form-control nz-col [nzSm]="18" nzHasFeedback [nzValidateStatus]="mobilephone">
+                <input formControlName="mobilephone" id="'mobilephone'" nz-input>
+                <div nz-form-explain *ngIf="(mobilephone.dirty || mobilephone.touched) && mobilephone.errors?.required">请输入您的电话号码!</div>
+            </div>
+        </div>
+        <!-- <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSm]="6">
+                <label nz-form-item-required>出生日期</label>
+            </div>
+            <div nz-form-control nz-col [nzSm]="18">
+                <div nz-col [nzSpan]="12">
+                    <div nz-form-control [nzValidateStatus]="start">
+                        <nz-datepicker formControlName="start"></nz-datepicker>
+                        <div nz-form-explain *ngIf="(start.dirty || start.touched) && start.errors?.required">Select date</div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </fieldset>
+    <div nz-form-item nz-row class="mb0">
+        <div nz-form-control nz-col [nzSpan]="18" [nzOffset]="6">
+            <button nz-button [nzType]="'primary'" [disabled]="form.invalid">修改</button>
+            <!-- <button nz-button (click)="form.reset()">重置</button> -->
+        </div>
+    </div>
+</form>

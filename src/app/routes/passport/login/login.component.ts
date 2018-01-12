@@ -6,11 +6,14 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { SocialService, SocialOpenType, ITokenService, DA_SERVICE_TOKEN } from '@delon/auth';
 import { environment } from '@env/environment';
 
+import { UserService } from '../../../service/user.service';
+import { StartupService } from '../../../core/startup/startup.service';
+
 @Component({
     selector: 'passport-login',
     templateUrl: './login.component.html',
     styleUrls: [ './login.component.less' ],
-    providers: [ SocialService ]
+    providers: [ SocialService, UserService ]
 })
 export class UserLoginComponent implements OnDestroy {
 
@@ -25,9 +28,11 @@ export class UserLoginComponent implements OnDestroy {
         public msg: NzMessageService,
         private settingsService: SettingsService,
         private socialService: SocialService,
+        private userService: UserService,
+        private startupService: StartupService,
         @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService) {
         this.form = fb.group({
-            userName: [null, [Validators.required, Validators.minLength(5)]],
+            userName: [null, [Validators.required, Validators.minLength(2)]],
             password: [null, Validators.required],
             mobile: [null, [Validators.required, Validators.pattern(/^1\d{10}$/)]],
             captcha: [null, [Validators.required]],
@@ -75,26 +80,45 @@ export class UserLoginComponent implements OnDestroy {
             this.captcha.markAsDirty();
             if (this.mobile.invalid || this.captcha.invalid) return;
         }
-        // mock http
         this.loading = true;
-        setTimeout(() => {
-            this.loading = false;
-            if (this.type === 0) {
-                if (this.userName.value !== 'admin' || this.password.value !== '888888') {
-                    this.error = `账户或密码错误`;
-                    return;
-                }
-            }
-
-            this.tokenService.set({
-                token: '123456789',
-                name: this.userName.value,
-                email: `cipchk@qq.com`,
-                id: 10000,
-                time: +new Date
-            });
-            this.router.navigate(['/']);
-        }, 1000);
+        this.userService.login(this.userName.value,this.password.value)
+        .then(user => {
+          this.tokenService.set({
+                  token: user.token,
+                  name: user.userName,
+                  email: '',
+                  userVid: user.userVid,
+                  avatar: user.avatar,
+                  time: +new Date
+              });
+              this.startupService.load().then(()=>{
+                this.loading = false;
+                this.router.navigate(['/']);
+              });
+              this.loading = false;
+        }).catch(err=>{
+          this.loading = false;
+        })
+        // // mock http
+        // this.loading = true;
+        // setTimeout(() => {
+        //     this.loading = false;
+        //     if (this.type === 0) {
+        //         if (this.userName.value !== 'admin' || this.password.value !== '888888') {
+        //             this.error = `账户或密码错误`;
+        //             return;
+        //         }
+        //     }
+        //
+        //     this.tokenService.set({
+        //         token: '123456789',
+        //         name: this.userName.value,
+        //         email: `cipchk@qq.com`,
+        //         id: 10000,
+        //         time: +new Date
+        //     });
+        //     this.router.navigate(['/']);
+        // }, 1000);
     }
 
     // region: social

@@ -1,0 +1,92 @@
+<div style="height: 24px;"></div>
+<nz-card [nzBordered]="false">
+  <form nz-form (ngSubmit)="getList()" [nzLayout]="'inline'" >
+      <div nz-row [nzGutter]="24">
+          <div nz-col [nzSpan]="6" class="mb-md">
+              <div nz-form-item class="d-flex">
+                  <div nz-form-label><label for="status">标题</label></div>
+                  <div nz-form-control class="flex-1">
+                      <nz-input [(ngModel)]="input_title"  [nzId]="'input_title'" name="input_title"></nz-input>
+                  </div>
+              </div>
+          </div>
+          <div nz-form-label nz-col [nzSm]="2">
+              <label>创建日期</label>
+          </div>
+          <div nz-form-control nz-col [nzSm]="8">
+              <div nz-row>
+                  <div nz-form-control nz-col [nzSpan]="11">
+                      <nz-datepicker [(ngModel)]="begin_date" name="begin_date" [nzPlaceHolder]="'开始'"></nz-datepicker>
+                  </div>
+                  <div nz-col [nzSpan]="1">
+                      <p nz-form-split>-</p>
+                  </div>
+                  <div nz-form-control nz-col [nzSpan]="11">
+                      <nz-datepicker [(ngModel)]="end_date" name="end_date" [nzPlaceHolder]="'结束'"></nz-datepicker>
+                  </div>
+              </div>
+          </div>
+          <div nz-col [nzSpan]="8" class="mb-md">
+              <button nz-button type="submit" [nzType]="'primary'" [nzSize]="'large'">查询</button>
+              <button nz-button type="reset" (click)="reset()" [nzSize]="'large'" class="mx-sm">重置</button>
+          </div>
+      </div>
+  </form>
+</nz-card>
+<nz-card [nzBordered]="false">
+  <nz-table #nzTable 
+    [nzAjaxData]="list" 
+    nzShowSizeChanger
+    [nzTotal]="total"
+    [nzPageSizeSelectorValues]=[5,10,20,50]
+    [(nzPageIndex)]="page"
+    (nzPageIndexChange)="getList()"
+    [(nzPageSize)]="rows"
+    (nzPageSizeChange)="getList(true)">
+    <thead nz-thead>
+      <tr>
+        <th nz-th><span>标题</span></th>
+        <th nz-th><span>发布时间</span></th>
+        <th nz-th><span>操作</span></th>
+      </tr>
+    </thead>
+    <tbody nz-tbody>
+      <tr nz-tbody-tr *ngFor="let item of nzTable.data">
+        <td nz-td><a (click)="showPdf(item.url)">{{item.inforTitle}}</a></td>
+        <td nz-td>{{item.createTimestamp*1000 | date:"yyyy-mm-dd hh:mm:ss"}}</td>
+        <td nz-td>
+          <span>
+            <button nz-button [nzType]="'primary'" (click)="showModal(item.sid)">
+              <span>查阅情况</span>
+            </button>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</nz-card>
+
+<nz-modal [nzWrapClassName]="'vertical-center-modal'" [nzVisible]="isVisible" [nzTitle]="'查阅情况'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
+  <ng-template #modalContent>
+    <nz-table #nzTable [nzDataSource]="readerList">
+      <thead nz-thead>
+        <tr>
+          <th nz-th><span>部门</span></th>
+          <th nz-th><span>已读人</span></th>
+          <th nz-th><span>未读人</span></th>
+          <th nz-th><span>占比</span></th>
+        </tr>
+      </thead>
+      <tbody nz-tbody>
+        <tr nz-tbody-tr *ngFor="let data of readerList">
+          <td nz-td>{{data.depart}}</td>
+          <td nz-td>{{data.readed}}</td>
+          <td nz-td>{{data.noread}}</td>
+          <td nz-td>
+            <nz-progress [ngModel]="data.rate" [nzStrokeWidth]="5"></nz-progress>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-template>
+</nz-modal>

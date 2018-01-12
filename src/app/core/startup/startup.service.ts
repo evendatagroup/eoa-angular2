@@ -34,7 +34,7 @@ export class StartupService {
                 this.httpClient.get('assets/app-data.json'),
                 this.userService.getUser()
             ).subscribe(([langData, appData, userData]) => {
-              console.log(userData);
+                console.log(userData);
                 // setting language data
                 this.translate.setTranslation(this.i18n.defaultLang, langData);
                 this.translate.setDefaultLang(this.i18n.defaultLang);
@@ -43,23 +43,23 @@ export class StartupService {
                 const res: any = userData;
                 // 应用信息：包括站点名、描述、年份
                 this.settingService.setApp({
-                        name: "Eoa",
-                        description: "Even oa"
-                    });
+                    name: "Eoa",
+                    description: "Even oa"
+                });
                 // 用户信息：包括姓名、头像、邮箱地址
                 this.settingService.setUser({
-                        name: res.userName,
-                        avatar: res.avatar,
-                        email: '',
-                        userVid: res.userVid,
-                    });
+                    name: res.userName,
+                    avatar: res.avatar,
+                    email: '',
+                    userVid: res.userVid,
+                });
                 // ACL：设置权限为全量
                 //this.aclService.setFull(true);
                 // json转数组
-                    this.aclService.setRole(res.roles.map(item=>item+""));
+                this.aclService.setRole(res.roles.map(item => item + ""));
                 // 初始化菜单
                 this.menuService.clear();
-                    this.menuService.add(this.getMenu(res.menu));
+                this.menuService.add(this.getMenu(res.menu));
                 // 设置页面标题的后缀
                 this.titleService.suffix = 'Eoa';
 
@@ -81,7 +81,7 @@ export class StartupService {
         // });
         // 添加字段 同步 框架的Menu
         arr.map(item => {
-          item.group = item.isGroup==1?true:false;
+            item.group = item.isGroup == 1 ? true : false;
             item.menuId = item.menuId;
             item.parentId = item.parentId;
             item.text = item.menuName;

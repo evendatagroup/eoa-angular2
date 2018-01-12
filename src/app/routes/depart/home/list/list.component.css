@@ -1,0 +1,55 @@
+ul {
+	height: 240px;
+	overflow-y: hidden;
+	padding: 0;
+	margin-top: -10px;
+}
+.list {
+	// padding-left: 5px;
+	height: 30px;
+	line-height: 30px;
+}
+.list_left {
+	float: left;
+	display: inline-block;
+	text-align: left;
+	/*width: 60%;*/
+	max-width: 55%;
+	min-width: 10px;
+	height: 30px;
+	overflow: hidden;
+}
+.list_right {
+	float: right;
+	/*display: inline-block;*/
+	width: 40%;
+	min-width: 120px;
+	height: 30px;
+	text-align: right;
+}
+
+.list_right img {
+	width: 15px;
+	height: 15px;
+}
+
+.title {
+	font-size: 14px;
+	lines: 1;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+
+.btn {
+	border: 1px solid transparent;
+	font-size: 12px;
+	height: 25px;
+	background-color: #fff;
+	margin-left: 5px;
+	cursor: pointer;
+}
+
+.ant-modal-content {
+	margin-top: 100px;
+}

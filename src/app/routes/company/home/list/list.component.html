@@ -1,0 +1,22 @@
+<ul>
+	<li class="list" *ngFor="let l of list">
+		<div class="list_left">
+			<a (click)="showPdf(l.url)"><ellipsis lines="1">{{l.value}}</ellipsis></a>
+		</div>
+		<div class="list_right">
+		  <span>{{l.createTimestamp*1000 | date:"yyyy-mm-dd"}}</span>
+		  <button class="btn" (click)="showModal(l.inforId)">
+		  	<div class="fa fa-eye" style="margin-right: 5px;"></div>
+	        <span>{{l.readnum}}</span>
+	      </button>
+		</div>
+	</li>
+</ul>
+
+<nz-modal class="ant-modal-content" [nzWrapClassName]="'vertical-center-modal'" [nzVisible]="isVisible" [nzTitle]="'已读人员'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
+  <ng-template #modalContent style="margin-top: 100px;">
+    <div *ngFor="let item of readerList">
+      {{item.realName}}
+    </div>
+  </ng-template>
+</nz-modal>

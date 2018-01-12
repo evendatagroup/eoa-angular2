@@ -12,7 +12,7 @@
                     </nz-input>
                     <ng-container *ngIf="userName.dirty || userName.touched">
                         <p nz-form-explain *ngIf="userName.errors?.required">请输入账户名！</p>
-                        <p nz-form-explain *ngIf="userName.errors?.minlength">至少五个字符</p>
+                        <p nz-form-explain *ngIf="userName.errors?.minlength">至少2个字符</p>
                     </ng-container>
                 </div>
             </div>
@@ -68,7 +68,7 @@
             </label>
         </div>
         <div nz-col [nzSpan]="12" class="text-right">
-            <a class="forgot" (click)="msg.error('请找欧阳锋')">忘记密码？</a>
+            <a class="forgot" (click)="msg.error('请找管理员')">忘记密码？</a>
         </div>
     </div>
     <div nz-form-item>

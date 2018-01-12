@@ -1,0 +1,227 @@
+<nz-card>
+    <nz-steps [(nzCurrent)]="current">
+        <nz-step [nzTitle]="'发起'"></nz-step>
+        <nz-step [nzTitle]="'审核'"></nz-step>
+        <nz-step [nzTitle]="'会签'"></nz-step>
+        <nz-step [nzTitle]="'批准'"></nz-step>
+        <nz-step [nzTitle]="'执行'"></nz-step>
+    </nz-steps>
+
+    <div>
+        <!-- <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm($event,validateForm.value)"> -->
+        <form nz-form [formGroup]="validateForm">
+            <div [ngSwitch]="current">
+                <div class="swith switch0" *ngSwitchCase="0">
+
+                    <!-- <div nz-form-item nz-row>
+                        <div nz-form-label nz-col [nzSpan]="6">
+                            <label nz-form-item-required>制度流程
+                                <nz-tooltip [nzTitle]="'凭证'">
+                                    <i nz-tooltip class="anticon anticon-question-circle-o"></i>
+                                </nz-tooltip>
+                            </label>
+                        </div>
+                        <div nz-form-control nz-col [nzSpan]="14">
+                            <nz-select formControlName="inforId" [nzSize]="'large'">
+                                <nz-option *ngFor="let item of sysList" [nzLabel]="item.stitle" [nzValue]="item.sid"></nz-option>
+                            </nz-select>
+                        </div>
+                    </div> -->
+
+                    <div nz-form-item nz-row>
+                        <div nz-form-label nz-col [nzSpan]="6">
+                            <label nz-form-item-required>流程名称</label>
+                        </div>
+                        <div nz-col [nzSpan]="14" nz-form-control nzHasFeedback>
+                            <nz-input formControlName="flowName" [nzType]="'text'" [nzPlaceHolder]="'请填写流程标题'" [nzSize]="'large'">
+                            </nz-input>
+                        </div>
+                    </div>
+
+
+                    <!-- <div nz-form-item nz-row>
+                        <div nz-form-label nz-col [nzSpan]="6">
+                            <label nz-form-item-required>分类
+                              <nz-tooltip [nzTitle]="'发布到哪个专题'">
+                                  <i nz-tooltip class="anticon anticon-question-circle-o"></i>
+                              </nz-tooltip>
+                            </label>
+                        </div>
+                        <div nz-form-control nz-col [nzSpan]="14">
+                            <nz-select formControlName="flowType" [nzSize]="'large'">
+                                <nz-option *ngFor="let item of stypeList" [nzLabel]="item.typeName" [nzValue]="item.typeId"></nz-option>
+                            </nz-select>
+                        </div>
+                    </div> -->
+
+                    <div nz-form-item nz-row>
+                        <div nz-col [nzSpan]="6" nz-form-label>
+                            <label nz-form-item-required>发起权限范围</label>
+                        </div>
+                        <div nz-col [nzSpan]="8" nz-form-control>
+                            <nz-input formControlName="launchNames" [nzDisabled]="true" [nzRows]="2" [nzType]="'textarea'" [nzPlaceHolder]="'选择授权范围'" [nzSize]="'large'">
+                            </nz-input>
+                            <input formControlName="launchs" type="hidden">
+                        </div>
+                        <div nz-col [nzSpan]="6">
+                            <button nz-button [nzSize]="'large'" [nzShape]="'circle'" (click)="showUserAddress({id:'launchs',name:'launchNames'})"><i class="fa fa-plus"></i></button>
+                            <button nz-button [nzSize]="'large'" [nzShape]="'circle'" (click)="cleanUserAddress({id:'launchs',name:'launchNames'})"><i class="icon-trash"></i></button>
+                            <!-- <button nz-button [nzSize]="'large'" (click)="getCaptcha($event)">全公司</button>
+                            <button nz-button [nzSize]="'large'" (click)="getCaptcha($event)">自己部门</button> -->
+                        </div>
+                    </div>
+
+                    <div nz-form-item nz-row>
+                        <div nz-form-label nz-col [nzSpan]="6">
+                            <label nz-form-item-required>模版</label>
+                        </div>
+                        <div nz-form-control nz-col [nzSpan]="10">
+                            <nz-select formControlName="templetId" [nzSize]="'large'">
+                                <nz-option *ngFor="let item of templetList" [nzLabel]="item.templetName" [nzValue]="item.templetId"></nz-option>
+                            </nz-select>
+                        </div>
+                        <div nz-col [nzSpan]="4">
+                            <!-- <button nz-button [nzSize]="'large'" (click)="getCaptcha($event)">查看模版样式</button> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swith switch1" *ngSwitchCase="1">
+                    <h3 style="text-align: center;margin: 10px;">如果需要审核人，请选择范围。否则跳过或留空</h3>
+                    <div nz-form-item nz-row *ngFor="let control of controlArray;let i = index">
+                        <div nz-form-label nz-col [nzSpan]="6" *ngIf="i==0">
+                            <label [attr.for]="control.controlInstance">审批人</label>
+                        </div>
+                        <div nz-form-control nz-col [nzSpan]="14" [nzOffset]="i==0?0:6">
+                            <nz-input style="width: 60%; margin-right:8px;" [nzDisabled]="true" [nzSize]="'large'" [nzPlaceHolder]="'选择授权范围'" [formControlName]="control.controlInstanceN" [nzId]="control.id">
+                            </nz-input>
+                            <input [formControlName]="control.controlInstance" type="hidden">
+                            <button nz-button [nzSize]="'large'" [nzShape]="'circle'" (click)="showUserAddress({id:control.controlInstance,name:control.controlInstanceN})"><i class="fa fa-plus"></i></button>
+                            <button nz-button [nzSize]="'large'" [nzShape]="'circle'" (click)="removeField(control,$event)"><i class="fa fa-minus"></i></button>
+
+                        </div>
+                    </div>
+                    <div nz-form-item nz-row>
+                        <div nz-form-control nz-col [nzSpan]="14" [nzOffset]="6">
+                            <button nz-button [nzType]="'dashed'" [nzSize]="'large'" style="width:60%" (click)="addField($event)">
+                              <i class="anticon anticon-plus"></i>
+                              <span> 增加下一级审批人 </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swith switch2" *ngSwitchCase="2">
+                    <h3 style="text-align: center;margin: 10px;">如果需要会签，请选择。否则跳过或留空</h3>
+                    <div nz-form-item nz-row>
+                      <nz-radio-group formControlName="isSign" [nzSize]="'large'">
+                        <label nz-radio-button [nzValue]="0">
+                          <span>不需要会签</span>
+                        </label>
+                        <label nz-radio-button [nzValue]="1">
+                          <span>需要会签</span>
+                        </label>
+                      </nz-radio-group>
+                        <!-- <div nz-col [nzSpan]="6" nz-form-label>
+                            <label>整理人授权范围</label>
+                        </div>
+                        <div nz-col [nzSpan]="8" nz-form-control>
+                            <nz-input formControlName="collatorNames" [nzDisabled]="true" [nzRows]="2" [nzType]="'textarea'" [nzPlaceHolder]="'选择授权范围'" [nzSize]="'large'">
+                            </nz-input>
+                            <input formControlName="collatorIds" type="hidden">
+                        </div>
+                        <div nz-col [nzSpan]="6">
+                            <button nz-button [nzSize]="'large'" [nzShape]="'circle'" (click)="showUserAddress({id:'collatorIds',name:'collatorNames'})"><i class="fa fa-plus"></i></button>
+                            <button nz-button [nzSize]="'large'" [nzShape]="'circle'" (click)="cleanUserAddress({id:'collatorIds',name:'collatorNames'})"><i class="icon-trash"></i></button>
+                            <button nz-button [nzSize]="'large'" (click)="getCaptcha($event)">全公司</button>
+                            <button nz-button [nzSize]="'large'" (click)="getCaptcha($event)">自己部门</button>
+                        </div> -->
+                    </div>
+
+                    <!-- <div nz-form-item nz-row>
+                        <div nz-col [nzSpan]="6" nz-form-label>
+                            <label>审核人权限范围</label>
+                        </div>
+                        <div nz-col [nzSpan]="8" nz-form-control>
+                            <nz-input formControlName="auditorNames" [nzDisabled]="true" [nzRows]="2" [nzType]="'textarea'" [nzPlaceHolder]="'选择授权范围'" [nzSize]="'large'">
+                            </nz-input>
+                            <input formControlName="auditorIds" type="hidden">
+                        </div>
+                        <div nz-col [nzSpan]="6">
+                            <button nz-button [nzSize]="'large'" [nzShape]="'circle'" (click)="showUserAddress({id:'auditorIds',name:'auditorNames'})"><i class="fa fa-plus"></i></button>
+                            <button nz-button [nzSize]="'large'" [nzShape]="'circle'" (click)="cleanUserAddress({id:'auditorIds',name:'auditorNames'})"><i class="icon-trash"></i></button>
+                            <button nz-button [nzSize]="'large'" (click)="getCaptcha($event)">全公司</button>
+                            <button nz-button [nzSize]="'large'" (click)="getCaptcha($event)">自己部门</button>
+                        </div>
+                    </div> -->
+                </div>
+                <div class="swith switch3" *ngSwitchCase="3">
+                    <h3 style="text-align: center;margin: 10px;">如果需要签发人，请选择范围。否则跳过或留空</h3>
+                    <div nz-form-item nz-row>
+                        <div nz-col [nzSpan]="6" nz-form-label>
+                            <label>批准人授权范围</label>
+                        </div>
+                        <div nz-col [nzSpan]="8" nz-form-control>
+                            <nz-input formControlName="approvalNames" [nzDisabled]="true" [nzRows]="2" [nzType]="'textarea'" [nzPlaceHolder]="'选择授权范围'" [nzSize]="'large'">
+                            </nz-input>
+                            <input formControlName="approvals" type="hidden">
+                        </div>
+                        <div nz-col [nzSpan]="6">
+                            <button nz-button [nzSize]="'large'" [nzShape]="'circle'" (click)="showUserAddress({id:'approvals',name:'approvalNames'})"><i class="fa fa-plus"></i></button>
+                            <button nz-button [nzSize]="'large'" [nzShape]="'circle'" (click)="cleanUserAddress({id:'approvals',name:'approvalNames'})"><i class="icon-trash"></i></button>
+                            <!-- <button nz-button [nzSize]="'large'" (click)="getCaptcha($event)">全公司</button>
+                            <button nz-button [nzSize]="'large'" (click)="getCaptcha($event)">自己部门</button> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="swith switch4" *ngSwitchCase="4">
+
+                    <div nz-form-item nz-row>
+                        <div nz-col [nzSpan]="6" nz-form-label>
+                            <label nz-form-item-required>执行人授权范围</label>
+                        </div>
+                        <div nz-col [nzSpan]="8" nz-form-control>
+                            <nz-input formControlName="exeNames" [nzDisabled]="true" [nzRows]="2" [nzType]="'textarea'" [nzPlaceHolder]="'选择授权范围'" [nzSize]="'large'">
+                            </nz-input>
+                            <input formControlName="exes" type="hidden">
+                        </div>
+                        <div nz-col [nzSpan]="6">
+                            <button nz-button [nzSize]="'large'" [nzShape]="'circle'" (click)="showUserAddress({id:'exes',name:'exeNames'})"><i class="fa fa-plus"></i></button>
+                            <button nz-button [nzSize]="'large'" [nzShape]="'circle'" (click)="cleanUserAddress({id:'exes',name:'exeNames'})"><i class="icon-trash"></i></button>
+                            <!-- <button nz-button [nzSize]="'large'" (click)="getCaptcha($event)">全公司</button>
+                            <button nz-button [nzSize]="'large'" (click)="getCaptcha($event)">自己部门</button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="esteps-action">
+        <button nz-button [nzType]="'default'" (click)="pre()" [disabled]="current < 1">
+          <span>返回上一步</span>
+        </button>
+        <button nz-button [nzType]="'default'" (click)="next()" [disabled]="current === 4">
+          <span>下一步</span>
+        </button>
+        <button nz-button [nzType]="'default'" (click)="next()" [disabled]="current === 0 || current === 4">
+          <span>跳过此步骤</span>
+        </button>
+        <button nz-button [nzType]="'primary'" (click)="submit()" [disabled]="current < 4 || !validateForm.valid">
+          <span>提交</span>
+        </button>
+    </div>
+</nz-card>
+<nz-modal [nzVisible]="userAddressVisible" [nzTitle]="'花名册'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
+    <ng-template #modalContent>
+        <!-- <nz-tree [nzNodes]="userAddressList" [nzCheckable]="true" [nzOptions]="options" (nzEvent)="onEvent($event)">
+        </nz-tree> -->
+        <nz-card nzTitle="Searchable" style="height:430px;overflow-y: scroll;">
+            <nz-input [nzType]="'search'" [nzPlaceHolder]="'input search text'" [(ngModel)]="q" (ngModelChange)="filterNodes()"></nz-input>
+            <nz-tree #tree [nzNodes]="nodes"
+                    [nzOptions]="options"
+                    [nzCheckable]="true"
+                    (nzEvent)="onEvent($event)"></nz-tree>
+        </nz-card>
+    </ng-template>
+</nz-modal>

@@ -1,0 +1,68 @@
+nz-carousel .slick-dots{bottom:-10px!important}
+
+.grid-tab {
+	height: 500px;
+}
+
+:host ::ng-deep .ant-carousel .slick-slide {
+  text-align: center;
+  height: 160px;
+  line-height: 160px;
+  background: #364d79;
+  color: #fff;
+  overflow: hidden;
+}
+
+.div-img {
+	min-width: 200px;
+	min-height: 160px;
+}
+
+.top {
+  margin-top: 24px;
+}
+
+.title {
+  height: 20px;
+  line-height: 18px;
+  margin-top: -14px;
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  border-bottom: 1px solid #F6F5F1;
+  /*background-color: #c07e3c;*/
+}
+
+.height1 {
+  height: 275px;
+}
+
+.height2 {
+  /*width: 50%;*/
+  /*margin: 0 auto;*/
+  height: 110px;
+  /*background-color: red;*/
+  overflow: hidden;
+}
+
+.left {
+  float: left;
+  width: 40%;
+}
+
+.right {
+  width: 55%;
+  float: right;
+  margin-left: 5px;
+}
+
+.height3 {
+  height: 115px;
+  /*background-color: green;*/
+  overflow: hidden;
+  padding-top: 10px;
+}
+
+h3 {
+  color: #fff;
+}

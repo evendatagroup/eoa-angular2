@@ -1,0 +1,22 @@
+<div nz-col nzXs="24" nzMd="12" style="margin-top: 24px;">
+    <nz-card [nzTitle]="nzTitle" nzNoPadding>
+        <ng-template #nzTitle>
+            载信通
+            <small class="text-sm font-weight-normal">即时通信</small>
+        </ng-template>
+        <div nz-row [nzType]="'flex'" [nzJustify]="'center'" [nzAlign]="'middle'" class="py-sm bg-grey-lighter-h point"
+            *ngFor="let item of todoData">
+            <nz-badge [nzCount]="5">
+		      <ng-template #content>
+		        <div nz-col [nzSpan]="4" class="text-center">
+	                <nz-avatar [nzSrc]="'./assets/img/' + item.avatar + '.png'" [nzSize]="'large'"></nz-avatar>
+	            </div>
+		      </ng-template>
+		    </nz-badge>
+            <div nz-col [nzSpan]="20" style="margin-left: 24px;">
+                <strong>{{item.name}}</strong>
+                <p>{{item.content}}</p>
+            </div>
+        </div>
+    </nz-card>
+</div>

@@ -1,0 +1,35 @@
+<legend>修改头像</legend>
+<div nz-row [nzGutter]="16">
+    <div nz-col [nzMd]="6">
+        <nz-card>
+            <h3 class="text-md">选择图片</h3>
+            <button nz-button class="ant-btn__block file-upload mt-sm">
+                <input id="file1" accept type="file" (change)="fileChange($event)" />
+                <i class="anticon anticon-upload"></i><span>上传</span>
+            </button>
+            <h3 class="text-md my-md">裁剪样式</h3>
+            <nz-radio-group [(ngModel)]="cropperSettings.rounded">
+                <label nz-radio-button [nzValue]="false"><span>方形</span></label>
+                <label nz-radio-button [nzValue]="true"><span>圆形</span></label>
+            </nz-radio-group>
+            <div class="my-md" *ngIf="data1.image">
+                <h3 class="text-md">裁剪图片</h3>
+                <img [class.rounded-circle]="cropperSettings.rounded"
+                    [src]="data1.image"
+                    [width]="cropperSettings.croppedWidth"
+                    [height]="cropperSettings.croppedHeight">
+            </div>
+        </nz-card>
+    </div>
+    <div nz-col [nzMd]="18">
+        <div nz-row>
+            <div nz-col [nzSpan]="24">
+                <nz-card>
+                    <img-cropper #cropper [image]="data1" [settings]="cropperSettings" (onCrop)="cropped($event)"></img-cropper>
+                </nz-card>
+                <!-- <button nz-button [nzType]="'primary'" [disabled]="form.invalid">修改</button> -->
+                <button nz-button [nzType]="'primary'">修改</button>
+            </div>
+        </div>
+    </div>
+</div>

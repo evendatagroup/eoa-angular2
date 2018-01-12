@@ -1,0 +1,11 @@
+<div nz-col nzXs="24" nzMd="12" style="margin-top: 24px;">
+    <nz-card nzTitle="待办事项" nzNoPadding>
+        <div nz-row [nzType]="'flex'" [nzJustify]="'center'" [nzAlign]="'middle'" class="py-sm bg-grey-lighter-h point"
+            *ngFor="let item of todoList">
+            <div nz-col [nzSpan]="18">
+                <strong>{{role[item.role]}}</strong>
+                <p [class.text-deleted]="item.completed">{{item.officeTitle}}</p>
+            </div>
+        </div>
+    </nz-card>
+</div>

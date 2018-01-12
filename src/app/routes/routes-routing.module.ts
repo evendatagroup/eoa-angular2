@@ -42,7 +42,13 @@ const routes: Routes = [
             { path: 'pages', loadChildren: './pages/pages.module#PagesModule' },
             { path: 'logics', loadChildren: './logics/logics.module#LogicsModule' },
             { path: 'extras', loadChildren: './extras/extras.module#ExtrasModule' },
-            { path: 'pro', loadChildren: './pro/pro.module#ProModule' }
+            { path: 'pro', loadChildren: './pro/pro.module#ProModule' },
+            //{ path: 'chat', loadChildren: './chat/chat.module#ChatModule' },
+            { path: 'company', loadChildren: './company/company.module#CompanyModule' },
+            { path: 'depart', loadChildren: './depart/depart.module#DepartModule' },
+            { path: 'workplace', loadChildren: './workplace/workplace.module#WorkplaceModule' },
+            { path: 'personal', loadChildren: './personal/personal.module#PersonalModule' }
+
         ]
     },
     // 全屏布局
@@ -74,5 +80,5 @@ const routes: Routes = [
 @NgModule({
     imports: [RouterModule.forRoot(routes, { useHash: environment.useHash })],
     exports: [RouterModule]
-  })
+})
 export class RouteRoutingModule { }

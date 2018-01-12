@@ -1,0 +1,16 @@
+<div class="content__title">
+    <h1>
+        办事大厅
+    </h1>
+</div>
+<div nz-row [nzGutter]="16">
+    <div nz-col [nzXs]="24" [nzSm]="8" *ngFor="let item of list">
+        <nz-card style="text-align:center;line-height:100px;">
+            <nz-badge [nzCount]="item.numb">
+              <ng-template #content>
+                <a [routerLink]="item.url"><span class="h3" style="margin: 20px;">{{item.name}}</span></a>
+              </ng-template>
+            </nz-badge>
+        </nz-card>
+    </div>
+</div>
