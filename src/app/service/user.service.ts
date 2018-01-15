@@ -16,6 +16,17 @@ export class UserService {
                 });
         });
     }
+
+    // 获取公司所有人（通讯录）
+    getList(): Promise<User[]> {
+        return new Promise((resolve, reject) => {
+            this.http.get('oaUserList/getList')
+                .subscribe((res: any) => {
+                    resolve(res.data)
+                })
+        })
+    }
+
     getUserAddress() {
       return new Promise((resolve,reject)=> {
         this.http.get('oaUserList/getList')

@@ -23,6 +23,9 @@ import { ALAIN_I18N_TOKEN } from '@delon/theme';
 import { I18NService } from '@core/i18n/i18n.service';
 
 import { UserService } from './service/user.service';
+import { MsgService } from './service/msg.service';
+import { ClusterService } from './service/cluster.service';
+import { ChatService } from './service/chat.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -67,7 +70,10 @@ export function StartupServiceFactory(startupService: StartupService): Function 
             deps: [StartupService],
             multi: true
         },
-        UserService
+        UserService,
+        MsgService,
+        ClusterService,
+        ChatService
     ],
     bootstrap: [AppComponent]
 })

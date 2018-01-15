@@ -1,0 +1,23 @@
+<div style="height: 24px;"></div>
+<div nz-row [nzGutter]="1">
+  <div nz-col [nzXs]="24" [nzSm]="6">
+      <nz-card class="height1">
+          <nz-tabset>
+            <nz-tab *ngFor="let tab of tabs">
+              <ng-template #nzTabHeading>
+                <i [ngClass]="tab.icon"></i>
+                {{tab.name}}
+              </ng-template>
+              <app-record *ngIf="tab.index==1"></app-record>
+              <app-list *ngIf="tab.index==2"></app-list>
+            </nz-tab>
+          </nz-tabset>
+      </nz-card>
+  </div>
+  <!-- 聊天区 -->
+  <div nz-col [nzXs]="24" [nzSm]="18">
+      <nz-card class="height1">
+          <app-chating></app-chating>
+      </nz-card>
+  </div>
+</div>

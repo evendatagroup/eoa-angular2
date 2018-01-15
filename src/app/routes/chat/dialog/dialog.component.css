@@ -1,0 +1,5 @@
+.height1 {
+    height: 620px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
