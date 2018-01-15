@@ -19,7 +19,7 @@ export class UserService {
     getUserAddress() {
       return new Promise((resolve,reject)=> {
         this.http.get('oaUserList/getList')
-        .subscribe(res=>{
+        .subscribe((res:any)=>{
           let arr = res.data
           let result = arr.splice(0)
           result.forEach(item=>{
@@ -100,7 +100,7 @@ export class UserService {
             this.http.post('office_info/getOfficeInfoList?page=1&rows=4', {}, { officeId })
                 .subscribe((res: any) => {
                     this.http.get('flow/getFlowList?page=1&rows=1&flowId=' + res.data[0].flowId)
-                        .subscribe(res2 => {
+                        .subscribe((res2:any) => {
                             res.data[0].modelId = res2.data[0].modelId;
                             resolve(res.data[0]);
                         })

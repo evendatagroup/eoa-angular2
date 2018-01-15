@@ -8,6 +8,7 @@ import { ACLService } from '@delon/acl';
 import { I18NService } from '../i18n/i18n.service';
 import { UserService } from '../../service/user.service';
 
+
 /**
  * 用于应用启动时
  * 一般用来获取应用所需要的基础数据等
@@ -103,4 +104,5 @@ export class StartupService {
         // console.log(arr)
         return arr;
     }
+
 }

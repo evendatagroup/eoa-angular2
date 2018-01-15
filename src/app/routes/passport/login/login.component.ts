@@ -9,11 +9,12 @@ import { environment } from '@env/environment';
 import { UserService } from '../../../service/user.service';
 import { StartupService } from '../../../core/startup/startup.service';
 
+
 @Component({
     selector: 'passport-login',
     templateUrl: './login.component.html',
-    styleUrls: [ './login.component.less' ],
-    providers: [ SocialService, UserService ]
+    styleUrls: ['./login.component.less'],
+    providers: [SocialService, UserService]
 })
 export class UserLoginComponent implements OnDestroy {
 
@@ -81,24 +82,24 @@ export class UserLoginComponent implements OnDestroy {
             if (this.mobile.invalid || this.captcha.invalid) return;
         }
         this.loading = true;
-        this.userService.login(this.userName.value,this.password.value)
-        .then(user => {
-          this.tokenService.set({
-                  token: user.token,
-                  name: user.userName,
-                  email: '',
-                  userVid: user.userVid,
-                  avatar: user.avatar,
-                  time: +new Date
-              });
-              this.startupService.load().then(()=>{
+        this.userService.login(this.userName.value, this.password.value)
+            .then(user => {
+                this.tokenService.set({
+                    token: user.token,
+                    name: user.userName,
+                    email: '',
+                    userVid: user.userVid,
+                    avatar: user.avatar,
+                    time: +new Date
+                });
+                this.startupService.load().then(() => {
+                    this.loading = false;
+                    this.router.navigate(['/']);
+                });
                 this.loading = false;
-                this.router.navigate(['/']);
-              });
-              this.loading = false;
-        }).catch(err=>{
-          this.loading = false;
-        })
+            }).catch(err => {
+                this.loading = false;
+            })
         // // mock http
         // this.loading = true;
         // setTimeout(() => {
@@ -119,6 +120,7 @@ export class UserLoginComponent implements OnDestroy {
         //     });
         //     this.router.navigate(['/']);
         // }, 1000);
+
     }
 
     // region: social

@@ -2,7 +2,7 @@
  * 进一步对基础模块的导入提炼
  * 有关模块注册指导原则请参考：https://github.com/cipchk/ng-alain/issues/180
  */
-import { NgModule, Optional, SkipSelf } from '@angular/core';
+import { NgModule, Optional, SkipSelf, ModuleWithProviders } from '@angular/core';
 import { throwIfAlreadyLoaded } from '@core/module-import-guard';
 
 // region: zorro modules
@@ -179,6 +179,15 @@ import { environment } from '@env/environment';
 const MOCKMODULE = !environment.production || environment.chore === true ?
                     [ DelonMockModule.forRoot({ data: MOCKDATA }) ] : [];
 
+// region: global config functions
+
+// import { SimpleTableConfig } from '@delon/abc';
+// export function simpleTableConfig(): SimpleTableConfig {
+//     return { ps: 20 };
+// }
+
+// endregion
+
 @NgModule({
     imports: [
         NgZorroAntdModule.forRoot(),
@@ -189,12 +198,12 @@ const MOCKMODULE = !environment.production || environment.chore === true ?
         AlainABCModule.forRoot(),
         // auth
         AlainAuthModule.forRoot({
-            //ignores: [ `\\/oaUserList\\/loginoa`, `assets\\/` ],
+            // ignores: [ `\\/login`, `assets\\/` ],
             login_url: `/passport/login`,
-            //login_url: `/pro/user/login`,
             store_key: '_token',
             token_send_key: 'token',
             token_send_place: 'url',
+
         }),
         // acl
         AlainACLModule.forRoot(),
@@ -207,5 +216,15 @@ const MOCKMODULE = !environment.production || environment.chore === true ?
 export class DelonModule {
   constructor( @Optional() @SkipSelf() parentModule: DelonModule) {
     throwIfAlreadyLoaded(parentModule, 'DelonModule');
+  }
+
+  static forRoot(): ModuleWithProviders {
+      return {
+          ngModule: DelonModule,
+          providers: [
+              // TIPS：@delon/abc 有大量的全局配置信息，例如设置所有 `simple-table` 的页码默认为 `20` 行
+              // { provide: SimpleTableConfig, useFactory: simpleTableConfig }
+          ]
+      };
   }
 }

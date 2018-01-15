@@ -41,7 +41,7 @@ export class ProgressService {
                 .subscribe((res: any) => {
                     res.data.progressStatus = 2;
                     this.http.post('oaProgress/edit', {}, res.data)
-                        .subscribe(res => {
+                        .subscribe((res:any) => {
                             resolve(res.data);
                         })
                 });

@@ -48,7 +48,6 @@ const routes: Routes = [
             { path: 'depart', loadChildren: './depart/depart.module#DepartModule' },
             { path: 'workplace', loadChildren: './workplace/workplace.module#WorkplaceModule' },
             { path: 'personal', loadChildren: './personal/personal.module#PersonalModule' }
-
         ]
     },
     // 全屏布局
