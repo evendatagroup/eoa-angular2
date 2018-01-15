@@ -3,7 +3,7 @@
         <nz-card class="height1">
             <div class="title">新闻动态 <a routerLink="/company/news" style="float:right">more</a></div>
             <div class="height2">
-                <div class="left">
+                <div class="left" *ngIf="imglist&&imglist.length>0">
                     <nz-carousel nzAutoPlay>
                       <div nz-carousel-content *ngFor="let item of imglist">
                         <img width="100%" height="100%" src="{{item.imgs}}">
