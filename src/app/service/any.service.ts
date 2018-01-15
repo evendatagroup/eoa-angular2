@@ -37,5 +37,17 @@ export class AnyService {
                 });
         });
     }
+    getMsgListByUserToUser(page,rows,toVid): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.http.get('oaMsg/getListByUserToUser', { page,rows,toVid })
+                .subscribe((res: any) => {
+                  if(typeof(res.data)=='string'){
+                    resolve({data:[],msg:res.data});
+                  }else {
+                    resolve({data:res.data,msg:res.data[0].toVid});
+                  }
+                });
+        });
+    }
 
 }
