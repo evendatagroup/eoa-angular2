@@ -30,7 +30,7 @@ import { ProgressService } from '../../../service/progress.service';
                     </div>
                     <div nz-col [nzSpan]="8" class="mb-md">
                         <button nz-button type="submit" [nzType]="'primary'" [nzSize]="'large'">查询</button>
-                        <button nz-button type="reset" (click)="reset()" [nzSize]="'large'" class="mx-sm">重置</button>
+                        <button nz-button (click)="reset()" [nzSize]="'large'" class="mx-sm">重置</button>
                     </div>
                 </div>
             </form>

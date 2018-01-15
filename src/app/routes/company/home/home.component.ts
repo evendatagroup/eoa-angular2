@@ -18,6 +18,11 @@ export class HomeComponent implements OnInit {
     page: 1,
     rows: 4
   }
+  parames112 = {
+    inforType: 11,
+    page: 2,
+    rows: 4
+  }
   parames12 = {
     inforType: 12,
     page: 1,

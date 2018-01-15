@@ -35,6 +35,7 @@ export class DefaultInterceptor implements HttpInterceptor {
                 url = environment.HTTP_URL + url;
             }
         }
+        console.log(url)
 
         const newReq = req.clone({
             url: url

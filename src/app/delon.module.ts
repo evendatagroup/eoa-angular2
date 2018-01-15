@@ -189,7 +189,7 @@ const MOCKMODULE = !environment.production || environment.chore === true ?
         AlainABCModule.forRoot(),
         // auth
         AlainAuthModule.forRoot({
-            // ignores: [ `\\/login`, `assets\\/` ],
+            //ignores: [ `\\/oaUserList\\/loginoa`, `assets\\/` ],
             login_url: `/passport/login`,
             //login_url: `/pro/user/login`,
             store_key: '_token',

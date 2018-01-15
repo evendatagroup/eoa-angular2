@@ -65,4 +65,12 @@ export class ProgressService {
                 })
         })
     }
+    getCountDoing(): Promise<any[]> {
+        return new Promise((resolve, reject) => {
+            this.http.get('oaProgress/getCountDoing')
+                .subscribe((res: any) => {
+                    resolve(res.data)
+                })
+        })
+    }
 }

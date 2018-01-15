@@ -23,14 +23,14 @@
             </div>
             <div nz-col [nzSpan]="8" class="mb-md">
               <button nz-button type="submit" [nzType]="'primary'" [nzSize]="'large'">查询</button>
-              <button nz-button type="reset" (click)="reset()" [nzSize]="'large'" class="mx-sm">重置</button>
+              <button nz-button (click)="reset()" [nzSize]="'large'" class="mx-sm">重置</button>
           </div>
         </div>
     </form>
 </nz-card>
 <nz-card [nzBordered]="false">
-    <nz-table #nzTable 
-        [nzAjaxData]="data" 
+    <nz-table #nzTable
+        [nzAjaxData]="data"
         nzShowSizeChanger
         [nzTotal]="total"
         [nzPageSizeSelectorValues]=[5,10,20,50]

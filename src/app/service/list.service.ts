@@ -20,7 +20,7 @@ export class ListService {
     });
   }
 
-  getListByPage(id, page, rows): Promise<any[]> {
+  getListByPage(id, page, rows): Promise<any> {
     return new Promise((resolve, reject) => {
       let url = 'oaInfor/getListByPageWithUser?order=oa_infor.create_timestamp desc&rows=' + rows + '&inforType=' + id + '&page=' + page;
       this.http.get(url)
@@ -30,10 +30,9 @@ export class ListService {
     });
   }
 
-  getReaderList(sid): Promise<Reader[]> {
+  getReaderList(params): Promise<any[]> {
     return new Promise((resolve, reject) => {
-      let url = 's_read/getSReadList' + '?sid=' + sid;
-      this.http.get(url)
+      this.http.get('oaRead/getList',params)
           .subscribe((res: any) => {
             resolve(res.data);
           });

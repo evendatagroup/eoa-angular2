@@ -107,4 +107,15 @@ export class UserService {
                 });
         });
     }
+
+    // 更新阅读状态
+    editRead(params):Promise<any> {
+      console.log(params)
+        return new Promise((resolve, reject) => {
+            this.http.get('oaRead/edit', params)
+                .subscribe((res: any) => {
+                    resolve(res);
+                });
+        });
+    }
 }

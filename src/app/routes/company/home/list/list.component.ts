@@ -1,63 +1,67 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import { ListService } from '../../../../service/list.service';
+import { UserService } from '../../../../service/user.service';
 import { List } from '../../../../class/list';
-import { Reader } from '../../../../class/Reader';
 
 @Component({
-  selector: 'app-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.css']
+    selector: 'app-list',
+    templateUrl: './list.component.html',
+    styleUrls: ['./list.component.css']
 })
 export class ListComponent implements OnInit {
-  list: List[];
-  readerList: Reader[]; 
-  isVisible = false;
-  @Input() parames: any;
+    list: List[];
+    readerList: any[];
+    isVisible = false;
+    userVid = JSON.parse(window.localStorage._token).userVid
+    @Input() parames: any;
 
-  constructor(private listService: ListService) { }
+    constructor(
+        private listService: ListService,
+        private userService: UserService) { }
 
-  getList() {
-    this.listService
-        .getList(this.parames)
-        .then(res => {
-          this.list = res.data
-        });
-  }
+    getList() {
+        this.listService
+            .getList(this.parames)
+            .then(res => {
+                this.list = res.data
+            });
+    }
 
-  ngOnInit() {
-    this.getList()
-  }
+    ngOnInit() {
+        this.getList()
+    }
 
-  showPdf(url) {
-    url = 'http://192.168.0.10/eoa/file/' + url;
-    window.open(url);
-  }
+    showPdf(l) {
+        //url = 'http://192.168.0.10/eoa/file/' + url;
+        l.url = 'http://localhost:8080/eoa/file/' + l.url;
+        window.open(l.url);
+        this.userService.editRead({ inforId: l.inforId, userVid: this.userVid, readStatus: 1 })
+            .then(res => {
+                this.getList()
+            })
+    }
 
-  showModal(inforId) {
-    // console.log("sid:" + sid);
-    this.isVisible = true;
-    this.listService
-        .getReaderList(inforId)
-        .then(data => {
-          if(data.length > 0){
-            // this.readerList = data;
-            this.readerList = data.filter(item => item.status == '1');
-          }else{
-            this.readerList = [];
-          }
-          // console.log(this.readerList);
-        })
-  }
+    showModal(inforId) {
+        // console.log("sid:" + sid);
+        this.readerList = [];
+        this.isVisible = true;
+        this.listService
+            .getReaderList({inforId,readStatus:1})
+            .then(data => {
+                this.readerList = data;
+                // console.log(this.readerList);
+            })
+    }
 
-  handleOk = (e) => {
-    console.log('点击了确定');
-    this.isVisible = false;
-  }
+    handleOk = (e) => {
+        console.log('点击了确定');
+        this.isVisible = false;
+    }
 
-  handleCancel = (e) => {
-    console.log(e);
-    this.isVisible = false;
-  }
+    handleCancel = (e) => {
+        console.log(e);
+        this.isVisible = false;
+    }
 
 }
