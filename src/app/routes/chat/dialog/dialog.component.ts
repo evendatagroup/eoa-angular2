@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild  } from '@angular/core';
 import { ChatService } from '../../../service/chat.service';
+import { ChatingComponent } from './chating/chating.component';
 
 @Component({
   selector: 'app-dialog',
@@ -7,8 +8,10 @@ import { ChatService } from '../../../service/chat.service';
   styleUrls: ['./dialog.component.css'],
   // providers: [ChatService]
 })
-export class DialogComponent implements OnInit {
 
+export class DialogComponent implements OnInit {
+  @ViewChild(ChatingComponent)
+  private chatingComponent: ChatingComponent
 	tabs = [
 	    {
 	    	active: true,
@@ -23,6 +26,7 @@ export class DialogComponent implements OnInit {
 	        index: 2
 	    }
     ];
+    vid='等待点击';
 
 	messages = [];
     connection;
@@ -30,7 +34,7 @@ export class DialogComponent implements OnInit {
 
     userVid = '';
 
-    constructor(private chatService: ChatService) { 
+    constructor(private chatService: ChatService) {
     	this.userVid = JSON.parse(window.localStorage._token).userVid;
     	this.chatService.initSocket(this.userVid);
     }
@@ -58,9 +62,15 @@ export class DialogComponent implements OnInit {
 		this.chatService
 			.loginOut()
 	}
-	  
+
 	ngOnDestroy() {
 		this.connection.unsubscribe();
 	}
+
+  onVoted(vid: string) {
+    this.vid = vid;
+    this.chatingComponent.show(vid);
+  }
+
 
 }

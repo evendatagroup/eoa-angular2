@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Cluster } from '../../../../class/cluster';
 import { ClusterService } from '../../../../service/cluster.service';
 
@@ -19,6 +19,8 @@ export class RecordComponent implements OnInit {
 	  	{ title: 'recd4', subDescription: 'hello', date: '09:22', logo: 'https://gw.alipayobjects.com/zos/rmsportal/siCrBXXhmvTQGWPNLBow.png'},
     ]
 
+    @Output() onVoted = new EventEmitter<string>();
+
     constructor(private clusterService: ClusterService) { }
 
     getMsgList() {
@@ -33,8 +35,9 @@ export class RecordComponent implements OnInit {
     	this.getMsgList()
     }
 
-    show() {
-      console.log('showing.....')
+    show(Vid) {
+      console.log(Vid);
+      this.onVoted.emit(Vid);
     }
 
 }

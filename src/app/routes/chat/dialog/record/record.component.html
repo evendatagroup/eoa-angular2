@@ -1,7 +1,7 @@
 <nz-list [nzDataSource]="clusterList" [nzLoading]="loading">
     <ng-template #item let-item>
         <nz-list-item [nzContent]="nzContent">
-            <a (click)="show()">
+            <a (click)="show(item.clusterVid)">
                 <nz-list-item-meta
                     [nzTitle]="nzTitle"
                     [nzDescription]="item.firstMsg"

@@ -48,4 +48,8 @@ export class ChatingComponent implements OnInit {
       this.getMsgList()
     }
 
+    show(vid) {
+      console.log('vv'+vid)
+    }
+
 }

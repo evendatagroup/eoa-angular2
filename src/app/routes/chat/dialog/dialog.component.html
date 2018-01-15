@@ -8,7 +8,7 @@
                 <i [ngClass]="tab.icon"></i>
                 {{tab.name}}
               </ng-template>
-              <app-record *ngIf="tab.index==1"></app-record>
+              <app-record *ngIf="tab.index==1" (onVoted)="onVoted($event)" ></app-record>
               <app-list *ngIf="tab.index==2"></app-list>
             </nz-tab>
           </nz-tabset>
@@ -16,6 +16,7 @@
   </div>
   <!-- 聊天区 -->
   <div nz-col [nzXs]="24" [nzSm]="18">
+    <h1>vid:{{vid}}</h1>
       <nz-card class="height1">
           <app-chating></app-chating>
       </nz-card>
