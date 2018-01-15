@@ -12,7 +12,7 @@
 		      <label nz-radio [nzValue]="'2'">
 		        <span>同意</span>
 		      </label>
-		      <label nz-radio [nzValue]="'3'">
+		      <label nz-radio [nzValue]="'3'" *ngIf="progress.progressRole!=5">
 		        <span>不同意</span>
 		      </label>
 		    </nz-radio-group>

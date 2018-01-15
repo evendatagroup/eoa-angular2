@@ -34,7 +34,7 @@ export class ListComponent implements OnInit {
 
     showPdf(l) {
         //url = 'http://192.168.0.10/eoa/file/' + url;
-        l.url = 'http://localhost:8080/eoa/file/' + l.url;
+        l.url = 'http://192.168.0.10/eoa/file/' + l.url;
         window.open(l.url);
         this.userService.editRead({ inforId: l.inforId, userVid: this.userVid, readStatus: 1 })
             .then(res => {
