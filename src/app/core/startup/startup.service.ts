@@ -35,7 +35,6 @@ export class StartupService {
                 this.httpClient.get('assets/app-data.json'),
                 this.userService.getUser()
             ).subscribe(([langData, appData, userData]) => {
-                console.log(userData);
                 // setting language data
                 this.translate.setTranslation(this.i18n.defaultLang, langData);
                 this.translate.setDefaultLang(this.i18n.defaultLang);
@@ -89,6 +88,7 @@ export class StartupService {
             item.translate = item.menuName;
             item.link = item.menuUrl;
             item.icon = item.menuLogo;
+            item.reuse = false;
         });
         // 列表变json 增加children
         for (let i = arr.length - 1; i > -1; i--) {
