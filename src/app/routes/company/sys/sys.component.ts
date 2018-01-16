@@ -170,9 +170,15 @@ export class SysComponent implements OnInit {
     }
 
     // 查阅情况
-    showModal = (sid) => {
+    showModal(inforId) {
+        this.readerList = [];
         this.isVisible = true;
-        this.getReader(sid);
+        this.listService
+            .getReaderList({inforId,readStatus:1})
+            .then(data => {
+                this.readerList = data;
+                // console.log(this.readerList);
+            })
     }
 
     handleOk = (e) => {

@@ -56,7 +56,7 @@
         <td nz-td>{{item.createTimestamp*1000 | date:"yyyy-MM-dd hh:mm:ss"}}</td>
         <td nz-td>
           <span>
-            <button nz-button [nzType]="'primary'" (click)="showModal(item.sid)">
+            <button nz-button [nzType]="'primary'" (click)="showModal(item.inforId)">
               <span>查阅情况</span>
             </button>
           </span>
@@ -66,7 +66,14 @@
   </nz-table>
 </nz-card>
 
-<nz-modal [nzWrapClassName]="'vertical-center-modal'" [nzVisible]="isVisible" [nzTitle]="'查阅情况'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
+<nz-modal class="ant-modal-content" [nzWrapClassName]="'vertical-center-modal'" [nzVisible]="isVisible" [nzTitle]="'已读人员'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
+  <ng-template #modalContent style="margin-top: 100px;">
+    <div *ngFor="let item of readerList">
+      {{item.userName}}({{item.deptName}}-{{item.roleName}})
+    </div>
+  </ng-template>
+</nz-modal>
+<!-- <nz-modal [nzWrapClassName]="'vertical-center-modal'" [nzVisible]="isVisible" [nzTitle]="'查阅情况'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
   <ng-template #modalContent>
     <nz-table #nzTable [nzDataSource]="readerList">
       <thead nz-thead>
@@ -89,4 +96,4 @@
       </tbody>
     </nz-table>
   </ng-template>
-</nz-modal>
+</nz-modal> -->

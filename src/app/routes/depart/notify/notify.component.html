@@ -56,7 +56,7 @@
         <td nz-td>{{item.createTimestamp*1000 | date:"yyyy-mm-dd hh:mm:ss"}}</td>
         <td nz-td>
           <span>
-            <button nz-button [nzType]="'primary'" (click)="showModal(item.sid)">
+            <button nz-button [nzType]="'primary'" (click)="showModal(item.inforId)">
               <span>查阅情况</span>
             </button>
           </span>
@@ -66,27 +66,10 @@
   </nz-table>
 </nz-card>
 
-<nz-modal [nzWrapClassName]="'vertical-center-modal'" [nzVisible]="isVisible" [nzTitle]="'查阅情况'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
-  <ng-template #modalContent>
-    <nz-table #nzTable [nzDataSource]="readerList">
-      <thead nz-thead>
-        <tr>
-          <th nz-th><span>部门</span></th>
-          <th nz-th><span>已读人</span></th>
-          <th nz-th><span>未读人</span></th>
-          <th nz-th><span>占比</span></th>
-        </tr>
-      </thead>
-      <tbody nz-tbody>
-        <tr nz-tbody-tr *ngFor="let data of readerList">
-          <td nz-td>{{data.depart}}</td>
-          <td nz-td>{{data.readed}}</td>
-          <td nz-td>{{data.noread}}</td>
-          <td nz-td>
-            <nz-progress [ngModel]="data.rate" [nzStrokeWidth]="5"></nz-progress>
-          </td>
-        </tr>
-      </tbody>
-    </nz-table>
+<nz-modal class="ant-modal-content" [nzWrapClassName]="'vertical-center-modal'" [nzVisible]="isVisible" [nzTitle]="'已读人员'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
+  <ng-template #modalContent style="margin-top: 100px;">
+    <div *ngFor="let item of readerList">
+      {{item.userName}}({{item.deptName}}-{{item.roleName}})
+    </div>
   </ng-template>
 </nz-modal>

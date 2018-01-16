@@ -161,10 +161,15 @@ export class ShowComponent implements OnInit {
   }
 
   // 查阅情况
-  showModal = (sid) => {
-    this.isVisible = true;
-    this.readerList = [];
-    this.getReader(sid);
+  showModal(inforId) {
+      this.readerList = [];
+      this.isVisible = true;
+      this.listService
+          .getReaderList({inforId,readStatus:1})
+          .then(data => {
+              this.readerList = data;
+              // console.log(this.readerList);
+          })
   }
 
   handleOk = (e) => {
