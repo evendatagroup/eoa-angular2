@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ListService } from '../../../service/list.service';
+import { UserService } from '../../../service/user.service';
 
 import { Reader } from '../../../class/Reader';
 import { Group } from '../../../class/Group';
@@ -10,7 +11,7 @@ import { Group } from '../../../class/Group';
     styles: []
 })
 export class DocComponent implements OnInit {
-    title = "公文管理";
+    title = "公文管理"
 
     inforType = 13
     page = 1
@@ -23,15 +24,17 @@ export class DocComponent implements OnInit {
     end_date = ''
 
     list = [];
+    selectedList: any;
     readerList = [];
     reader = [];
-
     groupList = [];
     groups = [];
     isVisible = false;
-    data = [];
+    userVid = JSON.parse(window.localStorage._token).userVid
 
-    constructor(private listService: ListService) {
+    constructor(
+        private listService: ListService,
+        private userService: UserService) {
 
     }
 
@@ -41,7 +44,6 @@ export class DocComponent implements OnInit {
         }
         let begin = parseInt(this.begin_date.valueOf()) / 1000
         let end = parseInt(this.end_date.valueOf()) / 1000
-
         let parames = {
             inforType: this.inforType,
             page: this.page,
@@ -50,7 +52,6 @@ export class DocComponent implements OnInit {
             beginTimestamp: this.begin_date == '' ? '' : Math.round(begin),
             endTimestamp: this.end_date == '' ? '' : Math.round(end)
         }
-        // console.log(parames)
         this.listService
             .getList(parames)
             .then(res => {
@@ -73,9 +74,15 @@ export class DocComponent implements OnInit {
         this.getList()
     }
 
-    showPdf(url) {
-        url = 'http://192.168.0.10/eoa/file/' + url;
-        window.open(url);
+    showPdf(l) {
+      console.log(l)
+        //url = 'http://192.168.0.10/eoa/file/' + url;
+        l.url = 'http://192.168.0.10/eoa/file/' + l.url;
+        window.open(l.url);
+        this.userService.editRead({ inforId: l.inforId, userVid: this.userVid, readStatus: 1 })
+            .then(res => {
+                this.getList()
+            })
     }
 
     getReader(sid): void {
@@ -89,8 +96,18 @@ export class DocComponent implements OnInit {
                     this.reader = [];
                 }
                 this.getGroup();
-                // console.log(this.groups);
-                // console.log(this.readerList);
+            });
+    }
+
+    getGroup(): void {
+        this.listService
+            .getGroup()
+            .then(data => {
+                this.groups = [];
+                this.readerList = [];
+                this.getChildren(data[0], "");
+                this.countReader();
+                // console.log(this.reader);
             });
     }
 
@@ -139,19 +156,8 @@ export class DocComponent implements OnInit {
         this.readerList = this.readerList.filter(item => !Object.is(item.rate, NaN));
     }
 
-    getGroup(): void {
-        this.listService
-            .getGroup()
-            .then(data => {
-                this.groups = [];
-                this.readerList = [];
-                this.getChildren(data[0], "");
-                this.countReader();
-                // console.log(this.reader);
-            });
-    }
-
     getChildren(g, id) {
+        // console.log(this.groups.length)
         if (g != undefined) {
             this.groups.push({ text: g.text, id: id + g.id + "," });
         }
@@ -166,7 +172,6 @@ export class DocComponent implements OnInit {
     // 查阅情况
     showModal = (sid) => {
         this.isVisible = true;
-        this.readerList = [];
         this.getReader(sid);
     }
 

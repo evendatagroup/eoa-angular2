@@ -28,19 +28,34 @@ export class UserService {
     }
 
     getUserAddress() {
+      // 机构-人-角色
       return new Promise((resolve,reject)=> {
         this.http.get('oaUserList/getList')
         .subscribe((res:any)=>{
           let arr = res.data
           let result = arr.splice(0)
           result.forEach(item=>{
-            this.find(result,item);
+            this.find1(result,item);
           })
           resolve(result.filter(item => item.deptParentId==0))
         })
       })
     }
-    find(arr,item){
+    getRoleAddress() {
+      // 机构-角色（多人）
+      return new Promise((resolve,reject)=> {
+        this.http.get('oaUserList/getList')
+        .subscribe((res:any)=>{
+          let arr = res.data
+          let result = arr.splice(0)
+          result.forEach(item=>{
+            this.find2(result,item);
+          })
+          resolve(result.filter(item => item.deptParentId==0))
+        })
+      })
+    }
+    find1(arr,item){
       if(arr.length>0){
         arr.forEach(i=>{
           if(i.deptId==item.deptParentId){
@@ -49,7 +64,32 @@ export class UserService {
             }
             i.children.push(item);
           }else if(i.children){
-            this.find(i,item)
+            this.find1(i,item)
+          }
+        })
+      }
+    }
+    find2(arr,item){
+      if(arr.length>0){
+        arr.forEach(i=>{
+          if(i.deptId==item.deptParentId){
+            if(!i.children){
+              i.children = []
+            }
+            let role = false;
+            i.children.forEach(child=>{
+              if(child.roleId==item.roleId){
+                // 同角色
+                child.userVid += ','+item.userVid;
+                child.userName += ','+item.userName;
+                role = true;
+              }
+            })
+            if(!role){
+              i.children.push(item);
+            }
+          }else if(i.children){
+            this.find2(i,item)
           }
         })
       }

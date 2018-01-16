@@ -5,6 +5,7 @@ import { HttpInterceptor, HttpRequest, HttpHandler,
        } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
+import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError } from 'rxjs/operators';
 import { mergeMap } from 'rxjs/operators';
 import { environment } from '@env/environment';
@@ -18,7 +19,7 @@ export class DefaultInterceptor implements HttpInterceptor {
 
     private goLogin() {
         const router = this.injector.get(Router);
-        this.injector.get(Router).navigate([ '/login' ]);
+        this.injector.get(Router).navigate([ '/passport/login' ]);
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler):
@@ -44,7 +45,8 @@ export class DefaultInterceptor implements HttpInterceptor {
                         if (event instanceof HttpResponse && event.body.error_code!==undefined && event.body.error_code !== "0") {
                             // 业务处理：observer.error 会跳转至后面的 `catch`
                             alert(event.body.msg);
-                            return of(<any>{ status: 1 });
+                            this.goLogin();
+                            return ErrorObservable.create(event);
                         }
                         // 若一切都正常，则后续操作
                         return of(event);
@@ -58,6 +60,7 @@ export class DefaultInterceptor implements HttpInterceptor {
                             case 200:
                                 // 业务层级错误处理
                                 console.log('业务错误');
+                                this.goLogin();
                                 break;
                             case 404:
                                 // 404

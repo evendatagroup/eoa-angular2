@@ -29,7 +29,7 @@ export class ExeComponent implements OnInit {
     total = 1
 
     input_title = ''
-    selectStatus = ''
+    selectStatus = 1
 
     userVid = JSON.parse(window.localStorage._token).userVid
 
@@ -58,7 +58,8 @@ export class ExeComponent implements OnInit {
             page: this.page,
             rows: this.rows,
             affairTitle: this.input_title,
-            progressStatus: this.selectStatus
+            progressStatus: this.selectStatus,
+            order: 'oa_progress.create_timestamp desc'
         }
         // console.log(parames)
         this.progressService
@@ -74,7 +75,7 @@ export class ExeComponent implements OnInit {
         this.page = 1
         this.rows = 5
         this.input_title = ''
-        this.selectStatus = ''
+        this.selectStatus = 2
         this.getList()
     }
 

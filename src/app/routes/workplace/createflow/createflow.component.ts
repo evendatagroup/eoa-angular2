@@ -7,14 +7,16 @@ import { NzMessageService } from 'ng-zorro-antd';
 
 import { SInformation } from '../../../class/sInformation.class';
 import { ListService } from '../../../service/list.service';
+import { UserService } from '../../../service/user.service';
 import { AnyService } from '../../../service/any.service';
+import { SettingsService } from '@delon/theme';
 import { NzTreeComponent } from 'ng-tree-antd';
 
 @Component({
     selector: 'app-createflow',
     templateUrl: './createflow.component.html',
     styleUrls: ['./createflow.component.less'],
-    providers: [ListService, AnyService]
+    providers: [ListService, AnyService, UserService]
 })
 export class CreateflowComponent {
 
@@ -61,6 +63,8 @@ export class CreateflowComponent {
         private _message: NzMessageService,
         private fb: FormBuilder,
         private listService: ListService,
+        private userService: UserService,
+        private settingsService: SettingsService,
         private anyService: AnyService
     ) {
         this.validateForm = this.fb.group({
