@@ -4,21 +4,36 @@
         <span *ngIf="toNum > 0">({{toNum}})</span>
         <i class="anticon anticon-down"></i>
       </a>
-      <div nz-menu *ngFor="let item of msgList" style="width: 200px;">
+      <div nz-menu *ngFor="let item of list" style="width: 200px;">
         <span nz-menu-item>
-        	<nz-avatar [nzSrc]="item.avatar" [nzSize]="'large'" [nzShape]="'square'"></nz-avatar>
+        	<nz-avatar [nzSrc]="item.avatar" [nzSize]="'large'" [nzShape]="'square'"></nz-avatar>{{item.userName}}
         </span>
       </div>
     </nz-dropdown>
 </div>
 <div class="content">
   <div class="content-li" *ngFor="let i of msgList">
+    <div [ngClass]="{true:'right',false:'left'}[i.createUserVid == _userVid]">
+      {{i.createUserVid}}
+    </div>
     <div [ngClass]="{true:'img-right',false:'img-left'}[i.createUserVid == _userVid]">
       <nz-avatar [nzSrc]="i.avatar" [nzSize]="'large'" [nzShape]="'square'"></nz-avatar>
     </div>
     <div [ngClass]="{true:'trangle-right',false:'trangle-left'}[i.createUserVid == _userVid]"></div>
     <div [ngClass]="{true:'content-right',false:'content-left'}[i.createUserVid == _userVid]">
-      {{i.content}}@{{i.createTimestamp}}
+      {{i.content}}
+    </div>
+  </div>
+  <div class="content-li" *ngFor="let i of messages">
+    <div [ngClass]="{true:'right',false:'left'}[i.createUserVid == _userVid]">
+      {{i.createUserVid}}
+    </div>
+    <div [ngClass]="{true:'img-right',false:'img-left'}[i.createUserVid == _userVid]">
+      <nz-avatar [nzSrc]="i.avatar" [nzSize]="'large'" [nzShape]="'square'"></nz-avatar>
+    </div>
+    <div [ngClass]="{true:'trangle-right',false:'trangle-left'}[i.createUserVid == _userVid]"></div>
+    <div [ngClass]="{true:'content-right',false:'content-left'}[i.createUserVid == _userVid]">
+      {{i.content}}
     </div>
   </div>
 </div>

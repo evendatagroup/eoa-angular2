@@ -27,6 +27,16 @@ export class UserService {
         })
     }
 
+    // 根据Id获取某个人
+    getListById(userVid): Promise<User> {
+        return new Promise((resolve, reject) => {
+            this.http.get('oaUserList/getList', { userVid })
+                .subscribe((res: any) => {
+                    resolve(res.data[0])
+                })
+        })
+    }
+
     getUserAddress() {
       // 机构-人-角色
       return new Promise((resolve,reject)=> {

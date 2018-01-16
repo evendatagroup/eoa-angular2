@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { UserService } from '../../../../service/user.service';
 import { ClusterService } from '../../../../service/cluster.service';
 import { User } from '../../../../class/user.class';
@@ -9,6 +9,9 @@ import { Cluster } from '../../../../class/cluster';
   templateUrl: './list.component.html',
 })
 export class ListComponent implements OnInit {
+
+    @Output() onVoted = new EventEmitter<string>();
+    @Output() onVoted2 = new EventEmitter<string>();
 
     userList: User[];
     clusterList: Cluster[];
@@ -39,4 +42,13 @@ export class ListComponent implements OnInit {
       this.getClusterList();
     }
 
+    setClusterVid(i) {
+      // console.log(i);
+      this.onVoted.emit(i);
+    }
+
+    setUserVid(i) {
+      // console.log(i);
+      this.onVoted2.emit(i);
+    }
 }

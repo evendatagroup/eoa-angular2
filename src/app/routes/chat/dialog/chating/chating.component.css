@@ -58,3 +58,11 @@
 	border-color: transparent transparent transparent #FFD700;
 	float: right;
 }
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}

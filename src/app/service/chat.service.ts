@@ -6,8 +6,12 @@ export class ChatService {
  private url = 'http://localhost:3000'; 
  private socket;
 
- initSocket(userVid){
+ initSocket(){
  	this.socket = io(this.url);
+ }
+
+ sendRoomMsg(roomMsgJson) {
+ 	this.socket.emit('room', roomMsgJson);
  }
 
  sendMsg(sendMsgJson) {
@@ -24,7 +28,8 @@ export class ChatService {
   
  getMessages() {
   let observable = new Observable(observer => {
-   this.socket.on('message', (data) => {
+   this.socket.on('room-message', (data) => {
+   	console.log(data)
     observer.next(data);  
    });
   })   

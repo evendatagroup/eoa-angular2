@@ -3,4 +3,5 @@ export class Cluster {
   token?: string;
   clusterVid?: string;
   clusterName?: string;
+  clusterNumber?: number;
 }

@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild  } from '@angular/core';
-import { ChatService } from '../../../service/chat.service';
 import { ChatingComponent } from './chating/chating.component';
 
 @Component({
@@ -26,49 +25,21 @@ export class DialogComponent implements OnInit {
 	        index: 2
 	    }
     ];
-    vid='等待点击';
 
-	messages = [];
-    connection;
-    message;
-
-    userVid = '';
-
-    constructor(private chatService: ChatService) {
-    	this.userVid = JSON.parse(window.localStorage._token).userVid;
-    	this.chatService.initSocket(this.userVid);
+    constructor() {
     }
-
-    sendMessage(who){
-		let sendMsgJson = {
-			name: this.userVid,
-			text: this.message,
-			to: who
-		}
-	 	this.chatService.sendMsg(sendMsgJson);
-	    this.message = '';
-	}
 
     ngOnInit() {
-    	this.connection = this.chatService
-	    					  .getMessages()
-	    				      .subscribe(message => {
-						    	  this.messages.push(message);
-								  console.log(this.messages)
-	    })
     }
 
-    loginOut() {
-		this.chatService
-			.loginOut()
-	}
+    onVoted(i: string) {
+	    // this.vid = toVid;
+	    this.chatingComponent.getMsgByCluster(i);
+    }
 
-	ngOnDestroy() {
-		this.connection.unsubscribe();
-	}
-
-  onVoted(i: string) {
-    // this.vid = toVid;
-    this.chatingComponent.getMsgByCluster(i);
-  }
+    onVoted2(i: string) {
+	    // this.vid = toVid;
+	    // console.log(i)
+	    this.chatingComponent.getMsgByUser(1, 10, i);
+    }
 }

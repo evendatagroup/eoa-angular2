@@ -17,4 +17,13 @@ export class ClusterService {
                 })
         })
     }
+
+    getList(clusterVid): Promise<Cluster> {
+        return new Promise((resolve, reject) => {
+            this.http.get('oaCluster/getList', { clusterVid })
+                .subscribe((res: any) => {
+                    resolve(res.data[0])
+                }) 
+        })
+    }
 }

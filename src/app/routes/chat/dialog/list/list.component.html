@@ -2,33 +2,37 @@
 <nz-list [nzDataSource]="clusterList" [nzLoading]="loading">
     <ng-template #item let-item>
         <nz-list-item [nzContent]="nzContent">
-            <nz-list-item-meta
-                [nzTitle]="nzTitle"
-                [nzAvatar]="nzAvatar">
-                <ng-template #nzTitle>
-                    <a href="{{item.href" target="_blank">{{item.clusterName}}</a>
-                </ng-template>
-                <ng-template #nzAvatar>
-                    <nz-avatar [nzSrc]="logo" [nzSize]="'large'" [nzShape]="'square'"></nz-avatar>
-                </ng-template>
-            </nz-list-item-meta>
+            <a (click)="setClusterVid(item)">
+                <nz-list-item-meta
+                    [nzTitle]="nzTitle"
+                    [nzAvatar]="nzAvatar">
+                    <ng-template #nzTitle>
+                        {{item.clusterName}}
+                    </ng-template>
+                    <ng-template #nzAvatar>
+                        <nz-avatar [nzSrc]="logo" [nzSize]="'large'" [nzShape]="'square'"></nz-avatar>
+                    </ng-template>
+                </nz-list-item-meta>
+            </a>
         </nz-list-item>
     </ng-template>
 </nz-list>
 <div nz-form-label style="border-bottom: 2px solid #CDCDCD;"><label for="status">联系人</label></div>
 <nz-list [nzDataSource]="userList" [nzLoading]="loading">
     <ng-template #item let-item>
-        <nz-list-item [nzContent]="nzContent">
-            <nz-list-item-meta
-                [nzTitle]="nzTitle"
-                [nzAvatar]="nzAvatar">
-                <ng-template #nzTitle>
-                    <a>{{item.userName}}</a>
-                </ng-template>
-                <ng-template #nzAvatar>
-                    <nz-avatar [nzSrc]="item.avatar" [nzSize]="'large'" [nzShape]="'square'"></nz-avatar>
-                </ng-template>
-            </nz-list-item-meta>
-        </nz-list-item>
+        <a (click)="setUserVid(item)">
+            <nz-list-item [nzContent]="nzContent">
+                <nz-list-item-meta
+                    [nzTitle]="nzTitle"
+                    [nzAvatar]="nzAvatar">
+                    <ng-template #nzTitle>
+                        {{item.userName}}
+                    </ng-template>
+                    <ng-template #nzAvatar>
+                        <nz-avatar [nzSrc]="item.avatar" [nzSize]="'large'" [nzShape]="'square'"></nz-avatar>
+                    </ng-template>
+                </nz-list-item-meta>
+            </nz-list-item>
+        </a>
     </ng-template>
 </nz-list>

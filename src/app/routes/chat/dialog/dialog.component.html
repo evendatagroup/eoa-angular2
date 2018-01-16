@@ -9,16 +9,15 @@
                 {{tab.name}}
               </ng-template>
               <app-record *ngIf="tab.index==1" (onVoted)="onVoted($event)" ></app-record>
-              <app-list *ngIf="tab.index==2"></app-list>
+              <app-list *ngIf="tab.index==2" (onVoted)="onVoted($event)" (onVoted2)="onVoted2($event)"></app-list>
             </nz-tab>
           </nz-tabset>
       </nz-card>
   </div>
   <!-- 聊天区 -->
   <div nz-col [nzXs]="24" [nzSm]="18">
-    <h1>vid:{{vid}}</h1>
-      <nz-card class="height1">
-          <app-chating></app-chating>
-      </nz-card>
+    <nz-card class="height1">
+        <app-chating></app-chating>
+    </nz-card>
   </div>
 </div>

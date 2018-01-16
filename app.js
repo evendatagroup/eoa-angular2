@@ -15,6 +15,22 @@ io.on('connection', (socket) => {
 		color: getColor()
 	}
 
+	// 群聊
+	socket.on('room', function(roomMsgJson) {
+		console.log(roomMsgJson.createUserVid + ' login, in room ' + roomMsgJson.toVid);
+		let obj = {
+			createTimestamp: getTime(),
+			createUserVid: roomMsgJson.createUserVid,
+			roomId: roomMsgJson.toVid,
+			content: roomMsgJson.content,
+			avatar: roomMsgJson.avatar
+		}
+
+		socket.join(obj.roomId);
+
+		io.sockets.in(obj.roomId).emit('room-message', obj);
+	})
+
 	// 对message事件的监听
 	socket.on('message', (sendMsgJson) => {
 		let obj = {
@@ -86,8 +102,6 @@ io.on('connection', (socket) => {
  			socket.emit('message', {name: sendMsgJson.name, text: sendMsgJson.text, type:'new-message', id: socket.name});
  		}
 	});
-
-
 });
  
 http.listen(3000, () => {
