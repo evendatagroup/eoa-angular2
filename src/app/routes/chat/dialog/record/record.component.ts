@@ -35,9 +35,9 @@ export class RecordComponent implements OnInit {
     	this.getMsgList()
     }
 
-    show(Vid) {
-      console.log(Vid);
-      this.onVoted.emit(Vid);
+    setClusterVid(i) {
+      // console.log(i);
+      this.onVoted.emit(i);
     }
 
 }

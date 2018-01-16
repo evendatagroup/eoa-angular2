@@ -26,6 +26,7 @@ import { UserService } from './service/user.service';
 import { MsgService } from './service/msg.service';
 import { ClusterService } from './service/cluster.service';
 import { ChatService } from './service/chat.service';
+import { AnyService } from './service/any.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -73,7 +74,8 @@ export function StartupServiceFactory(startupService: StartupService): Function 
         UserService,
         MsgService,
         ClusterService,
-        ChatService
+        ChatService,
+        AnyService
     ],
     bootstrap: [AppComponent]
 })

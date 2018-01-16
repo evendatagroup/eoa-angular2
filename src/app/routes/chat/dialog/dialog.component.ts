@@ -67,10 +67,8 @@ export class DialogComponent implements OnInit {
 		this.connection.unsubscribe();
 	}
 
-  onVoted(vid: string) {
-    this.vid = vid;
-    this.chatingComponent.show(vid);
+  onVoted(i: string) {
+    // this.vid = toVid;
+    this.chatingComponent.getMsgByCluster(i);
   }
-
-
 }
