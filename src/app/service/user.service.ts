@@ -37,72 +37,31 @@ export class UserService {
         })
     }
 
-    getUserAddress() {
+    getUserAddress(): Promise<any[]> {
       // 机构-人-角色
       return new Promise((resolve,reject)=> {
         this.http.get('oaUserList/getList')
         .subscribe((res:any)=>{
-          let arr = res.data
-          let result = arr.splice(0)
+          let result = this.nodeListUser(res.data)
           result.forEach(item=>{
-            this.find1(result,item);
+            this.list2Json(result,item);
           })
-          resolve(result.filter(item => item.deptParentId==0))
+          resolve(result.filter(item => item.parentId==0))
         })
       })
     }
-    getRoleAddress() {
+    getRoleAddress(): Promise<any[]> {
       // 机构-角色（多人）
       return new Promise((resolve,reject)=> {
         this.http.get('oaUserList/getList')
         .subscribe((res:any)=>{
-          let arr = res.data
-          let result = arr.splice(0)
+          let result = this.nodeList(res.data)
           result.forEach(item=>{
-            this.find2(result,item);
+            this.list2Json(result,item);
           })
-          resolve(result.filter(item => item.deptParentId==0))
+          resolve(result.filter(item => item.parentId==0))
         })
       })
-    }
-    find1(arr,item){
-      if(arr.length>0){
-        arr.forEach(i=>{
-          if(i.deptId==item.deptParentId){
-            if(!i.children){
-              i.children = []
-            }
-            i.children.push(item);
-          }else if(i.children){
-            this.find1(i,item)
-          }
-        })
-      }
-    }
-    find2(arr,item){
-      if(arr.length>0){
-        arr.forEach(i=>{
-          if(i.deptId==item.deptParentId){
-            if(!i.children){
-              i.children = []
-            }
-            let role = false;
-            i.children.forEach(child=>{
-              if(child.roleId==item.roleId){
-                // 同角色
-                child.userVid += ','+item.userVid;
-                child.userName += ','+item.userName;
-                role = true;
-              }
-            })
-            if(!role){
-              i.children.push(item);
-            }
-          }else if(i.children){
-            this.find2(i,item)
-          }
-        })
-      }
     }
 
     // 获取用户信息
@@ -178,5 +137,73 @@ export class UserService {
                     resolve(res);
                 });
         });
+    }
+    
+    //机构-人列表
+    nodeListUser(list){
+      let groupList = this.nodeGroupList(list);
+      list.forEach(item=>{
+        for(let i=0;i<groupList.length;i++){
+          if(groupList[i].id==item.deptId){
+            groupList[i].children = groupList[i].children || [];
+            item.id = item.userVid;
+            item.name = `${item.userName}(${item.roleName})`
+            groupList[i].children.push(item);
+            break;
+          }
+        }
+      })
+      return groupList
+    }
+    //机构-角色列表
+    nodeList(list){
+      let groupList = this.nodeGroupList(list);
+      list.forEach(item=>{
+        for(let i=0;i<groupList.length;i++){
+          if(groupList[i].id==item.deptId){
+            groupList[i].children = groupList[i].children || [];
+            let find = false;
+            groupList[i].children.forEach(role=>{
+              if(!find && role.roleId==item.roleId){
+                role.userVid += ','+item.userVid;
+                role.userName += ','+item.userName;
+                role.name = `${role.roleName}(${role.userName})`
+                find = true
+              }
+            })
+            if(!find){
+              item.id = groupList[i].id+'-'+item.roleId;
+              item.name = `${item.roleName}(${item.userName})`
+              groupList[i].children.push(item);
+            }
+            break;
+          }
+        }
+      })
+      return groupList
+    }
+    // 获取组织机构列表
+    nodeGroupList(list){
+      return list.reduce((previous, current) => {
+        if(!previous.some(item=>item.id==current.deptId)){
+          // 不存在
+          previous.push({id:current.deptId,name:current.deptName,parentId:current.deptParentId});
+        }
+        return previous;
+      }, [])
+    }
+    list2Json(arr,item){
+      if(arr.length>0){
+        arr.forEach(i=>{
+          if(i.id==item.parentId){
+            if(!i.children){
+              i.children = []
+            }
+            i.children.push(item);
+          }else if(i.children){
+            this.list2Json(i,item)
+          }
+        })
+      }
     }
 }

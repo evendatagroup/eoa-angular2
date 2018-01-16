@@ -55,6 +55,7 @@ export class CreateflowComponent {
     options = {
         allowDrag: false
     };
+    cardshow = false;
     @ViewChild(NzTreeComponent) tree: NzTreeComponent;
 
     index = 'First-content';
@@ -83,11 +84,15 @@ export class CreateflowComponent {
             approvalNames: [null,],
             exes: [null, [Validators.required]],
             exeNames: [null,],
+            search:[null,]
         });
     }
 
     ngOnInit() {
         this.addField();
+        this.userService.getUserAddress().then(res=>{
+          this.nodes = res
+        });
         // this.listService.getList({ stype: '13', page: 1, rows: 9 }).then(list => this.sysList = list);
         // this.listService.getSTypeList({}).then(list => this.stypeList = list);
         this.anyService.getList({ url: 'Templet' }).then(list => this.templetList = list);
@@ -254,8 +259,11 @@ export class CreateflowComponent {
     //         });
     //     }
     // }
-    onEvent(ev: any) {
-        // console.log('async', 'onEvent', ev);
+    // onEvent(ev: any) {
+    //     console.log('onEvent', ev);
+    // }
+    onFocus(ev: any) {
+        console.log('onEvent', ev);
     }
     find(arr, fname) {
         if (arr.length == 0) return false;
@@ -290,5 +298,8 @@ export class CreateflowComponent {
         this.checkedList = [];
         this.getFormControl(path.id).setValue('');
         this.getFormControl(path.name).setValue('');
+    }
+    show(cardshow) {
+      this.cardshow = !cardshow;
     }
 }
