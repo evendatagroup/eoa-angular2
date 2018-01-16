@@ -57,10 +57,29 @@ export class ChatingComponent implements OnInit {
       // this.getMsgList()
       this.connection = this.chatService
                   .getMessages()
-                    .subscribe(message => {
-                    this.messages.push(message);
-                  console.log(this.messages)
-      })
+                    .subscribe((message: any) => {
+                      this.editMsg(message.content);
+                      this.messages.push(message);
+                      // console.log(this.messages)
+                    })
+    }
+
+    scrollTo() {
+      const div = document.querySelector('#scrollDiv');
+      console.log(div)
+      let height = div.scrollHeight;
+      div.scrollTo(0, height)
+      console.log(height)
+      // div.scrollTop = height;
+      console.log(div.scrollTop)
+    }
+
+    editMsg(message) {
+      let parames = {
+        toVid: this.toVid,
+        content: message
+      }
+      this.msgService.edit(parames);
     }
 
     ngOnDestroy() {
@@ -75,7 +94,7 @@ export class ChatingComponent implements OnInit {
           .then(res => {
             this.msgList = [];
             let clusterVid = res.msg;
-            console.log(clusterVid)
+            // console.log(clusterVid)
             this.getCluster(clusterVid);
             this.getClusterMember(clusterVid);
             this.msgList = res.data;
@@ -104,12 +123,13 @@ export class ChatingComponent implements OnInit {
 
     getMsgByCluster(i) {
         this.msgService
-            .getList(i.clusterVid)
+            .getListByPage(i.clusterVid)
             .then(data => {
               this.msgList = [];
               this.toName = i.clusterName;
               this.toVid = i.clusterVid;
               this.msgList = data;
+              // console.log(this.msgList.length)
               this.msgList.reverse();
               this.getCluster(i.clusterVid);
               this.getClusterMember(i.clusterVid);
@@ -121,7 +141,7 @@ export class ChatingComponent implements OnInit {
           .getListById(this._userVid)
           .then(data => {
             this.user = data;
-            console.log(this.user)
+            // console.log(this.user)
           })
     }
 
@@ -135,6 +155,7 @@ export class ChatingComponent implements OnInit {
       }
       this.chatService.sendRoomMsg(roomMsgJson);
       this.message = '';
+      // this.scrollTo();
     }
 
 }

@@ -17,4 +17,22 @@ export class MsgService {
                 })
         })
     }
+
+    getListByPage(toVid): Promise<Msg[]> {
+        return new Promise((resolve, reject) => {
+            this.http.get('oaMsg/getListByPage?page=1&rows=10&order=oa_msg.create_timestamp desc', { toVid })
+                .subscribe((res: any) => {
+                    resolve(res.data)
+                })
+        })
+    }
+
+    edit(parames): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.http.post('oaMsg/edit', {}, parames)
+                .subscribe((res: any) => {
+                    resolve(res);
+                })
+        })
+    }
 }

@@ -29,7 +29,7 @@ export class ChatService {
  getMessages() {
   let observable = new Observable(observer => {
    this.socket.on('room-message', (data) => {
-   	console.log(data)
+   	// console.log(data)
     observer.next(data);  
    });
   })   

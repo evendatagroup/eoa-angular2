@@ -11,7 +11,7 @@
       </div>
     </nz-dropdown>
 </div>
-<div class="content">
+<div id="scrollDiv" class="content">
   <div class="content-li" *ngFor="let i of msgList">
     <div [ngClass]="{true:'right',false:'left'}[i.createUserVid == _userVid]">
       {{i.createUserVid}}
