@@ -1,7 +1,7 @@
 <div nz-row [nzGutter]="16">
     <div nz-col [nzXs]="24" [nzSm]="12" class="top">
         <nz-card class="height1">
-            <div class="title">新闻动态</div>
+            <div class="title">新闻动态<a routerLink="/depart/news" style="float:right">more</a></div>
             <div class="height2">
                 <div class="left">
                     <nz-carousel nzAutoPlay>
@@ -22,7 +22,7 @@
     </div>
     <div nz-col [nzXs]="24" [nzSm]="12" class="top">
         <nz-card class="height1">
-            <div class="title">公告通知</div>
+            <div class="title">公告通知<a routerLink="/depart/notify" style="float:right">more</a></div>
             <app-list [parames]='parames22'></app-list>
         </nz-card>
     </div>
@@ -30,19 +30,19 @@
 <div nz-row [nzGutter]="16">
     <div nz-col [nzXs]="24" [nzSm]="8">
         <nz-card class="height1">
-            <div class="title">公文管理</div>
+            <div class="title">公文管理<a routerLink="/depart/doc" style="float:right">more</a></div>
             <app-list [parames]='parames23'></app-list>
         </nz-card>
     </div>
     <div nz-col [nzXs]="24" [nzSm]="8">
         <nz-card class="height1">
-            <div class="title">制度流程</div>
+            <div class="title">制度流程<a routerLink="/depart/sys" style="float:right">more</a></div>
             <app-list [parames]='parames24'></app-list>
         </nz-card>
     </div>
     <div nz-col [nzXs]="24" [nzSm]="8">
         <nz-card class="height1">
-            <div class="title">风采展示</div>
+            <div class="title">风采展示<a routerLink="/depart/show" style="float:right">more</a></div>
             <app-list [parames]='parames25'></app-list>
         </nz-card>
     </div>

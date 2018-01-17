@@ -72,7 +72,7 @@ export class ReviewProgressComponent implements OnInit {
         this.progressService.getListAndUser(parames)
             .then(data => {
                 this.progressUser = data
-                // console.log(pdfjson)
+                console.log(data)
                 pdfjson.styles["right"] = { italics: true, alignment: 'right' }  // 斜体靠右
                 pdfjson.styles["center"] = { italics: true, alignment: 'center', color: 'gray' }  // 斜体靠右
                 // console.log(pdfjson)

@@ -58,9 +58,11 @@ export class ChatingComponent implements OnInit {
       this.connection = this.chatService
                   .getMessages()
                     .subscribe((message: any) => {
-                      this.editMsg(message.content);
-                      this.messages.push(message);
+                      if(message.roomId == this.toVid){
+                        this.editMsg(message.content);
+                        this.messages.push(message);
                       // console.log(this.messages)
+                      }
                     })
     }
 

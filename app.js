@@ -12,18 +12,22 @@ io.on('connection', (socket) => {
 	let client = {
 		socket: socket,
 		name: false,
+		roomId: '',
 		color: getColor()
 	}
 
 	// 群聊
 	socket.on('room', function(roomMsgJson) {
 		console.log(roomMsgJson.createUserVid + ' login, in room ' + roomMsgJson.toVid);
+		client.name = roomMsgJson.createUserVid;
+		client.roomId = roomMsgJson.roomId;
 		let obj = {
 			createTimestamp: getTime(),
 			createUserVid: roomMsgJson.createUserVid,
 			roomId: roomMsgJson.toVid,
 			content: roomMsgJson.content,
-			avatar: roomMsgJson.avatar
+			avatar: roomMsgJson.avatar,
+			type: 'message'
 		}
 
 		socket.join(obj.roomId);
@@ -31,45 +35,9 @@ io.on('connection', (socket) => {
 		io.sockets.in(obj.roomId).emit('room-message', obj);
 	})
 
-	// 对message事件的监听
-	socket.on('message', (sendMsgJson) => {
-		let obj = {
-			time: getTime(),
-			color: client.color
-		}
-
-		// 判断是不是第一次连接，
-		if(!client.name){
-			client.name = sendMsgJson.name;
-			socket.name = sendMsgJson.name;
-			obj['text'] = sendMsgJson.text;
-			obj['name'] = sendMsgJson.name;
-			obj['type'] = 'welcome';
-			console.log(client.name + ' login')
-		}else{
-			// 如果不是第一次就正常聊天
-			obj['text'] = sendMsgJson.text;
-			obj['name'] = client.name;
-			obj['type'] = 'message';
-			console.log(client.name + ' say:' + sendMsgJson.text)
-		}
-
-		if(sendMsgJson.to == ''){
-			// 广播
-			socket.emit('message', obj);  
-  			socket.broadcast.emit('message', obj);  
-  			console.log('广播')
-		}else{
-			// 私聊
-			let to_userVid = sendMsgJson.to;
-	 		let to_socket;
-	 		if(to_socket = _.findWhere(io.sockets.sockets, { name: to_userVid })){
-	 			to_socket.emit('message', obj);
-	 			socket.emit('message', obj);
-	 		}
-	 		console.log('私聊')
-		}
-
+	socket.on('leave', function() {
+		console.log(client.name + 'leave');
+		socket.leave(client.roomId);
 	})
   
  	socket.on('disconnect', function(){
@@ -84,15 +52,6 @@ io.on('connection', (socket) => {
 
   		socket.broadcast.emit('message', obj)
  	});
-    
- 	socket.on('add-message', (sendMsgJson) => {
-  		socket.emit('message', {name: sendMsgJson.name, text: sendMsgJson.text, type:'new-message', id: socket.name});  
-  		socket.broadcast.emit('message', {name: sendMsgJson.name, text: sendMsgJson.text, type:'new-message', id: socket.id});  
- 	});
-
- 	socket.on('setName', (data) => {
- 		socket.name = data;
- 	})
 
  	socket.on('to-message', (sendMsgJson) => {
  		let to_userVid = sendMsgJson.to;

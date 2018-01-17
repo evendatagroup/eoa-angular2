@@ -39,4 +39,8 @@ export class ChatService {
  loginOut() {
  	this.socket.disconnect();
  }
+
+ leave() {
+ 	this.socket.leave();
+ }
 }
