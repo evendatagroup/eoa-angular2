@@ -66,7 +66,7 @@ export class ReviewProgressComponent implements OnInit {
     getProgressUser(pdfjson) {
         let parames = {
             affairId: this.progress.affairId,
-            order: 'oa_progress.progress_role asc'
+            order: 'oa_progress.create_timestamp asc'
         }
 
         this.progressService.getListAndUser(parames)
@@ -95,7 +95,7 @@ export class ReviewProgressComponent implements OnInit {
                     // pdfjson.content.push({ text: '--------------------------------------------------', style: ['fontS', 'center'] });
                     pdfjson.content.push({
                         text: !this.progressUser[d].updateTimestamp?" 年 月 日":this.datePipe.transform(
-                            new Date(this.progressUser[d].updateTimestamp * 1000), "yyyy年MM月dd日"),
+                            new Date(this.progressUser[d].updateTimestamp * 1000), "yyyy年MM月dd日 hh:mm:ss"),
                         style: ['fontS', 'right']
                     });
                     // pdfjson.content.push({ text: '--------------------------------------------------', style: ['fontS', 'center'] });
