@@ -45,13 +45,16 @@ export class DefaultInterceptor implements HttpInterceptor {
                         if (event instanceof HttpResponse && event.body.error_code!==undefined && event.body.error_code !== "0") {
                             // 业务处理：observer.error 会跳转至后面的 `catch`
                             alert(event.body.msg);
-                            this.goLogin();
                             return ErrorObservable.create(event);
                         }
                         // 若一切都正常，则后续操作
                         return of(event);
                     }),
                     catchError((res: HttpResponse<any>) => {
+                        if(res.body.error_code=='501'||res.body.error_code=='502'||res.body.error_code=='503'||res.body.error_code=='504'){
+                          localStorage.clear();
+                          this.goLogin();
+                        }
                         // 业务处理：一些通用操作
                         switch (res.status) {
                             case 401: // 未登录状态码
@@ -60,7 +63,6 @@ export class DefaultInterceptor implements HttpInterceptor {
                             case 200:
                                 // 业务层级错误处理
                                 console.log('业务错误');
-                                this.goLogin();
                                 break;
                             case 404:
                                 // 404

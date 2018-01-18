@@ -37,6 +37,33 @@
         </nz-select>
       </div>
     </div>
+
+    <div nz-form-item nz-row *ngIf="treelist.signs.required==1">
+        <div nz-col [nzSpan]="6" nz-form-label>
+            <label>会签人</label>
+        </div>
+        <div nz-col [nzSpan]="14" nz-form-control>
+            <nz-input formControlName="signNames" [nzReadonly]="true" [nzPlaceHolder]="'选择会签人，多人并行(右侧图标打开花名册选择，不可手填)'" [nzSize]="'large'">
+              <ng-template #addOnAfter><i (click)="treeoc('signs')" [ngClass]="treelist.signs.show?'anticon anticon-down-circle-o':'anticon anticon-left-circle-o'"></i></ng-template>
+            </nz-input>
+            <input formControlName="signs" type="hidden">
+            <div class="tree" *ngIf="treelist.signs.show">
+              <nz-input formControlName="search" [nzType]="'search'" [nzPlaceHolder]="'搜索...'" [(ngModel)]="search" (ngModelChange)="filterNodes()"></nz-input>
+              <nz-card style="height:300px;overflow-y: scroll;">
+                  <nz-tree #treeinput [nzNodes]="nodes"
+                          [nzOptions]="treeoptions"
+                          [nzCheckable]="true"
+                          (nzFocus)="onFocus($event)"
+                          (nzEvent)="onEvent($event)"></nz-tree>
+              </nz-card>
+              <div style="margin:5px 5px;text-align: center;">
+                <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="treeopen({id:'signs',name:'signNames'})">确认</button>
+                <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="treeclose({id:'signs',name:'signNames'})">关闭</button>
+              </div>
+            </div>
+        </div>
+    </div>
+
     <div nz-form-item nz-row *ngFor="let item of data">
       <div nz-form-label nz-col [nzSpan]="6">
         <label [class]="item.required?'ant-form-item-required':'1'">{{item.questionName}}
