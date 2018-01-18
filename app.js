@@ -5,62 +5,99 @@ var _ = require('underscore');
  
 let users = [];  // 所有用户
 
+let allUser = [];
+
+// 群聊用户名单
+let roomInfo = {};
+
 io.on('connection', (socket) => {
 	// console.log('user connected');
 
-	// 构造客户端对象
-	let client = {
-		socket: socket,
-		name: false,
-		roomId: '',
-		color: getColor()
-	}
+	let roomId = '';
+	let user= {};
+	let userVid = '';
+	let userStatus = 1;   // 1：在这个群（默认），0：不在这个群
 
-	// 群聊
-	socket.on('room', function(roomMsgJson) {
-		console.log(roomMsgJson.createUserVid + ' login, in room ' + roomMsgJson.toVid);
-		client.name = roomMsgJson.createUserVid;
-		client.roomId = roomMsgJson.roomId;
-		let obj = {
-			createTimestamp: getTime(),
-			createUserVid: roomMsgJson.createUserVid,
-			roomId: roomMsgJson.toVid,
-			content: roomMsgJson.content,
-			avatar: roomMsgJson.avatar,
-			type: 'message'
+	// 有房间被打开
+	socket.on('room-join', function(roomJson) {
+		roomId = roomJson.toVid;
+		user = roomJson.user;
+		userVid = user.userVid;
+		userStatus = 1;
+		// 判断该房间是否存在
+		if(!roomInfo[roomId]){
+			roomInfo[roomId] = [];
+		}
+		// 将用户id加入房间名单中
+		if(roomInfo[roomId].indexOf(userVid) === -1){
+			roomInfo[roomId].push(userVid);
 		}
 
-		socket.join(obj.roomId);
+		// 加入房间
+		socket.join(roomId);
 
-		io.sockets.in(obj.roomId).emit('room-message', obj);
+		// 通知房间内人员
+		io.to(roomId).emit('sys', userVid + '加入了房间', roomInfo[roomId]);
+		console.log(userVid + '加入了' + roomId);
+		console.log('当前room：' + roomId);
 	})
 
-	socket.on('leave', function() {
-		console.log(client.name + 'leave');
-		socket.leave(client.roomId);
+	// 发送消息
+	socket.on('message', function(msg) {
+		// console.log(roomInfo[roomId].indexOf(user))
+		// 验证如果用户不在房间内则不给发送
+		if(roomId != ''){
+			if(roomInfo[roomId].indexOf(userVid) === -1){
+				return false;
+			}
+			if(userStatus == 1){
+				let time = getTime();
+				io.to(roomId).emit('msg', user, msg, time, roomId);
+				console.log(userVid + ' say:' + msg + ',in room:' + roomId);
+			}else{
+				console.log(userVid + ' left');
+			}
+		}			
 	})
-  
- 	socket.on('disconnect', function(){
-  		console.log(client.name, ' disconnected');
-  		let obj = {
-  			time: getTime(),
-  			color: client.color,
-  			name: 'System',
-  			text: client.name,
-  			type: 'disconnect'
-  		}
 
-  		socket.broadcast.emit('message', obj)
- 	});
+	// 离开房间
+	socket.on('leave-room', function(leaveJson) {
+		userStatus = 0;
+		if(roomId != ''){
+			let index = roomInfo[roomId].indexOf(userVid);
+			if(index !== -1){
+				roomInfo[roomId].splice(index, 1);
+			}
 
- 	socket.on('to-message', (sendMsgJson) => {
- 		let to_userVid = sendMsgJson.to;
- 		let to_socket;
- 		if(to_socket = _.findWhere(io.sockets.sockets, { name: to_userVid })){
- 			to_socket.emit('message', sendMsgJson);
- 			socket.emit('message', {name: sendMsgJson.name, text: sendMsgJson.text, type:'new-message', id: socket.name});
- 		}
-	});
+			socket.leave(roomId);
+
+			io.to(roomId).emit('sys', user.userName + '退出了房间', roomInfo[roomId]);
+			console.log(userVid + '退出了' + roomId);
+		}
+		io.to(roomId).emit('leave', userVid + '离开了群' + leaveJson.oldVid + ',加入了群' + leaveJson.newVid);
+	})
+
+
+
+	// 从名单中移除
+	socket.on('disconnect', function() {
+		if(roomId != ''){
+			let index = roomInfo[roomId].indexOf(userVid);
+			if(index !== -1){
+				roomInfo[roomId].splice(index, 1);
+			}
+
+			socket.leave(roomId);
+
+			io.to(roomId).emit('sys', user.userName + '退出了房间', roomInfo[roomId]);
+			console.log(userVid + '退出了' + roomId);
+		}
+	})
+
+	// 通知用户已经上线
+	socket.on('addUser', function(userVid) {
+		console.log(userVid + ' 上线了');
+	})
 });
  
 http.listen(3000, () => {

@@ -13,27 +13,15 @@
 </div>
 <div id="scrollDiv" class="content">
   <div class="content-li" *ngFor="let i of msgList">
-    <div [ngClass]="{true:'right',false:'left'}[i.createUserVid == _userVid]">
-      {{i.createUserVid}}
+    <div [ngClass]="{true:'right',false:'left'}[i.msgCreateUserVid == _userVid]">
+      {{i.msgCreateUserName}}
     </div>
-    <div [ngClass]="{true:'img-right',false:'img-left'}[i.createUserVid == _userVid]">
-      <nz-avatar [nzSrc]="i.avatar" [nzSize]="'large'" [nzShape]="'square'"></nz-avatar>
+    <div [ngClass]="{true:'img-right',false:'img-left'}[i.msgCreateUserVid == _userVid]">
+      <nz-avatar [nzSrc]="i.msgCreateUserAvatar" [nzSize]="'large'" [nzShape]="'square'"></nz-avatar>
     </div>
-    <div [ngClass]="{true:'trangle-right',false:'trangle-left'}[i.createUserVid == _userVid]"></div>
-    <div [ngClass]="{true:'content-right',false:'content-left'}[i.createUserVid == _userVid]">
-      {{i.content}}
-    </div>
-  </div>
-  <div class="content-li" *ngFor="let i of messages">
-    <div [ngClass]="{true:'right',false:'left'}[i.createUserVid == _userVid]">
-      {{i.createUserVid}}
-    </div>
-    <div [ngClass]="{true:'img-right',false:'img-left'}[i.createUserVid == _userVid]">
-      <nz-avatar [nzSrc]="i.avatar" [nzSize]="'large'" [nzShape]="'square'"></nz-avatar>
-    </div>
-    <div [ngClass]="{true:'trangle-right',false:'trangle-left'}[i.createUserVid == _userVid]"></div>
-    <div [ngClass]="{true:'content-right',false:'content-left'}[i.createUserVid == _userVid]">
-      {{i.content}}
+    <div [ngClass]="{true:'trangle-right',false:'trangle-left'}[i.msgCreateUserVid == _userVid]"></div>
+    <div [ngClass]="{true:'content-right',false:'content-left'}[i.msgCreateUserVid == _userVid]">
+      {{i.msgContent}}
     </div>
   </div>
 </div>

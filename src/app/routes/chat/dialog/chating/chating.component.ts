@@ -16,7 +16,7 @@ import { ClusterMemberService } from '../../../../service/clustermember.service'
 export class ChatingComponent implements OnInit {
 
     msgList: Msg[];
-    toVid = 'cluster_1';
+    toVid = '';
     toName = '';
     toNum: number;
 
@@ -40,41 +40,48 @@ export class ChatingComponent implements OnInit {
                 private clusterService: ClusterService, 
                 private anyService: AnyService, 
                 private msgService: MsgService) {
-      this.chatService.initSocket();
       this.getUser();
     }
 
-    getMsgList() {
-      this.msgService
-          .getList(this.toVid)
-          .then(data => {
-            this.msgList = data;
-            // console.log(data)
-          })
-    }
-
     ngOnInit() {
-      // this.getMsgList()
-      this.connection = this.chatService
-                  .getMessages()
-                    .subscribe((message: any) => {
-                      if(message.roomId == this.toVid){
-                        this.editMsg(message.content);
-                        this.messages.push(message);
-                      // console.log(this.messages)
-                      }
-                    })
+      // 将新消息加入消息列表
+      let msg = this.chatService.chatMsg()
+                                .subscribe((msg: any) => {
+                                  let m = {
+                                    msgCreateUserVid: msg.user.userVid,
+                                    msgCreateUserName: msg.user.userName,
+                                    msgCreateUserAvatar: msg.user.avatar,
+                                    msgContent: msg.msg,
+                                    time: msg.time
+                                  }
+                                  console.log(msg.toRoom)
+                                  console.log(this.toVid)
+                                  this.msgList.push(m);
+                                  
+                                  setTimeout(() => {
+                                      const div = document.querySelector('#scrollDiv');
+                                      let height = div.scrollHeight;
+                                      div.scrollTo(0, height)
+                                  }, 10);
+
+                                  console.log(this.msgList.length)
+                                })
+
+      let msg2 = this.chatService.leave()
+                                .subscribe((msg: any) => {
+                                  console.log(msg);
+                                })  
     }
 
-    scrollTo() {
-      const div = document.querySelector('#scrollDiv');
-      console.log(div)
-      let height = div.scrollHeight;
-      div.scrollTo(0, height)
-      console.log(height)
-      // div.scrollTop = height;
-      console.log(div.scrollTop)
-    }
+    // scrollTo() {
+    //   const div = document.querySelector('#scrollDiv');
+    //   console.log(div)
+    //   let height = div.scrollHeight;
+    //   div.scrollTo(0, height)
+    //   console.log(height)
+    //   // div.scrollTop = height;
+    //   console.log(div.scrollTop)
+    // }
 
     editMsg(message) {
       let parames = {
@@ -85,26 +92,25 @@ export class ChatingComponent implements OnInit {
     }
 
     ngOnDestroy() {
-      this.connection.unsubscribe();
+      // this.chatService.leaveOff();  
     }
 
+    // 根据用户获取对话框
     getMsgByUser(page, rows, i) {
       let toVid = i.userVid;
-      // console.log(toVid)
       this.anyService
           .getMsgListByUserToUser(page, rows, toVid)
           .then(res => {
             this.msgList = [];
             let clusterVid = res.msg;
-            // console.log(clusterVid)
             this.getCluster(clusterVid);
             this.getClusterMember(clusterVid);
             this.msgList = res.data;
             this.msgList.reverse()
-            // console.log(res.data)
           })
     }
 
+    // 获取群组信息
     getCluster(clusterVid) {
       this.clusterService
           .getList(clusterVid)
@@ -114,6 +120,7 @@ export class ChatingComponent implements OnInit {
           })
     }
 
+    // 获取群组成员
     getClusterMember(clusterVid){
       this.clustermemberService
           .getList(clusterVid)
@@ -123,41 +130,50 @@ export class ChatingComponent implements OnInit {
           })
     }
 
+    // 根据群组打开对话框
     getMsgByCluster(i) {
-        this.msgService
-            .getListByPage(i.clusterVid)
-            .then(data => {
-              this.msgList = [];
-              this.toName = i.clusterName;
-              this.toVid = i.clusterVid;
-              this.msgList = data;
-              // console.log(this.msgList.length)
-              this.msgList.reverse();
-              this.getCluster(i.clusterVid);
-              this.getClusterMember(i.clusterVid);
-            }) 
+      if(this.toVid != '' && this.toVid != i.clusterVid){
+        let leaveJson = {
+          oldVid: this.toVid,
+          newVid: i.clusterVid
+        }
+        this.chatService.leaveOff(leaveJson); 
+      }
+      this.msgList = [];
+      this.msgList = i.children;
+      this.msgList.reverse();
+      this.toName = i.clusterName;
+      this.toVid = i.clusterVid;
+
+      this.roomJoin();
+      this.getCluster(this.toVid);
+      this.getClusterMember(this.toVid);
     }
 
+    // 加入某个群组
+    roomJoin() {
+      let roomJson = {
+        toVid: this.toVid,
+        user: this.user,
+      }
+      this.chatService.roomJoin(roomJson);
+    }
+
+    // 获取当前用户信息
     getUser() {
       this.userService
           .getListById(this._userVid)
           .then(data => {
             this.user = data;
-            // console.log(this.user)
           })
     }
 
+    // 发送新消息
     sendMessage() {
       console.log('sendMsg')
-      let roomMsgJson = {
-        toVid: this.toVid,
-        content: this.message,
-        createUserVid: this._userVid,
-        avatar: this.user.avatar
-      }
-      this.chatService.sendRoomMsg(roomMsgJson);
+      this.editMsg(this.message);
+      this.chatService.sendMsg(this.message); 
       this.message = '';
-      // this.scrollTo();
     }
 
 }

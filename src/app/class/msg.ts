@@ -5,4 +5,5 @@ export class Msg {
   content?: string;
   createUserVid?: string;
   createTimestamp?: number;
+  time?: number;
 }

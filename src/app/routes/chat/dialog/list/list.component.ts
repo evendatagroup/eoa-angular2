@@ -1,3 +1,4 @@
+
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { UserService } from '../../../../service/user.service';
 import { ClusterService } from '../../../../service/cluster.service';
@@ -34,6 +35,7 @@ export class ListComponent implements OnInit {
         .getLisWithUser()
         .then(data => {
           this.clusterList = data;
+          // console.log('list',data);
         })
     }
 
