@@ -5,8 +5,6 @@ import { Observable } from 'rxjs/Observable';
 
 import { NzMessageService } from 'ng-zorro-antd';
 
-import { SInformation } from '../../../class/sInformation.class';
-import { ListService } from '../../../service/list.service';
 import { UserService } from '../../../service/user.service';
 import { AnyService } from '../../../service/any.service';
 import { SettingsService } from '@delon/theme';
@@ -16,46 +14,27 @@ import { NzTreeComponent } from 'ng-tree-antd';
     selector: 'app-createflow',
     templateUrl: './createflow.component.html',
     styleUrls: ['./createflow.component.less'],
-    providers: [ListService, AnyService, UserService]
+    providers: [AnyService, UserService]
 })
 export class CreateflowComponent {
 
     current = 0;
     validateForm: FormGroup;
     controlArray = [];
-    sysList: SInformation[] = [{ sid: 0, stitle: '正在加载' }];
-    stypeList = [{ typeId: 0, typeName: '正在加载' }];
     templetList = [{ templetId: 0, templetName: '正在加载' }];
-    userAddressVisible = false;
-    userAddressList = [{ id: 1, name: '杭州易闻', hasChildren: true }];
     checkedList = [];
     path = { id: '', name: '' };
-    nodes = [{
-        id: '1', name: '杭州易闻', children: [
-            { id: '1-1', name: 'OA管理员(系统管理员)' },
-            {
-                id: '2', name: '地球', children: [
-                    { id: '2-2', name: '角色1(朱一一)' },
-                    {
-                        id: '3', name: '中国', children: [
-                            { id: '3-3', name: '角色2(朱一二)' }
-                        ]
-                    }
-                ]
-            },
-            {
-                id: '4', name: '欧洲', children: [
-                    { id: '4-4', name: '角色3(朱二一)' }
-                ]
-            },
-
-        ]
-    }]
-    q = '';
+    // tree
+    nodes = []
     options = {
         allowDrag: false
     };
-    cardshow = false;
+    search = '';
+    treelist:any = {
+      launchs:{show:false},
+      approvals:{show:false},
+      exes:{show:false}
+    }
     @ViewChild(NzTreeComponent) tree: NzTreeComponent;
 
     index = 'First-content';
@@ -63,23 +42,16 @@ export class CreateflowComponent {
     constructor(
         private _message: NzMessageService,
         private fb: FormBuilder,
-        private listService: ListService,
         private userService: UserService,
         private settingsService: SettingsService,
         private anyService: AnyService
     ) {
         this.validateForm = this.fb.group({
             flowName: [null, [Validators.required]],
-            // inforId: [null, [Validators.required]],
-            // flowType: [null, [Validators.required]],
             launchs: [null, [Validators.required]],
             launchNames: [null,],
             templetId: [null,],
             isSign: [0, [Validators.required]],
-            // collatorIds: [null,],
-            // collatorNames: [null,],
-            // auditorIds: [null,],
-            // auditorNames: [null,],
             approvals: [null,],
             approvalNames: [null,],
             exes: [null, [Validators.required]],
@@ -90,19 +62,10 @@ export class CreateflowComponent {
 
     ngOnInit() {
         this.addField();
-        this.userService.getUserAddress().then(res=>{
+        this.userService.getRoleAddress().then(res=>{
           this.nodes = res
         });
-        // this.listService.getList({ stype: '13', page: 1, rows: 9 }).then(list => this.sysList = list);
-        // this.listService.getSTypeList({}).then(list => this.stypeList = list);
         this.anyService.getList({ url: 'Templet' }).then(list => this.templetList = list);
-    }
-
-    filterNodes() {
-        this.tree.treeModel.filterNodes(this.q);
-        if (!this.q) {
-            this.tree.treeModel.collapseAll();
-        }
     }
 
     pre() {
@@ -146,14 +109,6 @@ export class CreateflowComponent {
             }
         }
     }
-    //
-    // submitForm($event, value) {
-    //     $event.preventDefault();
-    //     for (const key in this.validateForm.controls) {
-    //         this.validateForm.controls[key].markAsDirty();
-    //     }
-    //     console.log(value);
-    // };
 
     submit() {
         for (const key in this.validateForm.controls) {
@@ -207,6 +162,7 @@ export class CreateflowComponent {
         };
         const index = this.controlArray.push(control);
         //console.log(this.controlArray[this.controlArray.length - 1]);
+        this.treelist[control.controlInstance] = {show:false};
         this.validateForm.addControl(this.controlArray[index - 1].controlInstance, new FormControl(null));
         this.validateForm.addControl(this.controlArray[index - 1].controlInstanceN, new FormControl(null));
 
@@ -227,44 +183,44 @@ export class CreateflowComponent {
         return this.validateForm.controls[name];
     }
 
+    // cleanUserAddress(path) {
+    //     this.checkedList = [];
+    //     this.getFormControl(path.id).setValue('');
+    //     this.getFormControl(path.name).setValue('');
+    // }
 
-
-
-    // 花名册
-    showUserAddress(path) {
-        this.userAddressVisible = true;
-        this.path = path;
-        // this.userAddressList = [{ id: 1, name: '杭州易闻', hasChildren: true }];
+    // tree
+    treeoc(key) {
+      this.treelist[key].show = !this.treelist[key].show
+      this.search = ''
     }
-    // options = {
-    //     getChildren: (node: any) => {
-    //         return new Promise((resolve, reject) => {
-    //             let arr = [];
-    //             let ids = [];
-    //             this.userService.getList({ treeId: node.id })
-    //                 .then(list => {
-    //                     list.forEach(item => {
-    //                         if (item.userGroupId == node.id) {
-    //                             arr.push({ id: item.userGroupId + '-' + item.roleId, name: item.roleName + '(' + item.userNames + ')' })
-    //                         } else {
-    //                             if (ids.indexOf(item.userGroupId) == -1) {
-    //                                 arr.push({ id: item.userGroupId, name: item.groupName, hasChildren: true });
-    //                                 ids.push(item.userGroupId)
-    //                             }
-    //                         }
-    //                     })
-    //                     console.log(arr)
-    //                     resolve(arr);
-    //                 })
-    //         });
-    //     }
-    // }
-    // onEvent(ev: any) {
-    //     console.log('onEvent', ev);
-    // }
+    treeopen(path) {
+      this.checkedList = [];
+      this.find(this.nodes, '');
+      let ids = [];
+      let names = [];
+      this.checkedList.forEach(item => {
+          names.push(item.name.replace(/\(\S+\)/g, ''))
+          ids.push(item.id)
+      })
+      this.getFormControl(path.id).setValue(ids.join(','));
+      this.getFormControl(path.name).setValue(names.join(','));
+      this.treelist[path.id].show = false;
+    }
+    treeclose(path) {
+      this.treelist[path.id].show = false
+      this.search = ''
+    }
+    filterNodes() {
+        this.tree.treeModel.filterNodes(this.search);
+        if (!this.search) {
+            this.tree.treeModel.collapseAll();
+        }
+    }
     onFocus(ev: any) {
         console.log('onEvent', ev);
     }
+
     find(arr, fname) {
         if (arr.length == 0) return false;
         arr.forEach(item => {
@@ -275,31 +231,5 @@ export class CreateflowComponent {
                 this.find(item.children, item.name)
             }
         })
-    }
-    handleOk = (e) => {
-        this.checkedList = [];
-        this.find(this.nodes, '');
-        let ids = [];
-        let names = [];
-        this.checkedList.forEach(item => {
-            names.push(item.name.replace(/\(\S+\)/g, ''))
-            ids.push(item.id)
-        })
-        this.getFormControl(this.path.id).setValue(ids.join(','));
-        this.getFormControl(this.path.name).setValue(names.join(','));
-        this.userAddressVisible = false;
-    }
-
-    handleCancel = (e) => {
-        this.userAddressVisible = false;
-    }
-
-    cleanUserAddress(path) {
-        this.checkedList = [];
-        this.getFormControl(path.id).setValue('');
-        this.getFormControl(path.name).setValue('');
-    }
-    show(cardshow) {
-      this.cardshow = !cardshow;
     }
 }

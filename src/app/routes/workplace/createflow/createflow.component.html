@@ -59,49 +59,25 @@
                             <label nz-form-item-required>发起权限范围</label>
                         </div>
                         <div nz-col [nzSpan]="14" nz-form-control>
-                            <nz-input formControlName="launchNames" [nzDisabled]="true" [nzPlaceHolder]="'选择授权范围'" [nzSize]="'large'">
-                              <ng-template #addOnAfter><i (click)="show(cardshow)" [ngClass]="cardshow?'anticon anticon-down-circle-o':'anticon anticon-left-circle-o'"></i></ng-template>
+                            <nz-input formControlName="launchNames" [nzReadonly]="true" [nzPlaceHolder]="'选择授权范围(右侧图标打开花名册选择，不可手填)'" [nzSize]="'large'">
+                              <ng-template #addOnAfter><i (click)="treeoc('launchs')" [ngClass]="treelist.launchs.show?'anticon anticon-down-circle-o':'anticon anticon-left-circle-o'"></i></ng-template>
                             </nz-input>
                             <input formControlName="launchs" type="hidden">
-                            <div class="tree" *ngIf="cardshow">
-
+                            <div class="tree" *ngIf="treelist.launchs.show">
+                              <nz-input formControlName="search" [nzType]="'search'" [nzPlaceHolder]="'搜索...'" [(ngModel)]="search" (ngModelChange)="filterNodes()"></nz-input>
                               <nz-card style="height:300px;overflow-y: scroll;">
-                                  <nz-input formControlName="search" [nzType]="'search'" [nzPlaceHolder]="'搜索...'" [(ngModel)]="q" (ngModelChange)="filterNodes()"></nz-input>
                                   <nz-tree #tree [nzNodes]="nodes"
                                           [nzOptions]="options"
                                           [nzCheckable]="true"
                                           (nzFocus)="onFocus($event)"></nz-tree>
                               </nz-card>
-                              <button nz-button [nzSize]="'large'" (click)="show(cardshow)">全公司</button>
-                              <button nz-button [nzSize]="'large'" (click)="show(cardshow)">全公司</button>
+                              <div style="margin:5px 5px;text-align: center;">
+                                <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="treeopen({id:'launchs',name:'launchNames'})">确认</button>
+                                <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="treeclose({id:'launchs',name:'launchNames'})">关闭</button>
+                              </div>
                             </div>
                         </div>
-                        <!-- <div nz-col [nzSpan]="6">
-                            <button nz-button [nzSize]="'large'" [nzShape]="'circle'" (click)="showUserAddress({id:'launchs',name:'launchNames'})"><i class="fa fa-plus"></i></button>
-                            <button nz-button [nzSize]="'large'" [nzShape]="'circle'" (click)="cleanUserAddress({id:'launchs',name:'launchNames'})"><i class="icon-trash"></i></button>
-                            <button nz-button [nzSize]="'large'" (click)="getCaptcha($event)">全公司</button>
-                            <button nz-button [nzSize]="'large'" (click)="getCaptcha($event)">自己部门</button>
-                        </div> -->
                     </div>
-                    <!-- <div nz-form-item nz-row>
-                        <div nz-col [nzSpan]="6">
-                            <label>发起权限范围</label>
-                        </div>
-                        <div nz-col [nzSpan]="14">
-                          <div class="tree1">
-                            <input type="text" name="" value="">
-                            <div class="tree2">
-                              <nz-card nzTitle="Searchable" style="height:430px;overflow-y: scroll;">
-                                  <nz-input [nzType]="'search'" [nzPlaceHolder]="'input search text'" [(ngModel)]="q" (ngModelChange)="filterNodes()"></nz-input>
-                                  <nz-tree #tree [nzNodes]="nodes"
-                                          [nzOptions]="options"
-                                          [nzCheckable]="true"
-                                          (nzEvent)="onEvent($event)"></nz-tree>
-                              </nz-card>
-                            </div>
-                          </div>
-                        </div>
-                    </div> -->
 
                     <div nz-form-item nz-row>
                         <div nz-form-label nz-col [nzSpan]="6">
@@ -121,16 +97,29 @@
                 <div class="swith switch1" *ngSwitchCase="1">
                     <h3 style="text-align: center;margin: 10px;">如果需要审核人，请选择范围。否则跳过或留空</h3>
                     <div nz-form-item nz-row *ngFor="let control of controlArray;let i = index">
-                        <div nz-form-label nz-col [nzSpan]="6" *ngIf="i==0">
-                            <label [attr.for]="control.controlInstance">审批人</label>
+                        <div nz-form-label nz-col [nzSpan]="6">
+                            <label [attr.for]="control.controlInstance" *ngIf="i==0">审批人</label>
                         </div>
-                        <div nz-form-control nz-col [nzSpan]="14" [nzOffset]="i==0?0:6">
-                            <nz-input style="width: 60%; margin-right:8px;" [nzDisabled]="true" [nzSize]="'large'" [nzPlaceHolder]="'选择授权范围'" [formControlName]="control.controlInstanceN" [nzId]="control.id">
+                        <div nz-col [nzSpan]="12" nz-form-control>
+                            <nz-input [formControlName]="control.controlInstanceN" [nzReadonly]="true" [nzPlaceHolder]="'选择授权范围(右侧图标打开花名册选择，不可手填)'" [nzSize]="'large'">
+                              <ng-template #addOnBefore><i (click)="removeField(control,$event)" class="fa fa-minus"></i></ng-template>
+                              <ng-template #addOnAfter><i (click)="treeoc(control.controlInstance)" [ngClass]="treelist[control.controlInstance].show?'anticon anticon-down-circle-o':'anticon anticon-left-circle-o'"></i></ng-template>
                             </nz-input>
-                            <input [formControlName]="control.controlInstance" type="hidden">
-                            <button nz-button [nzSize]="'large'" [nzShape]="'circle'" (click)="showUserAddress({id:control.controlInstance,name:control.controlInstanceN})"><i class="fa fa-plus"></i></button>
-                            <button nz-button [nzSize]="'large'" [nzShape]="'circle'" (click)="removeField(control,$event)"><i class="fa fa-minus"></i></button>
 
+                            <input [formControlName]="control.controlInstance" type="hidden">
+                            <div class="tree" *ngIf="treelist[control.controlInstance].show">
+                              <nz-input formControlName="search" [nzType]="'search'" [nzPlaceHolder]="'搜索...'" [(ngModel)]="search" (ngModelChange)="filterNodes()"></nz-input>
+                              <nz-card style="height:300px;overflow-y: scroll;">
+                                  <nz-tree #tree [nzNodes]="nodes"
+                                          [nzOptions]="options"
+                                          [nzCheckable]="true"
+                                          (nzFocus)="onFocus($event)"></nz-tree>
+                              </nz-card>
+                              <div style="margin:5px 5px;text-align: center;">
+                                <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="treeopen({id:control.controlInstance,name:control.controlInstanceN})">确认</button>
+                                <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="treeclose({id:control.controlInstance,name:control.controlInstanceN})">关闭</button>
+                              </div>
+                            </div>
                         </div>
                     </div>
                     <div nz-form-item nz-row>
@@ -193,16 +182,24 @@
                         <div nz-col [nzSpan]="6" nz-form-label>
                             <label>批准人授权范围</label>
                         </div>
-                        <div nz-col [nzSpan]="8" nz-form-control>
-                            <nz-input formControlName="approvalNames" [nzDisabled]="true" [nzRows]="2" [nzType]="'textarea'" [nzPlaceHolder]="'选择授权范围'" [nzSize]="'large'">
+                        <div nz-col [nzSpan]="14" nz-form-control>
+                            <nz-input formControlName="approvalNames" [nzReadonly]="true" [nzPlaceHolder]="'选择授权范围(右侧图标打开花名册选择，不可手填)'" [nzSize]="'large'">
+                              <ng-template #addOnAfter><i (click)="treeoc('approvals')" [ngClass]="treelist.approvals.show?'anticon anticon-down-circle-o':'anticon anticon-left-circle-o'"></i></ng-template>
                             </nz-input>
                             <input formControlName="approvals" type="hidden">
-                        </div>
-                        <div nz-col [nzSpan]="6">
-                            <button nz-button [nzSize]="'large'" [nzShape]="'circle'" (click)="showUserAddress({id:'approvals',name:'approvalNames'})"><i class="fa fa-plus"></i></button>
-                            <button nz-button [nzSize]="'large'" [nzShape]="'circle'" (click)="cleanUserAddress({id:'approvals',name:'approvalNames'})"><i class="icon-trash"></i></button>
-                            <!-- <button nz-button [nzSize]="'large'" (click)="getCaptcha($event)">全公司</button>
-                            <button nz-button [nzSize]="'large'" (click)="getCaptcha($event)">自己部门</button> -->
+                            <div class="tree" *ngIf="treelist.approvals.show">
+                              <nz-input formControlName="search" [nzType]="'search'" [nzPlaceHolder]="'搜索...'" [(ngModel)]="search" (ngModelChange)="filterNodes()"></nz-input>
+                              <nz-card style="height:300px;overflow-y: scroll;">
+                                  <nz-tree #tree [nzNodes]="nodes"
+                                          [nzOptions]="options"
+                                          [nzCheckable]="true"
+                                          (nzFocus)="onFocus($event)"></nz-tree>
+                              </nz-card>
+                              <div style="margin:5px 5px;text-align: center;">
+                                <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="treeopen({id:'approvals',name:'approvalNames'})">确认</button>
+                                <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="treeclose({id:'approvals',name:'approvalNames'})">关闭</button>
+                              </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -212,16 +209,24 @@
                         <div nz-col [nzSpan]="6" nz-form-label>
                             <label nz-form-item-required>执行人授权范围</label>
                         </div>
-                        <div nz-col [nzSpan]="8" nz-form-control>
-                            <nz-input formControlName="exeNames" [nzDisabled]="true" [nzRows]="2" [nzType]="'textarea'" [nzPlaceHolder]="'选择授权范围'" [nzSize]="'large'">
+                        <div nz-col [nzSpan]="14" nz-form-control>
+                            <nz-input formControlName="exeNames" [nzReadonly]="true" [nzPlaceHolder]="'选择授权范围(右侧图标打开花名册选择，不可手填)'" [nzSize]="'large'">
+                              <ng-template #addOnAfter><i (click)="treeoc('exes')" [ngClass]="treelist.exes.show?'anticon anticon-down-circle-o':'anticon anticon-left-circle-o'"></i></ng-template>
                             </nz-input>
                             <input formControlName="exes" type="hidden">
-                        </div>
-                        <div nz-col [nzSpan]="6">
-                            <button nz-button [nzSize]="'large'" [nzShape]="'circle'" (click)="showUserAddress({id:'exes',name:'exeNames'})"><i class="fa fa-plus"></i></button>
-                            <button nz-button [nzSize]="'large'" [nzShape]="'circle'" (click)="cleanUserAddress({id:'exes',name:'exeNames'})"><i class="icon-trash"></i></button>
-                            <!-- <button nz-button [nzSize]="'large'" (click)="getCaptcha($event)">全公司</button>
-                            <button nz-button [nzSize]="'large'" (click)="getCaptcha($event)">自己部门</button> -->
+                            <div class="tree" *ngIf="treelist.exes.show">
+                              <nz-input formControlName="search" [nzType]="'search'" [nzPlaceHolder]="'搜索...'" [(ngModel)]="search" (ngModelChange)="filterNodes()"></nz-input>
+                              <nz-card style="height:300px;overflow-y: scroll;">
+                                  <nz-tree #tree [nzNodes]="nodes"
+                                          [nzOptions]="options"
+                                          [nzCheckable]="true"
+                                          (nzFocus)="onFocus($event)"></nz-tree>
+                              </nz-card>
+                              <div style="margin:5px 5px;text-align: center;">
+                                <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="treeopen({id:'exes',name:'exeNames'})">确认</button>
+                                <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="treeclose({id:'exes',name:'exeNames'})">关闭</button>
+                              </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -244,15 +249,3 @@
         </button>
     </div>
 </nz-card>
-<nz-modal [nzVisible]="userAddressVisible" [nzTitle]="'花名册'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
-    <ng-template #modalContent>
-        <!-- <nz-tree [nzNodes]="userAddressList" [nzCheckable]="true" [nzOptions]="options" (nzEvent)="onEvent($event)">
-        </nz-tree> -->
-        <nz-card nzTitle="Searchable" style="height:430px;overflow-y: scroll;">
-            <nz-input [nzType]="'search'" [nzPlaceHolder]="'input search text'" [(ngModel)]="q" (ngModelChange)="filterNodes()"></nz-input>
-            <nz-tree #tree [nzNodes]="nodes"
-                    [nzOptions]="options"
-                    [nzCheckable]="true"></nz-tree>
-        </nz-card>
-    </ng-template>
-</nz-modal>
