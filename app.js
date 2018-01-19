@@ -38,7 +38,7 @@ io.on('connection', (socket) => {
 
 		// 通知房间内人员
 		io.to(roomId).emit('sys', userVid + '加入了房间', roomInfo[roomId]);
-		console.log(userVid + '加入了' + roomId);
+		console.log(userVid + '加入了' + roomId + ',socket.id:' + socket.id);
 		console.log('当前room：' + roomId);
 	})
 

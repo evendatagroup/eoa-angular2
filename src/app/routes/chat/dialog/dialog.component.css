@@ -3,3 +3,76 @@
     overflow-y: scroll;
     overflow-x: hidden;
 }
+
+.content {
+	height: 400px;
+	width: 100%;
+	overflow-y: scroll;
+	margin: 5px;
+	padding: 5px;
+}
+
+.content-li {
+	width: 100%;
+	display: inline-block;
+}
+
+.img-left {
+	float: left;
+}
+
+.img-right {
+	float: right;
+}
+
+.content-left {
+	background-color: #7FFFD4;
+	float: left;
+	border-radius: 7px;
+	max-width: 420px;
+	min-height: 40px;
+	line-height: 40px;
+	padding: 0 10px;
+	margin-left: -8px;
+	margin-top: 24px;
+}
+
+.content-right {
+	background-color: #FFD700;
+	float: right;
+	border-radius: 7px;
+	max-width: 420px;
+	min-height: 40px;
+	line-height: 40px;
+	padding: 0 10px;
+	margin-right: -8px;
+	margin-top: 24px;
+}
+
+.trangle-left {
+	width: 0px;
+	height: 0px;
+	border-width: 15px;
+	border-style: solid;
+	border-color: transparent #7FFFD4 transparent transparent;
+	float: left;
+	margin-top: 24px;
+}
+
+.trangle-right {
+	width: 0px;
+	height: 0px;
+	border-width: 15px;
+	border-style: solid;
+	border-color: transparent transparent transparent #FFD700;
+	float: right;
+	margin-top: 24px;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}

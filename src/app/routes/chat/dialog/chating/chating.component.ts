@@ -54,8 +54,6 @@ export class ChatingComponent implements OnInit {
                                     msgContent: msg.msg,
                                     time: msg.time
                                   }
-                                  console.log(msg.toRoom)
-                                  console.log(this.toVid)
                                   this.msgList.push(m);
                                   
                                   setTimeout(() => {
@@ -72,16 +70,6 @@ export class ChatingComponent implements OnInit {
                                   console.log(msg);
                                 })  
     }
-
-    // scrollTo() {
-    //   const div = document.querySelector('#scrollDiv');
-    //   console.log(div)
-    //   let height = div.scrollHeight;
-    //   div.scrollTo(0, height)
-    //   console.log(height)
-    //   // div.scrollTop = height;
-    //   console.log(div.scrollTop)
-    // }
 
     editMsg(message) {
       let parames = {
@@ -141,7 +129,6 @@ export class ChatingComponent implements OnInit {
       }
       this.msgList = [];
       this.msgList = i.children;
-      this.msgList.reverse();
       this.toName = i.clusterName;
       this.toVid = i.clusterVid;
 
@@ -170,7 +157,7 @@ export class ChatingComponent implements OnInit {
 
     // 发送新消息
     sendMessage() {
-      console.log('sendMsg')
+      // console.log('sendMsg')
       this.editMsg(this.message);
       this.chatService.sendMsg(this.message); 
       this.message = '';

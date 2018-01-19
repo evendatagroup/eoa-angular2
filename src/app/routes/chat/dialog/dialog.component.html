@@ -8,8 +8,82 @@
                 <i [ngClass]="tab.icon"></i>
                 {{tab.name}}
               </ng-template>
-              <app-record *ngIf="tab.index==1" (onVoted)="onVoted($event)" ></app-record>
-              <app-list *ngIf="tab.index==2" (onVoted)="onVoted($event)" (onVoted2)="onVoted2($event)"></app-list>
+              <!-- 群组聊天记录 -->
+              <div *ngIf="tab.index==1">
+                <nz-list [nzDataSource]="clusterList" [nzLoading]="loading">
+                  <ng-template #item let-item>
+                      <nz-list-item [nzContent]="nzContent">
+                          <a (click)="setClusterVid(item)">
+                              <nz-list-item-meta
+                                  [nzTitle]="nzTitle"
+                                  [nzDescription]="item.firstMsg"
+                                  [nzAvatar]="nzAvatar">
+                                  <ng-template #nzTitle>
+                                      {{item.clusterName}}
+                                  </ng-template>
+                                  <ng-template #nzAvatar>
+                                    <nz-badge [nzCount]="item.noReadCount" [nzOverflowCount]="99">
+                                      <ng-template #content>
+                                        <nz-avatar [nzSrc]="logo" [nzSize]="'large'" [nzShape]="'square'"></nz-avatar>
+                                      </ng-template>
+                                    </nz-badge>
+                                  </ng-template>
+                                  <ng-template #nzContent>
+                                      <div class="text-right">
+                                          <p>{{item.createTimestamp | date: 'hh:mm'}}</p>
+                                      </div>
+                                  </ng-template>
+                              </nz-list-item-meta>
+                          </a>
+                      </nz-list-item>
+                  </ng-template>
+                </nz-list>
+              </div>
+              <!-- 通讯录：群组和联系人 -->
+              <div *ngIf="tab.index==2">
+                <!-- 群组 -->
+                <div nz-form-label style="border-bottom: 2px solid #CDCDCD;"><label for="status">群组</label></div>
+                  <nz-list [nzDataSource]="clusterList" [nzLoading]="loading">
+                      <ng-template #item let-item>
+                          <nz-list-item [nzContent]="nzContent">
+                              <a (click)="setClusterVid(item)">
+                                  <nz-list-item-meta
+                                      [nzTitle]="nzTitle"
+                                      [nzAvatar]="nzAvatar">
+                                      <ng-template #nzTitle>
+                                          {{item.clusterName}}
+                                      </ng-template>
+                                      <ng-template #nzAvatar>
+                                          <nz-avatar [nzSrc]="logo" [nzSize]="'large'" [nzShape]="'square'"></nz-avatar>
+                                      </ng-template>
+                                  </nz-list-item-meta>
+                              </a>
+                          </nz-list-item>
+                      </ng-template>
+                  </nz-list>
+                  <!-- 联系人 -->
+                  <div nz-form-label style="border-bottom: 2px solid #CDCDCD;"><label for="status">联系人</label></div>
+                  <nz-list [nzDataSource]="userList" [nzLoading]="loading">
+                      <ng-template #item let-item>
+                          <a (click)="setUserVid(item)">
+                              <nz-list-item [nzContent]="nzContent">
+                                  <nz-list-item-meta
+                                      [nzTitle]="nzTitle"
+                                      [nzAvatar]="nzAvatar">
+                                      <ng-template #nzTitle>
+                                          {{item.userName}}
+                                      </ng-template>
+                                      <ng-template #nzAvatar>
+                                          <nz-avatar [nzSrc]="item.avatar" [nzSize]="'large'" [nzShape]="'square'"></nz-avatar>
+                                      </ng-template>
+                                  </nz-list-item-meta>
+                              </nz-list-item>
+                          </a>
+                      </ng-template>
+                  </nz-list>
+              </div>
+              <!-- <app-record *ngIf="tab.index==1" (onVoted)="onVoted($event)" ></app-record>
+              <app-list *ngIf="tab.index==2" (onVoted)="onVoted($event)" (onVoted2)="onVoted2($event)"></app-list> -->
             </nz-tab>
           </nz-tabset>
       </nz-card>
@@ -17,7 +91,51 @@
   <!-- 聊天区 -->
   <div nz-col [nzXs]="24" [nzSm]="18">
     <nz-card class="height1">
-        <app-chating></app-chating>
+      <div nz-form-label style="border-bottom: 1px solid #CDCDCD; text-align: center;">
+        <nz-dropdown [nzTrigger]="'click'">
+            <a href class="ant-dropdown-link" nz-dropdown>{{toName}}
+              <span *ngIf="toNum > 0">({{toNum}})</span>
+              <i class="anticon anticon-down"></i>
+            </a>
+            <div nz-menu *ngFor="let item of list" style="width: 200px;">
+              <span nz-menu-item>
+                <nz-avatar [nzSrc]="item.avatar" [nzSize]="'large'" [nzShape]="'square'"></nz-avatar>{{item.userName}}
+              </span>
+            </div>
+          </nz-dropdown>
+      </div>
+      <div id="scrollDiv" class="content">
+        <div class="content-li" *ngFor="let i of msgList">
+          <!-- <div [ngClass]="{true:'right',false:'left'}[i.msgCreateUserVid == _userVid]">
+            {{i.msgCreateUserName}}
+          </div> -->
+          <div [ngClass]="{true:'img-right',false:'img-left'}[i.createUserVid == _userVid]">
+            <div>{{i.userName}}</div>
+            <nz-avatar [nzSrc]="i.avatar" [nzSize]="'large'" [nzShape]="'square'"></nz-avatar>
+          </div>
+          <div [ngClass]="{true:'trangle-right',false:'trangle-left'}[i.createUserVid == _userVid]"></div>
+          <div [ngClass]="{true:'content-right',false:'content-left'}[i.createUserVid == _userVid]">
+            {{i.content}}
+          </div>
+          <!-- <div [ngClass]="{true:'img-right',false:'img-left'}[i.msgCreateUserVid == _userVid]">
+            <div>{{i.msgCreateUserName}}</div>
+            <nz-avatar [nzSrc]="i.msgCreateUserAvatar" [nzSize]="'large'" [nzShape]="'square'"></nz-avatar>
+          </div>
+          <div [ngClass]="{true:'trangle-right',false:'trangle-left'}[i.msgCreateUserVid == _userVid]"></div>
+          <div [ngClass]="{true:'content-right',false:'content-left'}[i.msgCreateUserVid == _userVid]">
+            {{i.msgContent}}
+          </div> -->
+        </div>
+      </div>
+      <div style="margin-top: 10px;">
+          <nz-input [(ngModel)]="message" [nzType]="'textarea'" [nzRows]="'4'"></nz-input>
+      </div>
+      <div style="margin-top: 10px; float: right;">
+          <button nz-button [nzType]="'primary'" (click)="sendMessage('')">
+            <span>发送</span>
+          </button>
+      </div>
+        <!-- <app-chating></app-chating> -->
     </nz-card>
   </div>
 </div>

@@ -4,4 +4,6 @@ export class Cluster {
   clusterVid?: string;
   clusterName?: string;
   clusterNumber?: number;
+  children?: any;
+  noReadCount?: number;
 }

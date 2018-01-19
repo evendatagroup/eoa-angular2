@@ -37,7 +37,7 @@ export class ChatService {
 					user: user,
 					msg: msg,
 					time: time,
-					toRoom: roomId
+					roomId: roomId
 				}
 				observer.next(json);
 			})

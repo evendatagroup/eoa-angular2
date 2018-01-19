@@ -28,6 +28,7 @@ export class RecordComponent implements OnInit {
 	        .getLisWithUser()
 	        .then(data => {
 	          this.clusterList = data;
+            this.clusterList = this.clusterList.filter(item => item.children.reverse());
 	        })
 	  }
 
@@ -36,7 +37,6 @@ export class RecordComponent implements OnInit {
     }
 
     setClusterVid(i) {
-      // console.log(i);
       this.onVoted.emit(i);
     }
 
