@@ -7,6 +7,7 @@ import { AnyService } from '../../../service/any.service';
 import { ProgressService } from '../../../service/progress.service';
 import { UserService } from '../../../service/user.service';
 import { NzTreeComponent } from 'ng-tree-antd';
+import { FileUploader } from 'ng2-file-upload';
 
 
 @Component({
@@ -45,6 +46,12 @@ export class LaunchFormComponent {
     users = { collatorIds: [], auditorIds: [], signerIds: [], publisherIds: [] }
     options = [];
     approveIds = [];
+    //FileUploader
+    uploader: FileUploader = new FileUploader({
+        url: 'http://192.168.0.10/eoa/fileAction/uploadFile',
+        method: "POST",
+        itemAlias: "file"
+    });
     //tree
     path = { id: '', name: '' };
     checkedList = [];
@@ -82,6 +89,21 @@ export class LaunchFormComponent {
         this.userService.getUserAddress().then(res=>{
           this.nodes = res
         });
+    }
+    selectedFileOnChanged(e) {
+      // 上传
+        this.uploader.queue[0].onSuccess = function (response, status, headers) {
+            // 上传文件成功
+            if (status == 200) {
+                // 上传文件后获取服务器返回的数据
+                console.log(response)
+                this.uploader.clearQueue();
+            } else {
+                // 上传文件后获取服务器返回的数据错误
+                alert("");
+            }
+        };
+        this.uploader.queue[0].upload(); // 开始上传
     }
 
     getFlowList() {
@@ -163,9 +185,17 @@ export class LaunchFormComponent {
 
             // 获取动态表格模版
             this.anyService.getList({ url: 'Question', templetId: flow.templetId })
-                .then(res => {
+                .then((res:any) => {
                     this.data = res;
                     this.data.forEach(item => {
+                        if(!!item.options){
+                            let o = item.options.split(',')
+                            let options:any = [];
+                            o.forEach(ele=>{
+                              options.push({label:ele.split('_')[0],value:ele.split('_')[1]})
+                            })
+                            item.children = options
+                        }
                         this.validateForm.addControl(item.key, new FormControl(null))
                     })
                 })

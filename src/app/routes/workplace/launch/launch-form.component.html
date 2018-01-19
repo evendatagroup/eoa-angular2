@@ -21,6 +21,10 @@
         <div nz-form-explain *ngIf="getFormControl('affairTitle').dirty&&getFormControl('affairTitle').hasError('affairTitle')">The input is not valid E-mail!</div>
       </div>
     </div>
+    <div class="">
+      <input style="width: 100%; text-align: center;" accept type="file" ng2FileSelect [uploader]="uploader" (change)="selectedFileOnChanged($event)"/>
+    </div>
+
 
     <div nz-form-item nz-row *ngFor="let item of options" >
       <div nz-form-label nz-col [nzSpan]="6">
@@ -86,9 +90,11 @@
             </label>
           </nz-radio-group>
 
-          <nz-datepicker *ngSwitchCase="'date'" [formControlName]="item.key" [nzSize]="'large'" style="width: 50%;">
+          <nz-datepicker *ngSwitchCase="'datetime'" nzShowTime [formControlName]="item.key" [nzFormat]="'YYYY年MM月DD日 HH:mm:ss'" [nzSize]="'large'" style="width:100%">
           </nz-datepicker>
-          <nz-timepicker *ngSwitchCase="'time'" [formControlName]="item.key" [nzSize]="'large'" style="width: 50%;">
+          <nz-datepicker *ngSwitchCase="'date'" [formControlName]="item.key" [nzFormat]="'YYYY年MM月DD日'" [nzSize]="'large'" style="width:100%">
+          </nz-datepicker>
+          <nz-timepicker *ngSwitchCase="'time'" [formControlName]="item.key" [nzSize]="'large'" style="width:100%">
           </nz-timepicker>
         </div>
       </div>

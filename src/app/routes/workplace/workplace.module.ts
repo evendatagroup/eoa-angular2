@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FileUploadModule } from 'ng2-file-upload';
 import { SharedModule } from '@shared/shared.module';
 
 import { NzTreeModule } from 'ng-tree-antd';
@@ -29,6 +30,7 @@ import { ReviewProgressComponent } from './launch/review-progress/review-progres
         WorkplaceRoutingModule,
         ReactiveFormsModule,
         HttpModule,
+        FileUploadModule,
         NzTreeModule
     ],
     declarations: [
