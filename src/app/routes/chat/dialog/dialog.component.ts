@@ -164,8 +164,8 @@ export class DialogComponent implements OnInit {
             let clusterVid = res.msg;
             this.getCluster(clusterVid);
             this.getClusterMember(clusterVid);
-            this.msgList = res.data;
-            this.msgList.reverse()
+            this.msgList = res.data.reverse();
+            // this.msgList.reverse()
           })
     }
 
