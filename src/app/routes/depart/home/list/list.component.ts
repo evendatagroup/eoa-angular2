@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-
+import { environment } from '@env/environment';
 import { ListService } from '../../../../service/list.service';
 import { UserService } from '../../../../service/user.service';
 import { List } from '../../../../class/list';
@@ -33,12 +33,11 @@ export class ListComponent implements OnInit {
   }
 
   showPdf(l) {
-    let url = 'http://192.168.0.10/eoa/file/' + l.url;
-    window.open(url);
-    this.userService.editRead({ inforId: l.inforId, userVid: this.userVid, readStatus: 1 })
-            .then(res => {
-                this.getList()
-            })
+      window.open(environment.FILE_URL + l.url);
+      this.userService.editRead({ inforId: l.inforId, userVid: this.userVid, readStatus: 1 })
+          .then(res => {
+              this.getList()
+          })
   }
 
   showModal(inforId) {

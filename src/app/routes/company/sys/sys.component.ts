@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ListService } from '../../../service/list.service';
 import { UserService } from '../../../service/user.service';
-
+import { environment } from '@env/environment';
 import { Reader } from '../../../class/Reader';
 import { Group } from '../../../class/Group';
 
@@ -72,10 +72,7 @@ export class SysComponent implements OnInit {
     }
 
     showPdf(l) {
-      console.log(l)
-        //url = 'http://192.168.0.10/eoa/file/' + url;
-        l.url = 'http://192.168.0.10/eoa/file/' + l.url;
-        window.open(l.url);
+        window.open(environment.FILE_URL + l.url);
         this.userService.editRead({ inforId: l.inforId, userVid: this.userVid, readStatus: 1 })
             .then(res => {
                 this.getList()
