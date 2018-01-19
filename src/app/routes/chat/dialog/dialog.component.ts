@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild  } from '@angular/core';
-import { ChatingComponent } from './chating/chating.component';
 import { Cluster } from '../../../class/cluster';
 import { ClusterService } from '../../../service/cluster.service';
 import { UserService } from '../../../service/user.service';
@@ -14,12 +13,9 @@ import { Msg } from '../../../class/msg';
   selector: 'app-dialog',
   templateUrl: './dialog.component.html',
   styleUrls: ['./dialog.component.css'],
-  // providers: [ChatService]
 })
 
 export class DialogComponent implements OnInit {
-  @ViewChild(ChatingComponent)
-  private chatingComponent: ChatingComponent
 	tabs = [
 	    {
 	    	active: true,
@@ -70,18 +66,12 @@ export class DialogComponent implements OnInit {
                                       userName: msg.user.userName,
                                       avatar: msg.user.avatar,
                                       content: msg.msg,
-                                      // msgCreateUserVid: msg.user.userVid,
-                                      // msgCreateUserName: msg.user.userName,
-                                      // msgCreateUserAvatar: msg.user.avatar,
-                                      // msgContent: msg.msg,
                                       time: msg.time
                                     }
-                                    console.log('消息来自群:' + msg.roomId)
-                                    console.log('现在所在群：' + this.toVid)
                                     if(this.toVid == msg.roomId){
                                     	this.msgList.push(m);
                                     }else{
-                                    	// qun3未读消息加1
+                                    	// 群未读消息数加1
                                     	this.clusterList.forEach(item=>{
 								          	if(item.clusterVid == msg.roomId){
 								          		item.noReadCount++;
@@ -94,8 +84,6 @@ export class DialogComponent implements OnInit {
                                         let height = div.scrollHeight;
                                         div.scrollTo(0, height)
                                     }, 10);
-
-                                    console.log(this.msgList.length)
                                   })
 
         let msg2 = this.chatService.leave()
@@ -139,13 +127,6 @@ export class DialogComponent implements OnInit {
 
     // 根据群组打开对话框
     getMsgByCluster(i) {
-      // if(this.toVid != '' && this.toVid != i.clusterVid){
-      //   let leaveJson = {
-      //     oldVid: this.toVid,
-      //     newVid: i.clusterVid
-      //   }
-      //   this.chatService.leaveOff(leaveJson); 
-      // }
       this.clusterList.forEach(item=>{
       	if(item.clusterVid == i.clusterVid){
       		item.noReadCount = 0;
@@ -153,11 +134,8 @@ export class DialogComponent implements OnInit {
       })
 
       this.getMsgByToVid(i.clusterVid);
-      // this.msgList = [];
-      // this.msgList = i.children;
       this.toName = i.clusterName;
       this.toVid = i.clusterVid;
-      console.log('加入群：' + this.toVid)
       this.roomJoin();
       this.getCluster(this.toVid);
       this.getClusterMember(this.toVid);
@@ -169,7 +147,6 @@ export class DialogComponent implements OnInit {
     		.then(data => {
     			this.msgList = [];
     			this.msgList = data.reverse();
-    			// console.log(data)
     		})
     }
 
@@ -212,8 +189,6 @@ export class DialogComponent implements OnInit {
           })
     }
 
-    
-
     // 加入某个群组
     roomJoin() {
       let roomJson = {
@@ -223,6 +198,7 @@ export class DialogComponent implements OnInit {
       this.chatService.roomJoin(roomJson);
     }
 
+    // 上传添加的新消息
     editMsg(message) {
       let parames = {
         toVid: this.toVid,
@@ -233,20 +209,8 @@ export class DialogComponent implements OnInit {
 
     // 发送新消息
     sendMessage() {
-      // console.log('sendMsg')
       this.editMsg(this.message);
       this.chatService.sendMsg(this.message); 
       this.message = '';
     }
-
-    // onVoted(i: string) {
-	   //  // this.vid = toVid;
-	   //  this.chatingComponent.getMsgByCluster(i);
-    // }
-
-    // onVoted2(i: string) {
-	   //  // this.vid = toVid;
-	   //  // console.log(i)
-	   //  this.chatingComponent.getMsgByUser(1, 10, i);
-    // }
 }
