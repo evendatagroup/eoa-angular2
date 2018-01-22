@@ -71,12 +71,12 @@ export class DocComponent implements OnInit {
   }
 
   showPdf(l) {
-        window.open(environment.FILE_URL + l.url);
-        this.userService.editRead({ inforId: l.inforId, userVid: this.userVid, readStatus: 1 })
-            .then(res => {
-                this.getList()
-            })
-    }
+      window.open(environment.FILE_URL + l.url);
+      this.userService.editRead({ inforId: l.inforId, userVid: this.userVid, readStatus: 1 })
+          .then(res => {
+              this.getList()
+          })
+  }
 
   // 查阅情况
   showModal(inforId) {
