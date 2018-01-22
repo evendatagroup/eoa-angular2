@@ -8,6 +8,8 @@ import { ProgressService } from '../../../service/progress.service';
 import { UserService } from '../../../service/user.service';
 import { NzTreeComponent } from 'ng-tree-antd';
 
+import { environment } from '@env/environment';
+
 
 @Component({
     selector: 'launch-form',
@@ -46,7 +48,7 @@ export class LaunchFormComponent {
     options = [];
     approveIds = [];
     //FileUploader
-    uploadurl = 'http://localhost:8080/eoa/fileAction/uploadFile'
+    uploadurl = environment.HTTP_URL+'fileAction/uploadFile'
     uploadsize = 51200
     uploadlist:any = []
     uploadlistZ:any = []
@@ -122,7 +124,7 @@ export class LaunchFormComponent {
           case 'done':
             this._message.success("上传成功")
             this.imglist = [e.file];
-            this.getFormControl(key).setValue(e.file.response.data)
+            this.getFormControl(key).setValue(environment.FILE_URL+e.file.response.data)
             break;
           case 'error':
             this._message.error("上传失败")
