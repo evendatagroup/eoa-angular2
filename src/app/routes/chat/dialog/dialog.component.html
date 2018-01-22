@@ -30,7 +30,8 @@
                                   </ng-template>
                                   <ng-template #nzContent>
                                       <div class="text-right">
-                                          <p>{{item.createTimestamp | date: 'hh:mm'}}</p>
+                                        <p *ngIf="item.updateTimestamp != ''">{{item.updateTimestamp | date: 'hh:mm'}}</p>
+                                        <p *ngIf="item.updateTimestamp == ''">{{item.createTimestamp | date: 'hh:mm'}}</p>
                                       </div>
                                   </ng-template>
                               </nz-list-item-meta>

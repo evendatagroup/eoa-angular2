@@ -16,201 +16,226 @@ import { Msg } from '../../../class/msg';
 })
 
 export class DialogComponent implements OnInit {
+
 	tabs = [
-	    {
-	    	active: true,
-	        name  : '',
-	        icon  : 'icon-speech',
-	        index: 1
-	    },
-	    {
-	        active: false,
-	        name  : '',
-	        icon  : 'icon-list',
-	        index: 2
-	    }
-    ];
-
-    clusterList: Cluster[];
-    userList: User[];
-    msgList: Msg[];
-    messages = [];
-    message;
-    toVid = '';
-    toName = '';
-    toNum: number;
-    list = [];
-    noReadnum = 10;
-
-    user: User;
-    _userVid = JSON.parse(window.localStorage._token).userVid;
-    logo = 'https://gw.alipayobjects.com/zos/rmsportal/siCrBXXhmvTQGWPNLBow.png';
-
-    constructor(private clusterService: ClusterService,
-    			private userService: UserService,
-    			private chatService: ChatService,
-                private clustermemberService: ClusterMemberService,
-                private anyService: AnyService,
-                private msgService: MsgService) {
-    	this.getUser();
+    {
+    	active: true,
+        name  : '',
+        icon  : 'icon-speech',
+        index: 1
+    },
+    {
+        active: false,
+        name  : '',
+        icon  : 'icon-list',
+        index: 2
     }
+  ];
 
-    ngOnInit() {
-    	this.getClusterList();
-    	this.getUserList();
-    	// 将新消息加入消息列表
-        let msg = this.chatService.chatMsg()
-                                  .subscribe((msg: any) => {
-                                    let m = {
-                                      createUserVid: msg.user.userVid,
-                                      userName: msg.user.userName,
-                                      avatar: msg.user.avatar,
-                                      content: msg.msg,
-                                      time: msg.time
-                                    }
-                                    if(this.toVid == msg.roomId){
-                                    	this.msgList.push(m);
-                                    }else{
-                                    	// 群未读消息数加1
-                                    	this.clusterList.forEach(item=>{
-								          	if(item.clusterVid == msg.roomId){
-								          		item.noReadCount++;
-								          	}
-								        })
-                                    }
+  clusterList: Cluster[];
+  userList: User[];
+  msgList: Msg[];
+  messages = [];
+  message;
+  toVid = '';
+  toName = '';
+  toNum: number;
+  list = [];
+  noReadnum = 10;
 
-                                    setTimeout(() => {
-                                        const div = document.querySelector('#scrollDiv');
-                                        let height = div.scrollHeight;
-                                        div.scrollTo(0, height)
-                                    }, 10);
-                                  })
+  user: User;
+  _userVid = JSON.parse(window.localStorage._token).userVid;
+  logo = 'https://gw.alipayobjects.com/zos/rmsportal/siCrBXXhmvTQGWPNLBow.png';
 
-        let msg2 = this.chatService.leave()
-                                  .subscribe((msg: any) => {
-                                    console.log(msg);
-                                  })
-    }
+  constructor(private clusterService: ClusterService,
+        			private userService: UserService,
+        			private chatService: ChatService,
+              private clustermemberService: ClusterMemberService,
+              private anyService: AnyService,
+              private msgService: MsgService) {
+  	this.getUser();
+  }
 
-    // 获取当前用户信息
-    getUser() {
-      this.userService
-          .getListById(this._userVid)
-          .then(data => {
-            this.user = data;
-          })
-    }
+  ngOnInit() {
+  	this.getClusterList();
+  	this.getUserList();
+  	// 将新消息加入消息列表
+    let msg = this.chatService.chatMsg()
+                              .subscribe((msg: any) => {
+                                let m = {
+                                  createUserVid: msg.user.userVid,
+                                  userName: msg.user.userName,
+                                  avatar: msg.user.avatar,
+                                  content: msg.msg,
+                                  time: msg.time
+                                }
+                                if(this.toVid == msg.roomId){
+                                	this.msgList.push(m);
+                                }else{
+                                	// 群未读消息数加1
+                                	this.clusterList.forEach(item=>{
+          								          	if(item.clusterVid == msg.roomId){
+          								          		item.noReadCount++;
+          								          	}
+          								        })
+                                }
 
-    // 获取群组列表
-    getClusterList() {
-	    this.clusterService
-	        .getLisWithUser()
-	        .then(data => {
-	          this.clusterList = data;
-              this.clusterList = this.clusterList.filter(item => item.children.reverse());
-	        })
-	}
+                                setTimeout(() => {
+                                    const div = document.querySelector('#scrollDiv');
+                                    let height = div.scrollHeight;
+                                    div.scrollTo(0, height)
+                                }, 10);
+                              })
 
-	// 获取联系人列表
-	getUserList() {
-      this.userService
-        .getList()
+    let msg2 = this.chatService.leave()
+                              .subscribe((msg: any) => {
+                                console.log(msg);
+                              })
+  }
+
+  // 获取当前用户信息
+  getUser() {
+    this.userService
+        .getListById(this._userVid)
         .then(data => {
-          this.userList = data;
+          this.user = data;
         })
-    }
+  }
 
-    setClusterVid(item) {
-    	this.toVid = item.clusterVid;
-    	this.getMsgByCluster(item);
-    }
+  // 获取群组列表
+  getClusterList() {
+    this.clusterService
+        .getLisWithUser()
+        .then(data => {
+          this.clusterList = data;
+          this.clusterList = this.clusterList.filter(item => item.children.reverse());
+        })
+  }
 
-    // 根据群组打开对话框
-    getMsgByCluster(i) {
-      this.clusterList.forEach(item=>{
-      	if(item.clusterVid == i.clusterVid){
-      		item.noReadCount = 0;
-      	}
+  // 获取联系人列表
+  getUserList() {
+    this.userService
+      .getList()
+      .then(data => {
+        this.userList = data;
       })
+  }
 
-      this.getMsgByToVid(i.clusterVid);
-      this.toName = i.clusterName;
-      this.toVid = i.clusterVid;
-      this.roomJoin();
-      this.getCluster(this.toVid);
-      this.getClusterMember(this.toVid);
-    }
+  setClusterVid(item) {
+  	this.toVid = item.clusterVid;
+  	this.getMsgByCluster(item);
+  }
 
-    getMsgByToVid(toVid) {
-    	this.msgService
-    		.getListByPage(toVid)
-    		.then(data => {
-    			this.msgList = [];
-    			this.msgList = data.reverse();
-    		})
-    }
+  // 根据群组打开对话框
+  getMsgByCluster(i) {
+    this.clusterList.forEach(item=>{
+    	if(item.clusterVid == i.clusterVid){
+    		item.noReadCount = 0;
+        this.msgService
+            .editRead(i.clusterVid)
+            .then((res: any) => {
+              // console.log(res)
+            })
+    	}
+    })
 
-    setUserVid(item) {
-    	this.getMsgByUser(1, 10, item);
-    }
+    this.getMsgByToVid(i.clusterVid);
+    this.getCluster(this.toVid);
+    this.getClusterMember(this.toVid);
+  }
 
-    // 根据用户获取对话框
-    getMsgByUser(page, rows, i) {
-      let toVid = i.userVid;
-      this.anyService
-          .getMsgListByUserToUser(page, rows, toVid)
-          .then(res => {
-            this.msgList = [];
-            let clusterVid = res.msg;
-            this.getCluster(clusterVid);
-            this.getClusterMember(clusterVid);
-            this.msgList = res.data.reverse();
-            // this.msgList.reverse()
-          })
-    }
+  getMsgByToVid(toVid) {
+  	this.msgService
+  		.getListByPage(toVid)
+  		.then(data => {
+  			this.msgList = [];
+  			this.msgList = data.reverse();
+  		})
+  }
 
-    // 获取群组信息
-    getCluster(clusterVid) {
+  setUserVid(item) {
+  	this.getMsgByUser(1, 10, item);
+  }
+
+  // 根据用户获取对话框
+  getMsgByUser(page, rows, i) {
+    let toVid = i.userVid;
+    this.anyService
+        .getMsgListByUserToUser(page, rows, toVid)
+        .then(res => {
+          this.msgList = [];
+          let clusterVid = res.msg;
+          this.checkCluster(clusterVid);
+          this.getCluster(clusterVid);
+          this.getClusterMember(clusterVid);
+          this.msgList = res.data.reverse();
+        })
+  }
+
+  // 检查群组是否存在，不存在则加入群组列表clusterList
+  checkCluster(clusterVid) {
+    let have = false;
+    this.clusterList.forEach(item=>{
+        if(item.clusterVid == clusterVid){
+          have = true;
+          return;
+        }
+    })
+    if(!have){
       this.clusterService
           .getList(clusterVid)
           .then(data => {
-            this.toName = data.clusterName;
-            this.toVid = data.clusterVid;
+            this.clusterList.push(data)
           })
+    }else{
+      console.log('already have')
     }
+  }
 
-    // 获取群组成员
-    getClusterMember(clusterVid){
-      this.clustermemberService
-          .getList(clusterVid)
-          .then(data => {
-            this.list = data;
-            this.toNum = data.length;
-          })
-    }
+  // 获取群组信息
+  getCluster(clusterVid) {
+    this.clusterService
+        .getList(clusterVid)
+        .then(data => {
+          this.toName = data.clusterName;
+          this.toVid = data.clusterVid;
+          this.roomJoin();
+        })
+  }
 
-    // 加入某个群组
-    roomJoin() {
-      let roomJson = {
-        toVid: this.toVid,
-        user: this.user,
-      }
-      this.chatService.roomJoin(roomJson);
-    }
+  // 获取群组成员
+  getClusterMember(clusterVid){
+    this.clustermemberService
+        .getList(clusterVid)
+        .then(data => {
+          this.list = data;
+          this.toNum = data.length;
+        })
+  }
 
-    // 上传添加的新消息
-    editMsg(message) {
-      let parames = {
-        toVid: this.toVid,
-        content: message
-      }
-      this.msgService.edit(parames);
+  // 加入某个群组
+  roomJoin() {
+    let roomJson = {
+      toVid: this.toVid,
+      user: this.user,
     }
+    this.chatService.roomJoin(roomJson);
+  }
 
-    // 发送新消息
-    sendMessage() {
-      this.editMsg(this.message);
-      this.chatService.sendMsg(this.message);
-      this.message = '';
+  // 上传添加的新消息
+  editMsg(message) {
+    let parames = {
+      toVid: this.toVid,
+      content: message
     }
+    this.msgService.edit(parames);
+  }
+
+  // 发送新消息
+  sendMessage() {
+    // console.log('send message')
+    this.editMsg(this.message);
+    this.chatService.sendMsg(this.message);
+    this.message = '';
+  }
 }
