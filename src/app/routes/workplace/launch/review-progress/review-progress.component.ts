@@ -66,7 +66,7 @@ export class ReviewProgressComponent implements OnInit {
     getProgressUser(pdfjson) {
         let parames = {
             affairId: this.progress.affairId,
-            order: 'oa_progress.create_timestamp asc'
+            order: 'oa_progress.create_timestamp asc,oa_progress.progress_role asc'
         }
 
         this.progressService.getListAndUser(parames)

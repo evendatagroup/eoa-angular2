@@ -35,4 +35,12 @@ export class MsgService {
                 })
         })
     }
+    editRead(toVid): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.http.post('oaMsgRead/editRead', {}, {createUserVid:toVid})
+                .subscribe((res: any) => {
+                    resolve(res);
+                })
+        })
+    }
 }
