@@ -23,6 +23,7 @@ import { ALAIN_I18N_TOKEN } from '@delon/theme';
 import { I18NService } from '@core/i18n/i18n.service';
 
 import { UserService } from './service/user.service';
+import { ProgressService } from './service/progress.service';
 import { MsgService } from './service/msg.service';
 import { ClusterService } from './service/cluster.service';
 import { ClusterMemberService } from './service/clustermember.service';
@@ -73,6 +74,7 @@ export function StartupServiceFactory(startupService: StartupService): Function 
             multi: true
         },
         UserService,
+        ProgressService,
         MsgService,
         ClusterService,
         ChatService,

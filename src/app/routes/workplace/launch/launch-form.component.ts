@@ -7,7 +7,6 @@ import { AnyService } from '../../../service/any.service';
 import { ProgressService } from '../../../service/progress.service';
 import { UserService } from '../../../service/user.service';
 import { NzTreeComponent } from 'ng-tree-antd';
-import { FileUploader } from 'ng2-file-upload';
 
 
 @Component({
@@ -47,11 +46,11 @@ export class LaunchFormComponent {
     options = [];
     approveIds = [];
     //FileUploader
-    uploader: FileUploader = new FileUploader({
-        url: 'http://192.168.0.10/eoa/fileAction/uploadFile',
-        method: "POST",
-        itemAlias: "file"
-    });
+    uploadurl = 'http://localhost:8080/eoa/fileAction/uploadFile'
+    uploadsize = 51200
+    uploadlist:any = []
+    uploadlistZ:any = []
+    imglist:any = []
     //tree
     path = { id: '', name: '' };
     checkedList = [];
@@ -90,20 +89,52 @@ export class LaunchFormComponent {
           this.nodes = res
         });
     }
-    selectedFileOnChanged(e) {
-      // 上传
-        this.uploader.queue[0].onSuccess = function (response, status, headers) {
-            // 上传文件成功
-            if (status == 200) {
-                // 上传文件后获取服务器返回的数据
-                console.log(response)
-                this.uploader.clearQueue();
-            } else {
-                // 上传文件后获取服务器返回的数据错误
-                alert("");
-            }
-        };
-        this.uploader.queue[0].upload(); // 开始上传
+
+    uploadAction(e,key) {
+      if(e && e.file && e.file.status){
+        switch(e.file.status) {
+          case 'uploading':
+            //this._message.info("正在上传...")
+            break;
+          case 'done':
+            this._message.success("上传成功")
+            this.uploadlistZ = [e.file];
+            this.getFormControl(key).setValue(e.file.response.data)
+            break;
+          case 'error':
+            this._message.error("上传失败")
+            break;
+          case 'removed':
+            this._message.info("移除文件")
+            break;
+          default:
+            this._message.error("操作错误")
+            break;
+        }
+      }
+    }
+    imgAction(e,key) {
+      if(e && e.file && e.file.status){
+        switch(e.file.status) {
+          case 'uploading':
+            //this._message.info("正在上传...")
+            break;
+          case 'done':
+            this._message.success("上传成功")
+            this.imglist = [e.file];
+            this.getFormControl(key).setValue(e.file.response.data)
+            break;
+          case 'error':
+            this._message.error("上传失败")
+            break;
+          case 'removed':
+            this._message.info("移除文件")
+            break;
+          default:
+            this._message.error("操作错误")
+            break;
+        }
+      }
     }
 
     getFlowList() {
@@ -151,7 +182,7 @@ export class LaunchFormComponent {
                             reviews += data[key] + ','
                         }
                     } else {
-                        data['templet' + key] = value[key]
+                        data[key] = value[key]
                     }
                 }
             }
@@ -160,6 +191,18 @@ export class LaunchFormComponent {
             if (reviews.length > 0) {
                 data['reviews'] = reviews.substring(0, reviews.length - 1);
             }
+            if(data['question_pdf']){
+              data['urls'] = data['question_pdf']
+            }
+            if(data['question_img']){
+              data['affairVid'] = data['question_img']
+            }
+            // if(this.uploadlistZ.length>0){
+            //   let arr = this.uploadlistZ.filter(item => item.status=='done')
+            //   if(arr.length>0){
+            //     data['affairVid']=arr[0].response.data;
+            //   }
+            // }
             console.log(data);
             this.progressService.upAffair(data)
                 .then(res => {
@@ -196,11 +239,15 @@ export class LaunchFormComponent {
                             })
                             item.children = options
                         }
-                        this.validateForm.addControl(item.key, new FormControl(null))
+                        if(item.isRequired==1){
+                          this.validateForm.addControl(item.key, new FormControl(null,Validators.required))
+                        }else{
+                          this.validateForm.addControl(item.key, new FormControl(null))
+                        }
+
                     })
                 })
         }
-        console.log('op',this.options)
     }
 
     loadUsers(ids) {

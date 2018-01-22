@@ -9,6 +9,7 @@ import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError } from 'rxjs/operators';
 import { mergeMap } from 'rxjs/operators';
 import { environment } from '@env/environment';
+import { NzMessageService } from 'ng-zorro-antd';
 
 /**
  * 默认HTTP拦截器，其注册细节见 `app.module.ts`
@@ -16,6 +17,10 @@ import { environment } from '@env/environment';
 @Injectable()
 export class DefaultInterceptor implements HttpInterceptor {
     constructor(private injector: Injector) {}
+
+    get msg(): NzMessageService {
+        return this.injector.get(NzMessageService);
+    }
 
     private goLogin() {
         const router = this.injector.get(Router);
@@ -44,7 +49,7 @@ export class DefaultInterceptor implements HttpInterceptor {
                         // 允许统一对请求错误处理，这是因为一个请求若是业务上错误的情况下其HTTP请求的状态是200的情况下需要
                         if (event instanceof HttpResponse && event.body.error_code!==undefined && event.body.error_code !== "0") {
                             // 业务处理：observer.error 会跳转至后面的 `catch`
-                            alert(event.body.msg);
+                            this.msg.error(event.body.msg);
                             return ErrorObservable.create(event);
                         }
                         // 若一切都正常，则后续操作
@@ -58,11 +63,12 @@ export class DefaultInterceptor implements HttpInterceptor {
                         // 业务处理：一些通用操作
                         switch (res.status) {
                             case 401: // 未登录状态码
+                                this.msg.error('重新登陆');
                                 this.goLogin();
                                 break;
                             case 200:
                                 // 业务层级错误处理
-                                console.log('业务错误');
+                                this.msg.error('业务错误');
                                 break;
                             case 404:
                                 // 404

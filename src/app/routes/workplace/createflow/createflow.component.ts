@@ -35,6 +35,19 @@ export class CreateflowComponent {
       approvals:{show:false},
       exes:{show:false}
     }
+    flowType = [
+      {label:'公司新闻动态',value:11},
+      {label:'公司通知公告',value:12},
+      {label:'公司公文管理',value:13},
+      {label:'公司制度流程',value:14},
+      {label:'公司专栏',value:15},
+      {label:'部门新闻动态',value:21},
+      {label:'部门通知公告',value:22},
+      {label:'部门公文管理',value:23},
+      {label:'部门制度流程',value:24},
+      {label:'部门风采展示',value:25},
+      {label:'其它',value:31},
+    ]
     @ViewChild(NzTreeComponent) tree: NzTreeComponent;
 
     index = 'First-content';
@@ -56,7 +69,8 @@ export class CreateflowComponent {
             approvalNames: [null,],
             exes: [null, [Validators.required]],
             exeNames: [null,],
-            search:[null,]
+            search:[null,],
+            flowType: [null, [Validators.required]]
         });
     }
 

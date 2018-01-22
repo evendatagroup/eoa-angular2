@@ -29,13 +29,16 @@
     </ul>
     <header-search class="header-search" [toggleChange]="searchToggleStatus"></header-search> -->
     <ul class="top-nav" style="width:100%">
-        <!-- <li>
-            <header-notify></header-notify>
+        <li class="hidden-xs" style="float:right">
+            <header-user></header-user>
         </li>
-        <li class="hidden-xs">
+        <!-- <li class="hidden-xs" style="float:right">
             <header-task></header-task>
         </li>
-        <li class="hidden-xs">
+        <li style="float:right">
+            <header-notify></header-notify>
+        </li> -->
+        <!-- <li class="hidden-xs">
             <header-icon></header-icon>
         </li>
         <li class="hidden-xs">
@@ -59,8 +62,6 @@
                 </div>
             </nz-dropdown>
         </li> -->
-        <li class="hidden-xs" style="float:right">
-            <header-user></header-user>
-        </li>
+
     </ul>
 </div>

@@ -229,6 +229,18 @@
                             </div>
                         </div>
                     </div>
+
+                    <div nz-form-item nz-row>
+                      <div nz-form-label nz-col [nzSpan]="6">
+                        <label nz-form-item-required>发布至</label>
+                      </div>
+                      <div nz-form-control nz-col [nzSpan]="14">
+                        <nz-select formControlName="flowType" [nzSize]="'large'" [nzPlaceHolder]="'请选择需要发布到哪个专题'">
+                          <nz-option *ngFor="let item of flowType" [nzLabel]="item.label" [nzValue]="item.value"></nz-option>
+
+                        </nz-select>
+                      </div>
+                    </div>
                 </div>
             </div>
         </form>

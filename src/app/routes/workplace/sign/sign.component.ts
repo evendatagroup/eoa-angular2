@@ -84,7 +84,7 @@ export class SignComponent implements OnInit {
     }
 
     showMsg(i) {
-        this.modal.title = '审核'
+        this.modal.title = '会签'
         this.modal.progress = i
         this.modal.status = true
     }

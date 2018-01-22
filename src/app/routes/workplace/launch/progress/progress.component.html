@@ -1,6 +1,6 @@
 <div style="height: 0;"></div>
 <div nz-row [nzGutter]="16">
-    <div nz-col [nzXs]="24" [nzSm]="8" style="width: 320px;">
+    <div nz-col [nzXs]="24" [nzSm]="8" style="width: 320px;" *ngIf="progress.progressRole!=5">
         <nz-card>
         	<div nz-form-item class="d-flex">
 	        	<div nz-form-label><label for="status">意见</label></div>
@@ -12,8 +12,30 @@
 		      <label nz-radio [nzValue]="'2'">
 		        <span>同意</span>
 		      </label>
-		      <label nz-radio [nzValue]="'3'" *ngIf="progress.progressRole!=5">
+		      <label nz-radio [nzValue]="'3'">
 		        <span>不同意</span>
+		      </label>
+		    </nz-radio-group>
+		    <button class="mr-sm ant-btn ant-btn-primary" nz-button (click)="submit()">提交</button>
+        </nz-card>
+    </div>
+    <div nz-col [nzXs]="24" [nzSm]="8" style="width: 320px;" *ngIf="progress.progressRole==5">
+        <nz-card>
+        	<div nz-form-item class="d-flex">
+	        	<div nz-form-label><label for="status">意见</label></div>
+	        	<div nz-form-control class="flex-1">
+	        		<nz-input [(ngModel)]="more" [nzType]="'textarea'" [nzRows]="'8'"></nz-input>
+	        	</div>
+	        </div>
+	        <nz-radio-group [(ngModel)]="radioValue" style="margin-left: 0; margin-top: 0;">
+		      <label nz-radio [nzValue]="'4'">
+		        <span>存档</span>
+		      </label>
+          <label nz-radio [nzValue]="'5'">
+		        <span>打印</span>
+		      </label>
+          <label nz-radio [nzValue]="'6'">
+		        <span>发布</span>
 		      </label>
 		    </nz-radio-group>
 		    <button class="mr-sm ant-btn ant-btn-primary" nz-button (click)="submit()">提交</button>

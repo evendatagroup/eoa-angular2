@@ -84,7 +84,7 @@ export class ApprovalComponent implements OnInit {
     }
 
     showMsg(i) {
-        this.modal.title = '审核'
+        this.modal.title = '批准'
         this.modal.progress = i
         this.modal.status = true
     }

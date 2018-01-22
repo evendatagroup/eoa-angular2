@@ -40,17 +40,17 @@ export class DialogComponent implements OnInit {
     toName = '';
     toNum: number;
     list = [];
-    noReadnum = 10;  
+    noReadnum = 10;
 
     user: User;
     _userVid = JSON.parse(window.localStorage._token).userVid;
     logo = 'https://gw.alipayobjects.com/zos/rmsportal/siCrBXXhmvTQGWPNLBow.png';
 
-    constructor(private clusterService: ClusterService，
+    constructor(private clusterService: ClusterService,
     			private userService: UserService,
-    			private chatService: ChatService, 
-                private clustermemberService: ClusterMemberService, 
-                private anyService: AnyService, 
+    			private chatService: ChatService,
+                private clustermemberService: ClusterMemberService,
+                private anyService: AnyService,
                 private msgService: MsgService) {
     	this.getUser();
     }
@@ -78,7 +78,7 @@ export class DialogComponent implements OnInit {
 								          	}
 								        })
                                     }
-                                    
+
                                     setTimeout(() => {
                                         const div = document.querySelector('#scrollDiv');
                                         let height = div.scrollHeight;
@@ -89,7 +89,7 @@ export class DialogComponent implements OnInit {
         let msg2 = this.chatService.leave()
                                   .subscribe((msg: any) => {
                                     console.log(msg);
-                                  })  
+                                  })
     }
 
     // 获取当前用户信息
@@ -210,7 +210,7 @@ export class DialogComponent implements OnInit {
     // 发送新消息
     sendMessage() {
       this.editMsg(this.message);
-      this.chatService.sendMsg(this.message); 
+      this.chatService.sendMsg(this.message);
       this.message = '';
     }
 }

@@ -7,6 +7,7 @@ import { MenuService, SettingsService, TitleService } from '@delon/theme';
 import { ACLService } from '@delon/acl';
 import { I18NService } from '../i18n/i18n.service';
 import { UserService } from '../../service/user.service';
+import { ProgressService } from '../../service/progress.service';
 
 
 /**
@@ -23,6 +24,7 @@ export class StartupService {
         private aclService: ACLService,
         private titleService: TitleService,
         private userService: UserService,
+        private progressService: ProgressService,
         private httpClient: HttpClient,
         private injector: Injector) { }
 
@@ -33,8 +35,9 @@ export class StartupService {
             zip(
                 this.httpClient.get(`assets/i18n/${this.i18n.defaultLang}.json`),
                 this.httpClient.get('assets/app-data.json'),
-                this.userService.getUser()
-            ).subscribe(([langData, appData, userData]) => {
+                this.userService.getUser(),
+                this.progressService.getCountDoing()
+            ).subscribe(([langData, appData, userData, countDoing]) => {
                 // setting language data
                 this.translate.setTranslation(this.i18n.defaultLang, langData);
                 this.translate.setDefaultLang(this.i18n.defaultLang);
@@ -59,7 +62,9 @@ export class StartupService {
                 this.aclService.setRole(res.roles.map(item => item + ""));
                 // 初始化菜单
                 this.menuService.clear();
-                this.menuService.add(this.getMenu(res.menu));
+                let numb = 0;
+                countDoing.forEach(item=>{numb += item.count})
+                this.menuService.add(this.getMenu(res.menu,numb));
                 // 设置页面标题的后缀
                 this.titleService.suffix = 'Eoa';
 
@@ -69,7 +74,7 @@ export class StartupService {
             });
         });
     }
-    getMenu(arr) {
+    getMenu(arr,numb) {
         // 过滤不是侧边栏菜单，按父id排序
         arr = arr.filter(item => item.menuType == 1)
         // .sort((x, y) => {
@@ -81,6 +86,9 @@ export class StartupService {
         // });
         // 添加字段 同步 框架的Menu
         arr.map(item => {
+          if(item.menuName=='办事大厅'){
+            item.badge = numb
+          }
             item.group = item.isGroup == 1 ? true : false;
             item.menuId = item.menuId;
             item.parentId = item.parentId;

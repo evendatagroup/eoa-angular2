@@ -84,7 +84,7 @@ export class ExeComponent implements OnInit {
     }
 
     showMsg(i) {
-        this.modal.title = '审核'
+        this.modal.title = '执行'
         this.modal.progress = i
         this.modal.status = true
     }
