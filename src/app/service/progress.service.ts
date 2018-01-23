@@ -16,11 +16,11 @@ export class ProgressService {
     //     });
     // }
     getListByPage(params): Promise<any> {
-        console.log(params)
+        // console.log(params)
         return new Promise((resolve, reject) => {
             this.http.get('oaProgress/getListByPage', params)
                 .subscribe((res: any) => {
-                    console.log(res)
+                    // console.log(res)
                     resolve(res);
                 });
         });
@@ -69,6 +69,7 @@ export class ProgressService {
         return new Promise((resolve, reject) => {
             this.http.get('oaProgress/getCountDoing')
                 .subscribe((res: any) => {
+                    // console.log(res)
                     resolve(res.data)
                 })
         })

@@ -4,16 +4,15 @@
 			<a (click)="showPdf(l)"><ellipsis lines="1">{{l.value}}<span style="color:red" *ngIf="l.readStatus==0"> new</span></ellipsis></a>
 		</div>
 		<div class="list_right">
-		  <span>{{l.createTimestamp*1000 | date:"yyyy-mm-dd"}}</span>
+		  <span>{{l.createTimestamp*1000 | date:"yyyy-MM-dd"}}</span>
 		  <button class="btn" (click)="showModal(l.inforId)">
-		  	<div class="fa fa-eye" style="margin-right: 5px;"></div>
-	        <span>{{l.readnum}}</span>
+		  	<div class="fa fa-eye"></div>
 	      </button>
 		</div>
 	</li>
 </ul>
 
-<nz-modal class="ant-modal-content" [nzWrapClassName]="'vertical-center-modal'" [nzVisible]="isVisible" [nzTitle]="'已读人员'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
+<nz-modal class="ant-modal-content" [nzWrapClassName]="'vertical-center-modal'" [nzVisible]="isVisible" [nzTitle]="modalTitle" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
   <ng-template #modalContent style="margin-top: 100px;">
     <div *ngFor="let item of readerList">
       {{item.userName}}({{item.deptName}}-{{item.roleName}})

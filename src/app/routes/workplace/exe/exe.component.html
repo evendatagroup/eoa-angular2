@@ -59,14 +59,27 @@
     </nz-table>
 </nz-card>
 
-<nz-modal [nzWidth]="'1024'" [nzWrapClassName]="'vertical-center-modal'" [nzContent]="modalContent2" [nzVisible]="modal.status" [nzTitle]="modal.title" (nzOnCancel)="handleCancelMiddle($event)" (nzOnOk)="handleOkMiddle($event)">
+<nz-modal [nzFooter]="modalFooter" [nzClosable]="false" [nzWidth]="'1024'" [nzWrapClassName]="'vertical-center-modal'" [nzContent]="modalContent2" [nzVisible]="modal.status" [nzTitle]="modal.title">
   <ng-template #modalContent2>
     <app-progress [progress]="modal.progress"></app-progress>
   </ng-template>
+  <ng-template #modalFooter>
+    <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="handleClose($event)">
+      返 回
+    </button>
+    <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="handleSubmit($event)">
+      提 交
+    </button>
+  </ng-template>
 </nz-modal>
 
-<nz-modal [nzWidth]="'1024'" [nzWrapClassName]="'vertical-center-modal'" [nzContent]="modalContent3" [nzVisible]="modal2.status" [nzTitle]="modal2.title" (nzOnCancel)="handleCancelMiddle2($event)" (nzOnOk)="handleOkMiddle2($event)">
+<nz-modal [nzFooter]="modalFooter2" [nzClosable]="false" [nzWidth]="'1024'" [nzWrapClassName]="'vertical-center-modal'" [nzContent]="modalContent3" [nzVisible]="modal2.status" [nzTitle]="modal2.title">
   <ng-template #modalContent3>
-    <app-review-progress [progress]="modal2.progress"></app-review-progress>
+    <app-review-progress [progress]="modal2.progress"  [randNum]="randNum"></app-review-progress>
+  </ng-template>
+  <ng-template #modalFooter2>
+    <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="handleClose2($event)">
+      关 闭
+    </button>
   </ng-template>
 </nz-modal>

@@ -19,10 +19,12 @@ export class WorkplaceComponent {
   constructor(
       private progressService: ProgressService
   ) {}
+  
   ngOnInit() {
       this.progressService.getCountDoing()
       .then(res=>{
         res.forEach(item=>{
+          // console.log('item', item)
           this.list[item.progressRole-1].numb = item.count;
         })
       })

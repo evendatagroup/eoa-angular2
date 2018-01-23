@@ -76,3 +76,30 @@
 .right {
 	float: right;
 }
+
+.clusterDiv {
+	background-color: white;
+	float: left;
+}
+
+.avatar {
+
+}
+
+.member {
+	float: left;
+	width: 72px;
+	height: 100px;
+	padding-top: 15px;
+	background-color: #EDEDED;
+}
+
+.nickname {
+	color: #888;
+	width: 72px;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	font-size: 12px;
+	margin-left: -16px;
+}

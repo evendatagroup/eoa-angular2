@@ -96,9 +96,15 @@
               <span *ngIf="toNum > 0">({{toNum}})</span>
               <i class="anticon anticon-down"></i>
             </a>
-            <div nz-menu *ngFor="let item of list" style="width: 200px;">
-              <span nz-menu-item>
-                <nz-avatar [nzSrc]="item.avatar" [nzSize]="'large'" [nzShape]="'square'"></nz-avatar>{{item.userName}}
+            <div nz-menu *ngFor="let item of list" class="clusterDiv">
+              <span nz-menu-item class="member">
+                <a *ngIf="item.value == 'add_member'" (click)="addNewMember()">
+                  <nz-avatar class="avatar" [nzSrc]="item.avatar" [nzSize]="'large'" [nzShape]="'square'"></nz-avatar>
+                </a>
+                <div *ngIf="item.value != 'add_member'">
+                  <nz-avatar class="avatar" [nzSrc]="item.avatar" [nzSize]="'large'" [nzShape]="'square'"></nz-avatar>
+                </div>
+                <p class="nickname">{{item.userName}}</p>
               </span>
             </div>
           </nz-dropdown>
@@ -126,3 +132,32 @@
     </nz-card>
   </div>
 </div>
+
+<nz-modal class="ant-modal-content" [nzWrapClassName]="'vertical-center-modal'" [nzVisible]="isVisible" [nzTitle]="'添加群组成员'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
+  <ng-template #modalContent style="margin-top: 100px;">
+    添加新成员
+    <div >
+      <nz-avatar style="margin-right: 5px;" [nzSrc]="logo" [nzSize]="'large'" [nzShape]="'square'"></nz-avatar>
+      <nz-avatar style="margin-right: 5px;" [nzSrc]="logo" [nzSize]="'large'" [nzShape]="'square'"></nz-avatar>
+      <nz-input style="height: 40px; line-height: 40px;" [nzType]="'search'" [nzPlaceHolder]="'input search text'" [(ngModel)]="_value" style="width: 200px;" (nzOnSearch)="onSearch($event)"></nz-input>
+    </div>
+    <nz-list [nzDataSource]="userList" [nzLoading]="loading">
+      <ng-template #item let-item>
+          <a (click)="setUserVid(item)">
+              <nz-list-item [nzContent]="nzContent">
+                  <nz-list-item-meta
+                      [nzTitle]="nzTitle"
+                      [nzAvatar]="nzAvatar">
+                      <ng-template #nzTitle>
+                          {{item.userName}}
+                      </ng-template>
+                      <ng-template #nzAvatar>
+                        <nz-avatar [nzSrc]="item.avatar" [nzSize]="'large'" [nzShape]="'square'"></nz-avatar>
+                      </ng-template>
+                  </nz-list-item-meta>
+              </nz-list-item>
+          </a>
+      </ng-template>
+    </nz-list>
+  </ng-template>
+</nz-modal>

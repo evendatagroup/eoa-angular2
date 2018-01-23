@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
 
+import { ProgressComponent } from '../launch/progress/progress.component';
 import { ProgressService } from '../../../service/progress.service';
 
 @Component({
@@ -20,6 +21,9 @@ import { ProgressService } from '../../../service/progress.service';
     providers: [ProgressService]
 })
 export class SignComponent implements OnInit {
+    @ViewChild(ProgressComponent)
+    private progressComponent: ProgressComponent;
+    randNum: any;
 
     role = 3
 
@@ -89,30 +93,27 @@ export class SignComponent implements OnInit {
         this.modal.status = true
     }
 
-    handleOkMiddle(e) {
-        console.log('点击了确定');
-        this.modal.status = false;
-    }
-
-    handleCancelMiddle(e) {
-        console.log(e);
-        this.modal.status = false;
-    }
-
     showMsg2(i) {
+        this.randNum = Math.random();
         this.modal2.title = '查阅进度'
         this.modal2.progress = i
         this.modal2.status = true
     }
 
-    handleOkMiddle2(e) {
-        console.log('点击了确定')
-        this.modal2.status = false
+    handleClose(e) {
+        console.log('点击了关闭')
+        this.modal.status = false;
     }
 
-    handleCancelMiddle2(e) {
-        console.log(e)
-        this.modal2.status = false
+    handleSubmit(e) {
+        console.log('点击了提交')
+        this.progressComponent.submit();
+        this.modal.status = false;
+    }
+
+    handleClose2(e) {
+        console.log('点击了关闭')
+        this.modal2.status = false;
     }
 
 }

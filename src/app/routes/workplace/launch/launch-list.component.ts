@@ -65,9 +65,14 @@ import { ProgressService } from '../../../service/progress.service';
             </nz-table>
         </nz-card>
 
-        <nz-modal [nzWidth]="'1024'" [nzWrapClassName]="'vertical-center-modal'" [nzContent]="modalContent3" [nzVisible]="modal2.status" [nzTitle]="modal2.title" (nzOnCancel)="handleCancelMiddle2($event)" (nzOnOk)="handleOkMiddle2($event)">
+        <nz-modal [nzFooter]="modalFooter" [nzClosable]="false" [nzWidth]="'1024'" [nzWrapClassName]="'vertical-center-modal'" [nzContent]="modalContent3" [nzVisible]="modal2.status" [nzTitle]="modal2.title">
           <ng-template #modalContent3>
-            <app-review-progress [progress]="modal2.progress"></app-review-progress>
+            <app-review-progress [progress]="modal2.progress" [randNum]="randNum"></app-review-progress>
+          </ng-template>
+          <ng-template #modalFooter>
+            <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="handleClose($event)">
+              关 闭
+            </button>
           </ng-template>
         </nz-modal>`,
     styles: [`
@@ -85,6 +90,7 @@ import { ProgressService } from '../../../service/progress.service';
 })
 
 export class LaunchListComponent {
+  randNum: any;
 
   role = 1
 
@@ -149,18 +155,14 @@ export class LaunchListComponent {
   }
 
   showMsg2(i) {
+    this.randNum = Math.random();
     this.modal2.title = '查阅进度'
     this.modal2.progress = i
     this.modal2.status = true
   }
 
-  handleOkMiddle2(e) {
-    console.log('点击了确定')
-    this.modal2.status = false
-  }
-
-  handleCancelMiddle2(e) {
-    console.log(e)
-    this.modal2.status = false
+  handleClose(e) {
+    console.log('点击了关闭')
+    this.modal2.status = false;
   }
 }

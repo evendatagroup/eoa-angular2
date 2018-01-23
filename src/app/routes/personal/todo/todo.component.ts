@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuService, SettingsService } from '@delon/theme';
 
 import { UserService } from '../../../service/user.service';
 
@@ -23,7 +24,9 @@ export class TodoComponent implements OnInit {
   role = [ "", "发起", "审核", "会签", "批准", "执行"];
   todoList: any;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService,
+              private settingService: SettingsService,
+              private menuService: MenuService) { }
 
   getTodoList() {
   	this.userService
@@ -35,7 +38,11 @@ export class TodoComponent implements OnInit {
   }
 
   ngOnInit() {
-  	this.getTodoList();
+  	// this.getTodoList();
+    
+    console.log('user',this.settingService.user)
+    console.log('menu',this.menuService.menus)
+
   }
 
 }

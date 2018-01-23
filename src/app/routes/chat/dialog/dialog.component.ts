@@ -9,6 +9,8 @@ import { MsgService } from '../../../service/msg.service';
 import { User } from '../../../class/user.class';
 import { Msg } from '../../../class/msg';
 
+import {  } from '../../../../assets/img/add_member.png'
+
 @Component({
   selector: 'app-dialog',
   templateUrl: './dialog.component.html',
@@ -46,6 +48,8 @@ export class DialogComponent implements OnInit {
   user: User;
   _userVid = JSON.parse(window.localStorage._token).userVid;
   logo = 'https://gw.alipayobjects.com/zos/rmsportal/siCrBXXhmvTQGWPNLBow.png';
+
+  isVisible = false;
 
   constructor(private clusterService: ClusterService,
         			private userService: UserService,
@@ -208,9 +212,22 @@ export class DialogComponent implements OnInit {
     this.clustermemberService
         .getList(clusterVid)
         .then(data => {
+          this.list = [];
           this.list = data;
+          console.log(data)
+          let l = {
+            avatar: '../../../../assets/img/add_member.png',
+            value: 'add_member'
+          }
+          this.list.push(l);
           this.toNum = data.length;
         })
+  }
+
+  // 增加新的群组成员
+  addNewMember() {
+    console.log('add new member')
+    this.isVisible = true;
   }
 
   // 加入某个群组
@@ -237,5 +254,19 @@ export class DialogComponent implements OnInit {
     this.editMsg(this.message);
     this.chatService.sendMsg(this.message);
     this.message = '';
+  }
+
+  handleOk = (e) => {
+    console.log('点击了确定');
+    this.isVisible = false;
+  }
+
+  handleCancel = (e) => {
+    console.log(e);
+    this.isVisible = false;
+  }
+
+  onSearch(event: string): void {
+    console.log(event);
   }
 }

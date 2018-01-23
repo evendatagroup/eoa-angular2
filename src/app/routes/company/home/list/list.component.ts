@@ -12,6 +12,7 @@ import { List } from '../../../../class/list';
 export class ListComponent implements OnInit {
     list: List[];
     readerList: any[];
+    modalTitle:string;
     isVisible = false;
     userVid = JSON.parse(window.localStorage._token).userVid
     @Input() parames: any;
@@ -41,14 +42,13 @@ export class ListComponent implements OnInit {
     }
 
     showModal(inforId) {
-        // console.log("sid:" + sid);
         this.readerList = [];
         this.isVisible = true;
         this.listService
             .getReaderList({inforId,readStatus:1})
             .then(data => {
                 this.readerList = data;
-                // console.log(this.readerList);
+                this.modalTitle = '已读人员（' + data.length + '）人';
             })
     }
 

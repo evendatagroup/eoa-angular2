@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { MenuService } from '@delon/theme';
 
 import { NzMessageService } from 'ng-zorro-antd';
 
@@ -73,7 +74,8 @@ export class LaunchFormComponent {
         private fb: FormBuilder,
         private anyService: AnyService,
         private userService: UserService,
-        private progressService: ProgressService) {
+        private progressService: ProgressService,
+        private menuService: MenuService) {
     }
 
     ngOnInit() {
@@ -173,7 +175,7 @@ export class LaunchFormComponent {
             this.validateForm.controls[key].markAsDirty();
         }
         if (this.validateForm.valid) {
-            console.log(value);
+            // console.log(value);
             let data = {}
             let reviews = ''
             for (let key in value) {
@@ -205,14 +207,34 @@ export class LaunchFormComponent {
             //     data['affairVid']=arr[0].response.data;
             //   }
             // }
-            console.log(data);
+            // console.log(data);
             this.progressService.upAffair(data)
                 .then(res => {
                     console.log(res)
                     this._message.create('success', res);
+                    this.editMenuBadge();
                     this.resetForm();
                 })
         }
+    }
+
+    // 修改办事大厅的未办事项数
+    editMenuBadge() {
+        this.progressService
+            .getCountDoing()
+            .then(countDoing => {
+                let numb = 0;
+                countDoing.forEach(item => {
+                    numb += item.count;
+                })
+                this.menuService.menus[0].children.forEach(item=>{ 
+                    if(item.menuId == 27){
+                        item.badge = numb;
+                        this.menuService.resume();
+                        return;
+                    }
+                })
+            })
     }
 
     // 流程选择后
