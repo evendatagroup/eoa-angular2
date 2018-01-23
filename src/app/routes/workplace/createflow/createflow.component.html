@@ -89,7 +89,7 @@
                             </nz-select>
                         </div>
                         <div nz-col [nzSpan]="4">
-                            <!-- <button nz-button [nzSize]="'large'" (click)="getCaptcha($event)">查看模版样式</button> -->
+                            <button nz-button [nzSize]="'large'" (click)="getCaptcha($event)">查看模版样式</button>
                         </div>
                     </div>
                 </div>
@@ -261,3 +261,20 @@
         </button>
     </div>
 </nz-card>
+
+<nz-modal [nzFooter]="modalFooter3" [nzClosable]="false" [nzWrapClassName]="'vertical-center-modal'" [nzContent]="modalContent4" [nzVisible]="isVisible" [nzTitle]="'模板样式'">
+  <ng-template #modalContent4>
+    <div style="height: 0;"></div>
+    <div nz-row [nzGutter]="16">
+        <div nz-col [nzXs]="24" [nzSm]="24">
+            <nz-card style="width: 496; height: 300px; margin-top: 24px;" id="pdfDiv2">
+            </nz-card>
+        </div>
+    </div>
+  </ng-template>
+  <ng-template #modalFooter3>
+    <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="handleCancel($event)">
+      关 闭
+    </button>
+  </ng-template>
+</nz-modal>

@@ -31,17 +31,14 @@ export class ReviewProgressComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log('ngOnInit()')
     }
 
     ngOnChanges() {
-        console.log(this.randNum)
         const targetElement = document.querySelector('#pdfDiv1');
         if (targetElement != null) {
             if (targetElement.children != null) {
                 if (targetElement.children.length != 0) {
                     if (this.progress.affairId) {
-                        console.log('getPdf()')
                         this.getPdf();
                     }
                 }
@@ -56,6 +53,7 @@ export class ReviewProgressComponent implements OnInit {
                     data.templetJson = data.templetJson.replace(`$#${key}#$`, data.formjson[key])
                 }
                 let pdfjson = JSON.parse(data.templetJson)
+                console.log(pdfjson)
                 this.getProgressUser(pdfjson)
             });
     }

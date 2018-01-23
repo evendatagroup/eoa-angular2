@@ -52,6 +52,8 @@ export class CreateflowComponent {
 
     index = 'First-content';
 
+    isVisible = false;
+
     constructor(
         private _message: NzMessageService,
         private fb: FormBuilder,
@@ -79,7 +81,10 @@ export class CreateflowComponent {
         this.userService.getRoleAddress().then(res=>{
           this.nodes = res
         });
-        this.anyService.getList({ url: 'Templet' }).then(list => this.templetList = list);
+        this.anyService.getList({ url: 'Templet' }).then(list => {
+            this.templetList = list;
+            // console.log(list)
+        });
     }
 
     pre() {
@@ -128,7 +133,7 @@ export class CreateflowComponent {
         for (const key in this.validateForm.controls) {
             this.validateForm.controls[key].markAsDirty();
         }
-        console.log(this.validateForm.value);
+        // console.log(this.validateForm.value);
         let data = this.validateForm.value;
         let i = 0;
         let reviewIds = '';
@@ -147,7 +152,7 @@ export class CreateflowComponent {
                 data[key] = ''
             }
         }
-        console.log(data);
+        // console.log(data);
         this.anyService.edit({ url: 'Flow', data: data })
             .then(res => {
                 this._message.create('success', res);
@@ -245,5 +250,99 @@ export class CreateflowComponent {
                 this.find(item.children, item.name)
             }
         })
+    }
+
+    // 获取模板样式
+    getCaptcha() {
+        let v = this.getFormControl('templetId').value;
+        if(v == null){
+            this._message.create('warning', '请选择一个样式模板！');
+        }else{
+            this.showPdfModal(v);
+        }
+    }
+
+    // 显示样式模板
+    showPdfModal(v) {
+        this.isVisible = true;
+        let dds;
+        if(v == 1){
+            dds = {
+                content: [
+                    { text: '新闻模板样式', style: 'header', alignment: 'center' },
+                    {
+                        style: 'tableExample',
+                        table: {
+                            widths: [200, '*'],
+                            body: [
+                                ['申请人', { text: '', italics: true, color: 'gray', style: 'title' }],
+                                ['附件上传', { text: '', italics: true, color: 'gray', style: 'title' }],
+                                ['图片上传', { text: '', italics: true, color: 'gray', style: 'title' }]
+                            ]
+                        }
+                    }
+                ],
+                styles: {
+                    title: {
+                        fontSize: 22,
+                        bold: true
+                    },
+                    header: {
+                        fontSize: 25,
+                        bold: true
+                    }
+                },
+                defaultStyle: {
+                    font: 'fzytk'
+                }
+            };
+        }else if(v == 2){
+            dds = {
+                content: [
+                    { text: '请假单模板样式', style: 'header', alignment: 'center' },
+                    {
+                        style: 'tableExample',
+                        table: {
+                            widths: [200, '*'],
+                            body: [
+                                ['申请人', { text: '', italics: true, color: 'gray', style: 'title' }],
+                                ['请假事由', { text: '', italics: true, color: 'gray', style: 'title' }],
+                                ['请假时间', { text: '', italics: true, color: 'gray', style: 'title' }]
+                            ]
+                        }
+                    }
+                ],
+                styles: {
+                    title: {
+                        fontSize: 22,
+                        bold: true
+                    },
+                    header: {
+                        fontSize: 25,
+                        bold: true
+                    }
+                },
+                defaultStyle: {
+                    font: 'fzytk'
+                }
+            };
+        }
+
+        const pdfDocGenerator = pdfMake.createPdf(dds);
+        pdfDocGenerator.getDataUrl((dataUrl) => {
+            const targetElement = document.querySelector('#pdfDiv2');
+            const iframe = document.createElement('iframe');
+            iframe.src = dataUrl;
+            iframe.width = '100%';
+            iframe.height = '100%';
+            iframe.style.marginTop = "-24px";
+            targetElement.innerHTML = '';
+            targetElement.appendChild(iframe);
+        });
+    }
+
+    handleCancel = (e) => {
+      console.log(e);
+      this.isVisible = false;
     }
 }
