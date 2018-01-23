@@ -12,7 +12,12 @@ import { List } from '../../../class/list';
 export class HomeComponent implements OnInit {
   title = "公司首页";
   imglist : List[];
-  imgs: any[];
+  parames11imgs = {
+    inforType: 11,
+    page: 1,
+    rows: 5,
+    imgs: 'nonull'
+  }
   parames11 = {
     inforType: 11,
     page: 1,
@@ -48,15 +53,9 @@ export class HomeComponent implements OnInit {
 
   getImg() {
     this.listService
-        .getList(this.parames11)
+        .getList(this.parames11imgs)
         .then(res => {
-          // 最多取五张图片
-          if(res.data.length > 5){
-            this.imglist = res.data.filter(item => !!item.imgs).splice(0,5);
-          }else{
-            this.imglist = res.data.filter(item => !!item.imgs);
-          }
-          this.imglist = res.data.filter(item => !!item.imgs);
+          this.imglist = res.data
           this.imglist.map(item => item.imgs = item.imgs.split(',')[0]);
         });
   }
