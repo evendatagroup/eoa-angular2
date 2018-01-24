@@ -16,7 +16,9 @@ const THIRDMODULES = [ CountdownModule ];
 // endregion
 
 // region: your componets & directives
-const COMPONENTS = [];
+import { ProgressComponent } from '../routes/workplace/launch/progress/progress.component';
+import { ReviewProgressComponent } from '../routes/workplace/launch/review-progress/review-progress.component';
+const COMPONENTS = [ProgressComponent,ReviewProgressComponent];
 const DIRECTIVES = [];
 // endregion
 
