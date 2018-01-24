@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { User } from '../class/user.class';
 import { _HttpClient } from '@delon/theme';
 import { Observable } from 'rxjs/Observable';
+import { TreeData } from '../routes/component/tree/tree-model'
 
 @Injectable()
 export class UserService {
@@ -138,17 +139,25 @@ export class UserService {
                 });
         });
     }
-    
+
     //机构-人列表
     nodeListUser(list){
       let groupList = this.nodeGroupList(list);
       list.forEach(item=>{
         for(let i=0;i<groupList.length;i++){
-          if(groupList[i].id==item.deptId){
+          if(groupList[i].id+''==item.deptId+''){
             groupList[i].children = groupList[i].children || [];
-            item.id = item.userVid;
-            item.name = `${item.userName}(${item.roleName})`
-            groupList[i].children.push(item);
+            groupList[i].children.push({
+              id:item.userVid,
+              name:`${item.userName}(${item.roleName})`,
+              parentId:groupList[i].id,
+              keyWord: '',
+              icon: '',
+              isExpend: false,
+              isChecked: false,
+              isIndeterminate: false,
+              isMenu: false,
+            });
             break;
           }
         }
@@ -160,21 +169,27 @@ export class UserService {
       let groupList = this.nodeGroupList(list);
       list.forEach(item=>{
         for(let i=0;i<groupList.length;i++){
-          if(groupList[i].id==item.deptId){
+          if(groupList[i].id+''==item.deptId+''){
             groupList[i].children = groupList[i].children || [];
             let find = false;
             groupList[i].children.forEach(role=>{
-              if(!find && role.roleId==item.roleId){
-                role.userVid += ','+item.userVid;
-                role.userName += ','+item.userName;
-                role.name = `${role.roleName}(${role.userName})`
+              if(!find && (groupList[i].id+'-'+item.roleId)==role.id){
+                role.name = role.name.substring(0,role.name.length-1)+','+item.userName+')'
                 find = true
               }
             })
             if(!find){
-              item.id = groupList[i].id+'-'+item.roleId;
-              item.name = `${item.roleName}(${item.userName})`
-              groupList[i].children.push(item);
+              groupList[i].children.push({
+                id:groupList[i].id+'-'+item.roleId,
+                name:`${item.roleName}(${item.userName})`,
+                parentId:groupList[i].id,
+                keyWord: '',
+                icon: '',
+                isExpend: false,
+                isChecked: false,
+                isIndeterminate: false,
+                isMenu: false,
+              });
             }
             break;
           }
@@ -182,12 +197,23 @@ export class UserService {
       })
       return groupList
     }
+
     // 获取组织机构列表
     nodeGroupList(list){
-      return list.reduce((previous, current) => {
-        if(!previous.some(item=>item.id==current.deptId)){
+        return list.reduce((previous, current) => {
+        if(!previous.some(item=>item.id+''==current.deptId+'')){
           // 不存在
-          previous.push({id:current.deptId,name:current.deptName,parentId:current.deptParentId});
+          previous.push({
+            id:current.deptId+'',
+            name:current.deptName,
+            parentId:current.deptParentId+'',
+            keyWord: '',
+            icon: '',
+            isExpend: false,
+            isChecked: false,
+            isIndeterminate: false,
+            isMenu: true,
+          });
         }
         return previous;
       }, [])

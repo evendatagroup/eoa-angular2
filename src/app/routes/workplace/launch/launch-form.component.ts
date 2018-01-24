@@ -7,9 +7,10 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { AnyService } from '../../../service/any.service';
 import { ProgressService } from '../../../service/progress.service';
 import { UserService } from '../../../service/user.service';
-import { NzTreeComponent } from 'ng-tree-antd';
 
 import { environment } from '@env/environment';
+import { TreeData } from '../../component/tree/tree-model'
+import { SearchTreeComponent } from '../../component/tree/search-tree.component'
 
 
 @Component({
@@ -54,20 +55,14 @@ export class LaunchFormComponent {
     uploadlist:any = []
     uploadlistZ:any = []
     imglist:any = []
-    //tree
+    // tree
+    nodes: Array<TreeData> = []
+    search = '';
     path = { id: '', name: '' };
     checkedList = [];
-    nodes = []
-    treeoptions = {
-        allowDrag: false,
-        animateExpand: false,
-        animateSpeed: 0
-    };
-    search = '';
     treelist:any = {
       signs:{show:false,required:0}
     }
-    @ViewChild(NzTreeComponent) treeinput: NzTreeComponent;
 
     constructor(
         private _message: NzMessageService,
@@ -227,7 +222,7 @@ export class LaunchFormComponent {
                 countDoing.forEach(item => {
                     numb += item.count;
                 })
-                this.menuService.menus[0].children.forEach(item=>{ 
+                this.menuService.menus[0].children.forEach(item=>{
                     if(item.menuId == 27){
                         item.badge = numb;
                         this.menuService.resume();
@@ -296,12 +291,16 @@ export class LaunchFormComponent {
         return this.validateForm.controls[name];
     }
 
-    //tree
+    // tree
     treeoc(key) {
       this.treelist[key].show = !this.treelist[key].show
       this.search = ''
     }
-    treeopen(path) {
+    closeTree(path) {
+      this.treelist[path.id].show = false
+      this.search = ''
+    }
+    selectedTree(path) {
       this.checkedList = [];
       this.find(this.nodes, '');
       let ids = [];
@@ -313,33 +312,15 @@ export class LaunchFormComponent {
       this.getFormControl(path.id).setValue(ids.join(','));
       this.getFormControl(path.name).setValue(names.join(','));
       this.treelist[path.id].show = false;
-    }
-    treeclose(path) {
-      this.treelist[path.id].show = false
       this.search = ''
     }
-    filterNodes() {
-      if(this.search.length>0){
-        this.treeinput.treeModel.filterNodes(this.search);
-      }else if(this.treeinput){
-        this.treeinput.treeModel.collapseAll();
-      }
-    }
-    onFocus(ev: any) {
-        //console.log('onEvent', ev , 'node', ev.node, 'model', ev.treeModel);
-    }
-    onEvent(ev: any) {
-        //console.log('basic', 'onEvent', ev);
-
-    }
-
     find(arr, fname) {
         if (arr.length == 0) return false;
         arr.forEach(item => {
-            if (!item.children && item.checked && typeof (item.id) == 'string') {
+            if (!item.isMenu && item.isChecked) {
                 this.checkedList.push({ id: item.id, name: fname + '-' + item.name })
             }
-            if (item.children) {
+            if (item.isMenu) {
                 this.find(item.children, item.name)
             }
         })

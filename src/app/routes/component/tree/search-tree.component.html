@@ -1,0 +1,10 @@
+<div class="">
+  <nz-input [nzType]="'search'" [nzPlaceHolder]="'搜索...'" [(ngModel)]="search" (ngModelChange)="searchTree()"></nz-input>
+  <nz-card style="height:300px;overflow-y: scroll;">
+      <c-tree #tree [data]="data" (onCheckChanged)="onCheckboxChanged($event)"></c-tree>
+  </nz-card>
+  <div style="margin:5px 5px;text-align: center;">
+    <button style="margin:0px 5px" nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="approve()">确认</button>
+    <button style="margin:0px 5px" nz-button [nzType]="'default'" [nzSize]="'large'" (click)="close()">关闭</button>
+  </div>
+</div>

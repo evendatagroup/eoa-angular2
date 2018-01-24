@@ -57,7 +57,7 @@ export class ProgressComponent implements OnInit {
     @Output()
     onSuccessF = new EventEmitter();
 
-    constructor(private progressService: ProgressService, 
+    constructor(private progressService: ProgressService,
                 private msg: NzMessageService,
                 private menuService: MenuService) {
     }
@@ -101,7 +101,7 @@ export class ProgressComponent implements OnInit {
                 countDoing.forEach(item => {
                     numb += item.count;
                 })
-                this.menuService.menus[0].children.forEach(item=>{ 
+                this.menuService.menus[0].children.forEach(item=>{
                     if(item.menuId == 27){
                         item.badge = numb;
                         this.menuService.resume();
@@ -130,7 +130,7 @@ export class ProgressComponent implements OnInit {
                         data.templetJson = data.templetJson.replace(`$#${key}#$`, data.formjson[key])
                     }
                     let pdfjson = JSON.parse(data.templetJson)
-                    this.generatePdf(pdfjson); 
+                    this.generatePdf(pdfjson);
                     console.log('iframe', this.pdfStatus)
                 }
             });

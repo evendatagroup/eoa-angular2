@@ -8,7 +8,8 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { UserService } from '../../../service/user.service';
 import { AnyService } from '../../../service/any.service';
 import { SettingsService } from '@delon/theme';
-import { NzTreeComponent } from 'ng-tree-antd';
+import { TreeData } from '../../component/tree/tree-model'
+import { SearchTreeComponent } from '../../component/tree/search-tree.component'
 
 @Component({
     selector: 'app-createflow',
@@ -25,10 +26,7 @@ export class CreateflowComponent {
     checkedList = [];
     path = { id: '', name: '' };
     // tree
-    nodes = []
-    options = {
-        allowDrag: false
-    };
+    nodes: Array<TreeData> = []
     search = '';
     treelist:any = {
       launchs:{show:false},
@@ -48,7 +46,6 @@ export class CreateflowComponent {
       {label:'部门风采展示',value:25},
       {label:'其它',value:31},
     ]
-    @ViewChild(NzTreeComponent) tree: NzTreeComponent;
 
     index = 'First-content';
 
@@ -71,10 +68,11 @@ export class CreateflowComponent {
             approvalNames: [null,],
             exes: [null, [Validators.required]],
             exeNames: [null,],
-            search:[null,],
             flowType: [null, [Validators.required]]
         });
     }
+
+
 
     ngOnInit() {
         this.addField();
@@ -213,7 +211,11 @@ export class CreateflowComponent {
       this.treelist[key].show = !this.treelist[key].show
       this.search = ''
     }
-    treeopen(path) {
+    closeTree(path) {
+      this.treelist[path.id].show = false
+      this.search = ''
+    }
+    selectedTree(path) {
       this.checkedList = [];
       this.find(this.nodes, '');
       let ids = [];
@@ -225,28 +227,15 @@ export class CreateflowComponent {
       this.getFormControl(path.id).setValue(ids.join(','));
       this.getFormControl(path.name).setValue(names.join(','));
       this.treelist[path.id].show = false;
-    }
-    treeclose(path) {
-      this.treelist[path.id].show = false
       this.search = ''
     }
-    filterNodes() {
-        this.tree.treeModel.filterNodes(this.search);
-        if (!this.search) {
-            this.tree.treeModel.collapseAll();
-        }
-    }
-    onFocus(ev: any) {
-        console.log('onEvent', ev);
-    }
-
     find(arr, fname) {
         if (arr.length == 0) return false;
         arr.forEach(item => {
-            if (!item.children && item.checked && typeof (item.id) == 'string') {
+            if (!item.isMenu && item.isChecked) {
                 this.checkedList.push({ id: item.id, name: fname + '-' + item.name })
             }
-            if (item.children) {
+            if (item.isMenu) {
                 this.find(item.children, item.name)
             }
         })

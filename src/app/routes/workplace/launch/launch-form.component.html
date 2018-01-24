@@ -48,20 +48,7 @@
               <ng-template #addOnAfter><i (click)="treeoc('signs')" [ngClass]="treelist.signs.show?'anticon anticon-down-circle-o':'anticon anticon-left-circle-o'"></i></ng-template>
             </nz-input>
             <input formControlName="signs" type="hidden">
-            <div class="tree" *ngIf="treelist.signs.show">
-              <nz-input formControlName="search" [nzType]="'search'" [nzPlaceHolder]="'搜索...'" [(ngModel)]="search" (ngModelChange)="filterNodes()"></nz-input>
-              <nz-card style="height:300px;overflow-y: scroll;">
-                  <nz-tree #treeinput [nzNodes]="nodes"
-                          [nzOptions]="treeoptions"
-                          [nzCheckable]="true"
-                          (nzFocus)="onFocus($event)"
-                          (nzEvent)="onEvent($event)"></nz-tree>
-              </nz-card>
-              <div style="margin:5px 5px;text-align: center;">
-                <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="treeopen({id:'signs',name:'signNames'})">确认</button>
-                <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="treeclose({id:'signs',name:'signNames'})">关闭</button>
-              </div>
-            </div>
+            <s-tree class="tree" *ngIf="treelist.signs.show" [data]="nodes" (onClose)="closeTree({id:'signs',name:'signNames'})" (onApprove)="selectedTree({id:'signs',name:'signNames'})"></s-tree>
         </div>
     </div>
 

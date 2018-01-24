@@ -1,0 +1,28 @@
+<!--下拉箭头 <i class="anticon anticon-down"></i>-->
+<div>
+<i style="width:17px" class="anticon " (click)="nodeExpended(data)" [ngClass]="{'anticon-down': data.isMenu&&data.isExpend, 'anticon-right': data.isMenu&&!data.isExpend}"></i>
+<label class="c-check-box" nz-checkbox [(ngModel)]="data.isChecked" [nzIndeterminate]="data.isIndeterminate" (ngModelChange)="onCheckboxChanged(data)"></label>
+<span class="c-text-field" (click)="itemClicked(data)"><i></i>{{data.name}}</span>
+</div>
+<div class="item" *ngIf="data.isExpend && !isLeaf(data)">
+  <div class="item-list" *ngIf="!!list && list.length>0">
+    <ul>
+      <li>
+        <button nz-button class="checkAll" [nzType]="'primary'" nzSize="small" (click)="checkAll(data)">
+          <span>全选</span>
+        </button>
+      </li>
+      <li *ngFor="let item of list">
+        <label nz-checkbox [(ngModel)]="item.isChecked" (ngModelChange)="onCheckboxChanged(item)"></label>
+        <span (click)="itemClicked(item)"><i></i>{{item.name}}</span>
+      </li>
+    </ul>
+  </div>
+  <div class="item-menu">
+    <ul>
+      <li *ngFor="let item of menu">
+        <c-tree-node [data]="item" (onCheckChanged)="onCheckboxChanged($event)"></c-tree-node>
+      </li>
+    </ul>
+  </div>
+</div>

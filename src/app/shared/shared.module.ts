@@ -19,7 +19,10 @@ const THIRDMODULES = [ CountdownModule ];
 // region: your componets & directives
 import { ProgressComponent } from '../routes/workplace/launch/progress/progress.component';
 import { ReviewProgressComponent } from '../routes/workplace/launch/review-progress/review-progress.component';
-const COMPONENTS = [ProgressComponent,ReviewProgressComponent];
+import { TreeComponent } from '../routes/component/tree/tree.component';
+import { treeNodeComponent } from '../routes/component/tree/tree-node.component';
+import { SearchTreeComponent } from '../routes/component/tree/search-tree.component';
+const COMPONENTS = [ProgressComponent,ReviewProgressComponent,TreeComponent,treeNodeComponent,SearchTreeComponent];
 const DIRECTIVES = [];
 // endregion
 
