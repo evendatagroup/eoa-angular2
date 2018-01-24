@@ -14,6 +14,8 @@ import { InfoComponent } from './basic/info/info.component';
 import { PwdComponent } from './basic/pwd/pwd.component';
 import { CropperComponent } from './basic/cropper/cropper.component';
 
+import { ListService } from '../../service/list.service';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -23,6 +25,7 @@ import { CropperComponent } from './basic/cropper/cropper.component';
     FileUploadModule,
     ImageCropperModule
   ],
-  declarations: [BasicComponent, MessageComponent, TodoComponent, InfoComponent, PwdComponent, CropperComponent]
+  declarations: [BasicComponent, MessageComponent, TodoComponent, InfoComponent, PwdComponent, CropperComponent],
+  providers: [ListService]
 })
 export class PersonalModule { }

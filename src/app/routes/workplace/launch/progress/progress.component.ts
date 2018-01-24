@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import {NzMessageService} from 'ng-zorro-antd';
 import { MenuService } from '@delon/theme';
+import { environment } from '../../../../../environments/environment';
 
 // import { UserService } from '../../../../service/user.service';
 import { ProgressService } from '../../../../service/progress.service';
@@ -24,6 +25,9 @@ export class ProgressComponent implements OnInit {
     private progressId;
     private officeId;
     private progress: Progress;
+    pdfSrc = '';
+    page = 1;
+    pdfStatus = 1;    // 1:没有附件，需要生成pdf；2：有附件，直接显示
     dds = {
         content: [
             { text: 'Title', style: 'header', alignment: 'center' },
@@ -49,6 +53,9 @@ export class ProgressComponent implements OnInit {
             font: 'fzytk'
         }
     };
+
+    @Output()
+    onSuccessF = new EventEmitter();
 
     constructor(private progressService: ProgressService, 
                 private msg: NzMessageService,
@@ -78,9 +85,10 @@ export class ProgressComponent implements OnInit {
                 if(res == '操作成功'){
                     this.editMenuBadge();
                     this.msg.success('提交成功！');
+                    this.onSuccessF.emit(res);
                 }else{
                     this.msg.success('提交失败！');
-                } 
+                }
             });
     }
 
@@ -104,14 +112,27 @@ export class ProgressComponent implements OnInit {
     }
 
     getPdf() {
-        console.log(this.progress.affairTitle)
+        // console.log(this.progress.affairTitle)
         this.progressService.getAffairById(this.progress.affairId)
             .then(data => {
-                for (let key in data.formjson) {
-                    data.templetJson = data.templetJson.replace(`$#${key}#$`, data.formjson[key])
+                console.log(data.urls)
+                // let src = environment.FILE_URL + data.urls;
+                // this.pdfSrc = src;
+
+                if(data.urls != "" && data.urls.substring(data.urls.length-3, data.urls.length) == 'pdf'){
+                    this.pdfStatus = 2;
+                    let src = environment.FILE_URL + data.urls;
+                    this.pdfSrc = src;
+                    console.log('pdfviewer', this.pdfStatus)
+                }else{
+                    this.pdfStatus = 1;
+                    for (let key in data.formjson) {
+                        data.templetJson = data.templetJson.replace(`$#${key}#$`, data.formjson[key])
+                    }
+                    let pdfjson = JSON.parse(data.templetJson)
+                    this.generatePdf(pdfjson); 
+                    console.log('iframe', this.pdfStatus)
                 }
-                let pdfjson = JSON.parse(data.templetJson)
-                this.generatePdf(pdfjson);
             });
 
     }
@@ -121,6 +142,7 @@ export class ProgressComponent implements OnInit {
         pdfDocGenerator.getDataUrl((dataUrl) => {
             const targetElement = document.querySelector('#pdfDiv');
             const iframe = document.createElement('iframe');
+            // iframe.id = 'pdfIframe';
             iframe.src = dataUrl;
             iframe.width = '100%';
             iframe.height = '100%';

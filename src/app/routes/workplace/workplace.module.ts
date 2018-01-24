@@ -21,8 +21,6 @@ import { ReviewComponent } from './review/review.component';
 import { SignComponent } from './sign/sign.component';
 import { ApprovalComponent } from './approval/approval.component';
 import { ExeComponent } from './exe/exe.component';
-// import { ProgressComponent } from './launch/progress/progress.component';
-// import { ReviewProgressComponent } from './launch/review-progress/review-progress.component';
 
 @NgModule({
     imports: [
@@ -43,8 +41,6 @@ import { ExeComponent } from './exe/exe.component';
         SignComponent,
         ApprovalComponent,
         ExeComponent,
-        // ProgressComponent,
-        // ReviewProgressComponent,
     ],
     providers: [UserService]
 })

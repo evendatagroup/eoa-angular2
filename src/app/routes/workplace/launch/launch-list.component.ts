@@ -59,6 +59,7 @@ import { ProgressService } from '../../../service/progress.service';
                         <td nz-td>
                             <a (click)="showMsg2(i)">查阅进度</a>
                             <span nz-table-divider *ngIf="i.progressStatus==1"></span>
+                            <a (click)="reLaunch()" *ngIf="i.progressStatus==1">重新发起</a>
                         </td>
                     </tr>
                 </tbody>
@@ -164,5 +165,9 @@ export class LaunchListComponent {
   handleClose(e) {
     console.log('点击了关闭')
     this.modal2.status = false;
+  }
+
+  reLaunch() {
+    console.log('点击了重新发起')
   }
 }

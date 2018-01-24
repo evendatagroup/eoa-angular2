@@ -38,11 +38,19 @@
 		        <span>发布</span>
 		      </label>
 		    </nz-radio-group>
-		    <!-- <button class="mr-sm ant-btn ant-btn-primary" nz-button (click)="submit()">提交</button> -->
         </nz-card>
     </div>
     <div nz-col [nzXs]="24" [nzSm]="10">
-        <nz-card style="width: 500px; height: 256px; margin-top: 24px;" id="pdfDiv">
+        <nz-card *ngIf="pdfStatus==1" style="width: 960px; height: 256px; margin-top: 0; overflow-y: scroll;" id="pdfDiv">
+        	pdfStatus==1
+        </nz-card>
+        <nz-card *ngIf="pdfStatus==2" style="width: 960px; height: 256px; margin-top: 0; overflow-y: scroll;" id="pdfViewerDiv">
+        	pdfStatus==2
+        	<pdf-viewer [src]="pdfSrc" 
+        		[page]="page"
+        		[original-size]="true"
+        		style="display: block;">
+        	</pdf-viewer>
         </nz-card>
     </div>
 </div>

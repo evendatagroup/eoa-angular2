@@ -1,7 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { MenuService, SettingsService } from '@delon/theme';
-
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { SettingsService } from '@delon/theme';
 import { UserService } from '../../../service/user.service';
+import { environment } from '@env/environment';
+
+import { ListService } from '../../../service/list.service';
+import { ProgressService } from '../../../service/progress.service';
+
+import { ProgressComponent } from '../../workplace/launch/progress/progress.component';
 
 @Component({
   selector: 'app-todo',
@@ -9,40 +14,118 @@ import { UserService } from '../../../service/user.service';
   styles: []
 })
 export class TodoComponent implements OnInit {
+  @ViewChild(ProgressComponent)
+  private progressComponent: ProgressComponent;
+
+  page = 1
+  rows = 5
+  readStatus = 0;
+
+  total = 1
+
+  page2 = 1
+  rows2 = 5
+  total2 = 1
 	
-	todoData: any[] = [
-	    { completed: true, avatar: '1', name: '苏先生', content: `请告诉我，我应该说点什么好？` },
-	    { completed: false, avatar: '2', name: 'はなさき', content: `ハルカソラトキヘダツヒカリ` },
-	    { completed: false, avatar: '3', name: 'cipchk', content: `this world was never meant for one as beautiful as you.` },
-	    { completed: false, avatar: '4', name: 'Kent', content: `my heart is beating with hers` },
-	    { completed: false, avatar: '5', name: 'Are you', content: `They always said that I love beautiful girl than my friends` },
-	    { completed: false, avatar: '6', name: 'Forever', content: `Walking through green fields ，sunshine in my eyes.` }
-	];
 
   status = { progressStatus: 2 };
-  // 事务中担任的角色 1:拟稿，2:审批，3:会签，4:整理，5:审核，6:签发，7:发布
+  // 事务中担任的角色 1:发起，2:审核，3:会签，4:批准，5:执行
   role = [ "", "发起", "审核", "会签", "批准", "执行"];
-  todoList: any;
+  todoList = [];
+  progressList = [];
+  // statusShow = ["", "待处理", "通过", "未通过"];
+  modal = { title: '', status: false, progress: '', option: 1 };
+  // progressRole
+  // roleShow = ["", "", "#/workplace/review", "#/workplace/sign", "#/workplace/approval", "#/workplace/exe"]
+  title1 = ''
+  title2 = ''
 
-  constructor(private userService: UserService,
+  constructor(private listService: ListService,
+              private userService: UserService,
               private settingService: SettingsService,
-              private menuService: MenuService) { }
+              private progressService: ProgressService) { }
 
-  getTodoList() {
-  	this.userService
-  		.getTodoList(status)
-  		.then(data => {
-              this.todoList = data;
-              // console.log(this.todoList)
-          });
+  getList(reset = false) {
+    if (reset) {
+      this.page = 1;
+    }
+    let parames = {
+      page: this.page,
+      rows: this.rows,
+      readStatus: this.readStatus
+    }
+    this.listService
+        .getList(parames)
+        .then(res => {
+          // console.log(res)
+          this.todoList = res.data
+          this.total = parseInt(res.msg)
+          this.title1 = "未读信息（" + this.total + "）条";
+        });
+  }
+
+  getList2(reset = false) {
+    if (reset) {
+        this.page2 = 1
+    }
+    let parames = {
+        progressUserVid: this.settingService.user.userVid,
+        page: this.page2,
+        rows: this.rows2,
+        progressStatus: 1,
+        order: 'oa_progress.create_timestamp asc'
+    }
+    // console.log(parames)
+    this.progressService
+        .getListByPage(parames)
+        .then(res => {
+            this.progressList = res.data;
+            // console.log(res.data)
+            this.total2 = parseInt(res.msg)
+            this.title2 = "未办事项（" + this.total2 + "）项";
+        });
   }
 
   ngOnInit() {
-  	// this.getTodoList();
-    
-    console.log('user',this.settingService.user)
-    console.log('menu',this.menuService.menus)
-
+    this.getList();
+  	this.getList2();
+    // console.log('user',this.settingService.user)
   }
 
+  showPdf(l) {
+    window.open(environment.FILE_URL + l.url);
+    this.userService.editRead({ inforId: l.inforId, userVid: this.settingService.user.userVid, readStatus: 1 })
+        .then(res => {
+            this.getList()
+        })
+  }
+
+  showMsg(i) {
+    console.log(i.progressStatus)
+    this.modal.title = this.role[i.progressRole]
+    this.modal.progress = i
+    this.modal.status = true
+  }
+
+  handleClose(e) {
+    console.log('点击了关闭')
+    this.modal.status = false;
+  }
+
+  handleSubmit(e) {
+    console.log('点击了提交')
+    this.progressComponent.submit()
+  }
+
+  onSuccess(res) {
+    console.log('res',res);
+    if(res == '操作成功'){
+      this.refresh();
+    }
+  }
+
+  refresh() {
+    this.getList2();
+    this.modal.status = false;
+  }
 }

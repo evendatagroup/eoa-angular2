@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit {
   parames21 = {
     inforType: 21,
     page: 1,
-    rows: 4
+    rows: 8
   }
   parames22 = {
     inforType: 22,
