@@ -1,7 +1,22 @@
+.tree {
+    width: 100%;
+    z-index: 1000;
+    font-size: .92rem;
+    color: #212529;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    background-clip: padding-box;
+}
+
 .height1 {
     height: 620px;
     overflow-y: scroll;
     overflow-x: hidden;
+}
+
+._height1 {
+    height: 620px;
 }
 
 .content {

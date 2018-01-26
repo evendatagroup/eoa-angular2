@@ -12,6 +12,12 @@ export class HomeComponent implements OnInit {
 	title = "部门首页";
   imglist = [];
 	imgs: any;
+  parames21imgs = {
+    inforType: 21,
+    page: 1,
+    rows: 5,
+    imgs: 'nonull'
+  }
   parames21 = {
     inforType: 21,
     page: 1,
@@ -42,15 +48,9 @@ export class HomeComponent implements OnInit {
 
   getImg() {
     this.listService
-        .getList(this.parames21)
+        .getList(this.parames21imgs)
         .then(res => {
-          // 最多取五张图片
-          if(res.data.length > 5){
-            this.imglist = res.data.filter(item => !!item.imgs).splice(0,5);
-          }else{
-            this.imglist = res.data.filter(item => !!item.imgs);
-          }
-          this.imglist = res.data.filter(item => !!item.imgs);
+          this.imglist = res.data
           this.imglist.map(item => item.imgs = item.imgs.split(',')[0]);
         });
   }

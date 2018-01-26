@@ -9,6 +9,7 @@ import { HeaderSearchComponent } from './default/header/components/search.compon
 import { HeaderThemeComponent } from './default/header/components/theme.component';
 import { HeaderNotifyComponent } from './default/header/components/notify.component';
 import { HeaderTaskComponent } from './default/header/components/task.component';
+import { HeaderTodoComponent } from './default/header/components/todo.component';
 import { HeaderIconComponent } from './default/header/components/icon.component';
 import { HeaderFullScreenComponent } from './default/header/components/fullscreen.component';
 import { HeaderLangsComponent } from './default/header/components/langs.component';
@@ -26,6 +27,7 @@ const HEADERCOMPONENTS = [
     HeaderSearchComponent,
     HeaderNotifyComponent,
     HeaderTaskComponent,
+    HeaderTodoComponent,
     HeaderIconComponent,
     HeaderFullScreenComponent,
     HeaderThemeComponent,

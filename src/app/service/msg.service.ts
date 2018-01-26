@@ -27,6 +27,16 @@ export class MsgService {
         })
     }
 
+    // 获取历史聊天记录
+    getHistory(parames): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.http.get('oaMsg/getListByPage?order=oa_msg.create_timestamp desc', parames)
+                .subscribe((res: any) => {
+                    resolve(res)
+                })
+        })
+    }
+
     edit(parames): Promise<any> {
         return new Promise((resolve, reject) => {
             this.http.post('oaMsg/edit', {}, parames)

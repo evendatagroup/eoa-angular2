@@ -2,6 +2,7 @@
 <div nz-row [nzGutter]="1">
   <div nz-col [nzXs]="24" [nzSm]="6">
       <nz-card class="height1">
+
           <nz-tabset>
             <nz-tab *ngFor="let tab of tabs">
               <ng-template #nzTabHeading>
@@ -83,13 +84,60 @@
                       </ng-template>
                   </nz-list>
               </div>
+              <!-- 历史聊天记录 -->
+              <div *ngIf="tab.index==3">
+                <form nz-form (ngSubmit)="getList()">
+                  <div nz-row nz-form-item [nzGutter]="16">
+                      <div nz-form-label nz-col [nzSm]="7">
+                          <label for="name">用户姓名</label>
+                      </div>
+                      <div nz-form-control nz-col [nzSm]="17">
+                          <nz-input [(ngModel)]="input_name" name="
+                          " [nzId]="'input_name'">
+                            <ng-template #addOnAfter><i (click)="showModal()" [ngClass]="'fa fa-list-ul'"></i></ng-template>
+                          </nz-input>
+                      </div>
+                  </div>
+                  <div nz-row nz-form-item [nzGutter]="16">
+                      <div nz-form-label nz-col [nzSm]="7">
+                          <label>开始时间</label>
+                      </div>
+                      <div nz-form-control nz-col [nzSm]="17">
+                        <nz-datepicker [(ngModel)]="begin_date" name="begin_date" [nzPlaceHolder]="'开始时间'"></nz-datepicker>
+                      </div>
+                  </div>
+                  <div nz-row nz-form-item [nzGutter]="16">
+                      <div nz-form-label nz-col [nzSm]="7">
+                          <label>结束时间</label>
+                      </div>
+                      <div nz-form-control nz-col [nzSm]="17">
+                        <nz-datepicker [(ngModel)]="end_date" name="end_date" [nzPlaceHolder]="'结束时间'"></nz-datepicker>
+                      </div>
+                  </div>                
+                  <div nz-row nz-form-item [nzGutter]="16" class="mb0">
+                      <div nz-form-label nz-col [nzSm]="7">
+                          <label for="userid">聊天内容</label>
+                      </div>
+                      <div nz-form-control nz-col [nzSm]="17">
+                          <nz-input [(ngModel)]="input_content" name="input_content" [nzId]="'input_content'"></nz-input>
+                      </div>
+                  </div>
+                  <div style="height: 24px;"></div>
+                  <div nz-row nz-form-item [nzGutter]="16">
+                      <div nz-col [nzSm]="24" [nzOffset]="10">
+                          <button nz-button [nzType]="'primary'" type="submit" [nzSize]="'large'"><span>查询</span></button>
+                          <button nz-button (click)="reset()" [nzSize]="'large'" class="mx-sm">重置</button>
+                      </div>
+                  </div>
+                </form>
+              </div>
             </nz-tab>
           </nz-tabset>
       </nz-card>
   </div>
   <!-- 聊天区 -->
   <div nz-col [nzXs]="24" [nzSm]="18">
-    <nz-card class="height1">
+    <nz-card class="height1" *ngIf="isHistory==1">
       <div nz-form-label style="border-bottom: 1px solid #CDCDCD; text-align: center;">
         <nz-dropdown [nzTrigger]="'click'">
             <a href class="ant-dropdown-link" nz-dropdown>{{toName}}
@@ -125,13 +173,50 @@
           <nz-input [(ngModel)]="message" [nzType]="'textarea'" [nzRows]="'4'"></nz-input>
       </div>
       <div style="margin-top: 10px; float: right;">
-          <button nz-button [nzType]="'primary'" (click)="sendMessage('')">
+          <button nz-button [nzType]="'primary'" (click)="sendMessage()">
             <span>发送</span>
           </button>
       </div>
     </nz-card>
+    <nz-card class="_height1" *ngIf="isHistory==2">
+      <div nz-row [nzGutter]="16">
+        <div nz-col [nzMd]="24">
+            <nz-card>
+                <nz-table #nzTable
+                    [nzAjaxData]="historyList"
+                    nzShowSizeChanger
+                    [nzTotal]="total"
+                    [(nzPageIndex)]="page"
+                    [nzPageSizeSelectorValues]=[5,10,20,50]
+                    (nzPageIndexChange)="getList()"
+                    [(nzPageSize)]="rows"
+                    (nzPageSizeChange)="getList(true)">
+                    <thead nz-thead>
+                        <tr>
+                            <th nz-th><span>头像</span></th>
+                            <th nz-th><span>用户名</span></th>
+                            <th nz-th><span>聊天内容</span></th>
+                            <th nz-th><span>创建时间</span></th>
+                        </tr>
+                    </thead>
+                    <tbody nz-tbody>
+                        <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+                            <td nz-td>
+                                <nz-avatar [nzSrc]="data.avatar" [nzSize]="'large'"></nz-avatar>
+                            </td>
+                            <td nz-td>{{data.userName}}</td>
+                            <td nz-td>{{data.content}}</td>
+                            <td nz-td>{{data.createTimestamp*1000 | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </nz-card>
+        </div>
+      </div>
+    </nz-card>
   </div>
 </div>
+
 
 <nz-modal class="ant-modal-content" [nzWrapClassName]="'vertical-center-modal'" [nzVisible]="isVisible" [nzTitle]="'添加群组成员'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
   <ng-template #modalContent style="margin-top: 100px;">
@@ -159,5 +244,13 @@
           </a>
       </ng-template>
     </nz-list>
+  </ng-template>
+</nz-modal>
+
+<nz-modal [nzVisible]="isVisible2" [nzTitle]="'花名册'" [nzFooter]="modalFooter" [nzContent]="modalContent2" [nzClosable]="">
+  <ng-template #modalContent2>
+    <s-tree class="tree" [data]="nodes" (onClose)="closeTree()" (onApprove)="selectedTree()"></s-tree>
+  </ng-template>
+  <ng-template #modalFooter>
   </ng-template>
 </nz-modal>

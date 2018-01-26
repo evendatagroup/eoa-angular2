@@ -116,9 +116,6 @@ export class ProgressComponent implements OnInit {
         this.progressService.getAffairById(this.progress.affairId)
             .then(data => {
                 console.log(data.urls)
-                // let src = environment.FILE_URL + data.urls;
-                // this.pdfSrc = src;
-
                 if(data.urls != "" && data.urls.substring(data.urls.length-3, data.urls.length) == 'pdf'){
                     this.pdfStatus = 2;
                     let src = environment.FILE_URL + data.urls;
