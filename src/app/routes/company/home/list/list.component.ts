@@ -34,7 +34,7 @@ export class ListComponent implements OnInit {
     }
 
     showPdf(l) {
-        window.open(environment.FILE_URL + l.url);
+        window.open(environment.FILE_URL + l.url, "", "width=600, height=600");
         this.userService.editRead({ inforId: l.inforId, userVid: this.userVid, readStatus: 1 })
             .then(res => {
                 this.getList()

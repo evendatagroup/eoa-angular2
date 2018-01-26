@@ -13,5 +13,8 @@
             <li nz-menu-item (click)="msgSrv.success('logout')">{{ 'logout' | translate }}</li>
         </ul>
     </nz-dropdown> -->
+    <div class="item" (click)="toggleCollapsedSideabar()" style="float:right;margin:10px;">
+        <i class="anticon anticon-menu-{{settings.layout.collapsed ? 'unfold' : 'fold'}}"></i>
+    </div>
     <sidebar-nav class="d-block py-lg"></sidebar-nav>
 </div>

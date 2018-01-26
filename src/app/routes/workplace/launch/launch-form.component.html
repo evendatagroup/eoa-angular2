@@ -54,7 +54,12 @@
 
     <div nz-form-item nz-row *ngFor="let item of data">
       <div nz-form-label nz-col [nzSpan]="6">
-        <label [class]="item.required?'ant-form-item-required':'1'">{{item.questionName}}
+        <label nz-form-item-required *ngIf="item.isRequired==1">{{item.questionName}}
+          <nz-tooltip *ngIf="!!item.questionMore" [nzTitle]="item.questionMore">
+            <i nz-tooltip class="anticon anticon-question-circle-o"></i>
+          </nz-tooltip>
+        </label>
+        <label *ngIf="item.isRequired==0">{{item.questionName}}
           <nz-tooltip *ngIf="!!item.questionMore" [nzTitle]="item.questionMore">
             <i nz-tooltip class="anticon anticon-question-circle-o"></i>
           </nz-tooltip>
@@ -106,8 +111,14 @@
     </div>
     <div nz-form-item nz-row style="margin-bottom:8px;">
       <div nz-form-control nz-col [nzSpan]="14" [nzOffset]="6">
-        <button nz-button [nzSize]="'large'" [nzType]="'primary'" [disabled]="!validateForm.valid" (click)="submitForm($event,validateForm.value)">提交</button>
+        <button nz-button [nzSize]="'large'" [nzType]="'primary'" [disabled]="!validateForm.valid" (click)="open()">提交</button>
         <button nz-button [nzSize]="'large'" (click)="resetForm()">重置</button>
       </div>
     </div>
 </form>
+<nz-modal [nzWrapClassName]="'vertical-center-modal'" [nzContent]="modalContent2" [nzVisible]="isVisibleMiddle" [nzTitle]="'确认提交？'" (nzOnCancel)="handleCancelMiddle()" (nzOnOk)="submitForm(validateForm.value)">
+      <ng-template #modalContent2>
+        <label>备注:</label>
+        <nz-input [(ngModel)]="more" [nzType]="'textarea'" [nzRows]="'8'"></nz-input>
+      </ng-template>
+</nz-modal>

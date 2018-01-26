@@ -63,6 +63,9 @@ export class LaunchFormComponent {
     treelist:any = {
       signs:{show:false,required:0}
     }
+    //确认框
+    isVisibleMiddle:boolean= false;
+    more=''
 
     constructor(
         private _message: NzMessageService,
@@ -77,11 +80,8 @@ export class LaunchFormComponent {
         this.validateForm = this.fb.group({
             select: [null, [Validators.required]],
             affairTitle: [null, [Validators.required]],
-            //tree
             signs: [null,],
-            signNames: [null,],
-            search: [null,],
-            q: [null]
+            signNames: [null,]
         })
         this.getFlowList();
         this.userService.getUserAddress().then(res=>{
@@ -98,6 +98,7 @@ export class LaunchFormComponent {
           case 'done':
             this._message.success("上传成功")
             this.uploadlistZ = [e.file];
+            console.log(e.file,key)
             this.getFormControl(key).setValue(e.file.response.data)
             break;
           case 'error':
@@ -165,13 +166,20 @@ export class LaunchFormComponent {
         }
     }
 
-    submitForm($event, value) {
+    open() {
+      this.isVisibleMiddle = true;
+    }
+
+    handleCancelMiddle() {
+      this.isVisibleMiddle = false;
+    }
+    submitForm(value) {
         for (const key in this.validateForm.controls) {
             this.validateForm.controls[key].markAsDirty();
         }
         if (this.validateForm.valid) {
             // console.log(value);
-            let data = {}
+            let data:any = {}
             let reviews = ''
             for (let key in value) {
                 if (value[key] && value[key] != null) {
@@ -196,6 +204,7 @@ export class LaunchFormComponent {
             if(data['question_img']){
               data['affairVid'] = data['question_img']
             }
+            data.more = this.more
             // if(this.uploadlistZ.length>0){
             //   let arr = this.uploadlistZ.filter(item => item.status=='done')
             //   if(arr.length>0){
@@ -205,10 +214,11 @@ export class LaunchFormComponent {
             // console.log(data);
             this.progressService.upAffair(data)
                 .then(res => {
-                    console.log(res)
                     this._message.create('success', res);
                     this.editMenuBadge();
                     this.resetForm();
+                    this.more = '';
+                    this.isVisibleMiddle = false;
                 })
         }
     }
