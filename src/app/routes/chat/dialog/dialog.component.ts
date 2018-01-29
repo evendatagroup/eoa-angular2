@@ -353,6 +353,7 @@ export class DialogComponent implements OnInit {
         this.historyList = [];
         this.historyList = res.data;
         this.total = parseInt(res.msg)
+        console.log('getList()')
       })
     this.isHistory = 2;
   }
@@ -363,7 +364,10 @@ export class DialogComponent implements OnInit {
     this.search = ''
   }
 
-  reset() {
+  reset(e?: MouseEvent) {
+     if (e) {
+            e.preventDefault();
+        }
     this.page = 1
     this.rows = 5
     this.input_name = ''
@@ -371,6 +375,7 @@ export class DialogComponent implements OnInit {
     this.begin_date = ''
     this.end_date = ''
     this.historyList = [];
+    this.isHistory = 2;
   }
 
   getHistoryMsg(data) {

@@ -87,6 +87,7 @@
               <!-- 历史聊天记录 -->
               <div *ngIf="tab.index==3">
                 <form nz-form (ngSubmit)="getList()">
+                <!-- <form nz-form> -->
                   <div nz-row nz-form-item [nzGutter]="16">
                       <div nz-form-label nz-col [nzSm]="7">
                           <label for="name">用户姓名</label>
@@ -126,7 +127,7 @@
                   <div nz-row nz-form-item [nzGutter]="16">
                       <div nz-col [nzSm]="24" [nzOffset]="10">
                           <button nz-button [nzType]="'primary'" type="submit" [nzSize]="'large'"><span>查询</span></button>
-                          <button nz-button (click)="reset()" [nzSize]="'large'" class="mx-sm">重置</button>
+                          <button nz-button (click)="reset($event)" [nzSize]="'large'">重置</button>
                       </div>
                   </div>
                 </form>
