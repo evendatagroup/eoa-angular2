@@ -346,12 +346,14 @@ export class DialogComponent implements OnInit {
       beginTimestamp: this.begin_date == '' ? '' : Math.round(begin),
       endTimestamp: this.end_date == '' ? '' : Math.round(end)
     }
-    // this.msgService
-    //   .getHistory(parames)
-    //   .then(res => {
-    //     this.historyList = res.data;
-    //     this.total = parseInt(res.msg)
-    //   })
+    this.msgService
+      .getHistory(parames)
+      .then(res => {
+        console.log(res.data)
+        this.historyList = [];
+        this.historyList = res.data;
+        this.total = parseInt(res.msg)
+      })
     this.isHistory = 2;
   }
 
@@ -362,7 +364,21 @@ export class DialogComponent implements OnInit {
   }
 
   reset() {
+    this.page = 1
+    this.rows = 5
+    this.input_name = ''
+    this.input_content = ''
+    this.begin_date = ''
+    this.end_date = ''
+    this.historyList = [];
+  }
 
+  getHistoryMsg(data) {
+    this.msgService
+        .getHistoryMsg(data.msgId)
+        .then(res => {
+          console.log(res);
+        });
   }
 
   showModal() {
