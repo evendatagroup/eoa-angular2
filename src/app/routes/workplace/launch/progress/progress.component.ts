@@ -3,14 +3,12 @@ import {NzMessageService} from 'ng-zorro-antd';
 import { MenuService } from '@delon/theme';
 import { environment } from '../../../../../environments/environment';
 
-// import { UserService } from '../../../../service/user.service';
 import { ProgressService } from '../../../../service/progress.service';
 import { Progress } from '../../../../class/progress.class';
 
 @Component({
     selector: 'app-progress',
     templateUrl: './progress.component.html',
-    // styleUrls: ['./progress.component.css']
     styles: [`
     .pdfV {
 		width: inherit;
@@ -27,7 +25,6 @@ export class ProgressComponent implements OnInit {
     private progress: Progress;
     pdfSrc = '';
     page = 1;
-    pdfStatus = 1;    // 1:没有附件，需要生成pdf；2：有附件，直接显示
     dds = {
         content: [
             { text: 'Title', style: 'header', alignment: 'center' },
@@ -115,21 +112,11 @@ export class ProgressComponent implements OnInit {
         // console.log(this.progress.affairTitle)
         this.progressService.getAffairById(this.progress.affairId)
             .then(data => {
-                console.log(data.urls)
-                if(data.urls != "" && data.urls.substring(data.urls.length-3, data.urls.length) == 'pdf'){
-                    this.pdfStatus = 2;
-                    let src = environment.FILE_URL + data.urls;
-                    this.pdfSrc = src;
-                    console.log('pdfviewer', this.pdfStatus)
-                }else{
-                    this.pdfStatus = 1;
-                    for (let key in data.formjson) {
-                        data.templetJson = data.templetJson.replace(`$#${key}#$`, data.formjson[key])
-                    }
-                    let pdfjson = JSON.parse(data.templetJson)
-                    this.generatePdf(pdfjson);
-                    console.log('iframe', this.pdfStatus)
+                for (let key in data.formjson) {
+                    data.templetJson = data.templetJson.replace(`$#${key}#$`, data.formjson[key])
                 }
+                let pdfjson = JSON.parse(data.templetJson)
+                this.generatePdf(pdfjson);
             });
 
     }

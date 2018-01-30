@@ -365,9 +365,9 @@ export class DialogComponent implements OnInit {
   }
 
   reset(e?: MouseEvent) {
-     if (e) {
-            e.preventDefault();
-        }
+    if (e) {
+      e.preventDefault();
+    }
     this.page = 1
     this.rows = 5
     this.input_name = ''
