@@ -45,13 +45,13 @@ export class ListComponent implements OnInit {
 
     showPdf(l) {
         console.log(l.url.substring(l.url.length - 3, l.url.length))
-        if(l.url.substring(l.url.length - 3, l.url.length) == 'pdf'){
+        if(!!l.url&&l.url.substring(l.url.length - 3, l.url.length) == 'pdf'){
             window.open(environment.FILE_URL + l.url, "", "width=600, height=600");
             if(l.readStatus == 0){
                 this.editRead(l);
             }
         }else{
-            this.getPdf(l);   
+            this.getPdf(l);
         }
     }
 
