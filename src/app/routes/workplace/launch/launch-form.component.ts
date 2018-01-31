@@ -219,6 +219,8 @@ export class LaunchFormComponent {
                     this.resetForm();
                     this.more = '';
                     this.isVisibleMiddle = false;
+                    this.imglist = [];
+                    this.uploadlistZ = [];
                 })
         }
     }
