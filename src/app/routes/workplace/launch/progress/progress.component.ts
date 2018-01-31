@@ -22,7 +22,7 @@ export class ProgressComponent implements OnInit {
     radioValue = '2';
     private progressId;
     private officeId;
-    private progress: Progress;
+    progress: Progress;
     pdfSrc = '';
     page = 1;
     dds = {
