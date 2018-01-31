@@ -4,7 +4,16 @@
       <c-tree #tree [data]="data" (onCheckChanged)="onCheckboxChanged($event)"></c-tree>
   </nz-card>
   <div style="margin:5px 5px;text-align: center;">
+    <nz-dropdown [nzTrigger]="'click'" *ngIf="menu&&menu.length>0">
+      <a href class="ant-dropdown-link" nz-dropdown>
+        快捷选择 <i class="anticon anticon-down"></i>
+      </a>
+      <ul nz-menu>
+        <li nz-menu-item *ngFor="let option of menu" (click)="selectmenu(option)">{{option.label}}</li>
+      </ul>
+    </nz-dropdown>
+    <button style="margin:0px 5px" *ngIf="showall"nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="selectall()">全公司</button>
     <button style="margin:0px 5px" nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="approve()">确认</button>
     <button style="margin:0px 5px" nz-button [nzType]="'default'" [nzSize]="'large'" (click)="close()">关闭</button>
-  </div>
+</div>
 </div>

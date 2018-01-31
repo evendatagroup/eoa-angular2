@@ -18,27 +18,6 @@
 		    </nz-radio-group>
         </nz-card>
     </div>
-    <div nz-col [nzXs]="24" [nzSm]="8" style="width: 320px;" *ngIf="progress.progressRole==5">
-        <nz-card>
-        	<div nz-form-item class="d-flex">
-	        	<div nz-form-label><label for="status">意见</label></div>
-	        	<div nz-form-control class="flex-1">
-	        		<nz-input [(ngModel)]="more" [nzType]="'textarea'" [nzRows]="'8'"></nz-input>
-	        	</div>
-	        </div>
-	        <nz-radio-group [(ngModel)]="radioValue" style="margin-left: 0; margin-top: 0;">
-		      <label nz-radio [nzValue]="'4'">
-		        <span>存档</span>
-		      </label>
-          <label nz-radio [nzValue]="'5'">
-		        <span>打印</span>
-		      </label>
-          <label nz-radio [nzValue]="'6'">
-		        <span>发布</span>
-		      </label>
-		    </nz-radio-group>
-        </nz-card>
-    </div>
     <div nz-col [nzXs]="24" [nzSm]="10">
         <nz-card style="width: 960px; height: 256px; margin-top: 0; overflow-y: scroll;" id="pdfDiv">
         </nz-card>

@@ -63,7 +63,7 @@
                               <ng-template #addOnAfter><i (click)="treeoc('launchs')" [ngClass]="treelist.launchs.show?'anticon anticon-down-circle-o':'anticon anticon-left-circle-o'"></i></ng-template>
                             </nz-input>
                             <input formControlName="launchs" type="hidden">
-                            <s-tree class="tree" *ngIf="treelist.launchs.show" [data]="nodes" (onClose)="closeTree({id:'launchs',name:'launchNames'})" (onApprove)="selectedTree({id:'launchs',name:'launchNames'})"></s-tree>
+                            <s-tree class="tree" *ngIf="treelist.launchs.show" [data]="nodes" [showall]="'true'" (onSelectAll)="selectall({id:'launchs',name:'launchNames'})" (onClose)="closeTree({id:'launchs',name:'launchNames'})" (onApprove)="selectedTree({id:'launchs',name:'launchNames'})"></s-tree>
                         </div>
                     </div>
 
@@ -95,7 +95,7 @@
                             </nz-input>
 
                             <input [formControlName]="control.controlInstance" type="hidden">
-                            <s-tree class="tree" *ngIf="treelist[control.controlInstance].show" [data]="nodes" (onClose)="closeTree({id:control.controlInstance,name:control.controlInstanceN})" (onApprove)="selectedTree({id:control.controlInstance,name:control.controlInstanceN})"></s-tree>
+                            <s-tree class="tree" *ngIf="treelist[control.controlInstance].show" [data]="nodes" [menu]="menu" (onSelectMenu)="selectmenu($event,{id:control.controlInstance,name:control.controlInstanceN})" (onClose)="closeTree({id:control.controlInstance,name:control.controlInstanceN})" (onApprove)="selectedTree({id:control.controlInstance,name:control.controlInstanceN})"></s-tree>
                         </div>
                     </div>
                     <div nz-form-item nz-row>
@@ -163,7 +163,7 @@
                               <ng-template #addOnAfter><i (click)="treeoc('approvals')" [ngClass]="treelist.approvals.show?'anticon anticon-down-circle-o':'anticon anticon-left-circle-o'"></i></ng-template>
                             </nz-input>
                             <input formControlName="approvals" type="hidden">
-                            <s-tree class="tree" *ngIf="treelist.approvals.show" [data]="nodes" (onClose)="closeTree({id:'approvals',name:'approvalNames'})" (onApprove)="selectedTree({id:'approvals',name:'approvalNames'})"></s-tree>
+                            <s-tree class="tree" *ngIf="treelist.approvals.show" [data]="nodes" [menu]="menu" (onSelectMenu)="selectmenu($event,{id:'approvals',name:'approvalNames'})" (onClose)="closeTree({id:'approvals',name:'approvalNames'})" (onApprove)="selectedTree({id:'approvals',name:'approvalNames'})"></s-tree>
                         </div>
                     </div>
                 </div>
@@ -178,7 +178,7 @@
                               <ng-template #addOnAfter><i (click)="treeoc('exes')" [ngClass]="treelist.exes.show?'anticon anticon-down-circle-o':'anticon anticon-left-circle-o'"></i></ng-template>
                             </nz-input>
                             <input formControlName="exes" type="hidden">
-                            <s-tree class="tree" *ngIf="treelist.exes.show" [data]="nodes" (onClose)="closeTree({id:'exes',name:'exeNames'})" (onApprove)="selectedTree({id:'exes',name:'exeNames'})"></s-tree>
+                            <s-tree class="tree" *ngIf="treelist.exes.show" [data]="nodes" [menu]="menu" (onSelectMenu)="selectmenu($event,{id:'exes',name:'exeNames'})" (onClose)="closeTree({id:'exes',name:'exeNames'})" (onApprove)="selectedTree({id:'exes',name:'exeNames'})"></s-tree>
                         </div>
                     </div>
 
@@ -187,11 +187,23 @@
                         <label nz-form-item-required>发布至</label>
                       </div>
                       <div nz-form-control nz-col [nzSpan]="14">
-                        <nz-select formControlName="flowType" [nzSize]="'large'" [nzPlaceHolder]="'请选择需要发布到哪个专题'">
+                        <nz-select formControlName="flowType" (nzOpenChange)="selectFlowType($event)" [nzSize]="'large'" [nzPlaceHolder]="'请选择需要发布到哪个专题'">
                           <nz-option *ngFor="let item of flowType" [nzLabel]="item.label" [nzValue]="item.value"></nz-option>
 
                         </nz-select>
                       </div>
+                    </div>
+                    <div nz-form-item nz-row *ngIf="showread">
+                        <div nz-col [nzSpan]="6" nz-form-label>
+                            <label nz-form-item-required>阅读权限</label>
+                        </div>
+                        <div nz-col [nzSpan]="14" nz-form-control>
+                            <nz-input formControlName="readerNames" [nzReadonly]="true" [nzPlaceHolder]="'选择授权范围(右侧图标打开花名册选择，不可手填)'" [nzSize]="'large'">
+                              <ng-template #addOnAfter><i (click)="treeoc('readers')" [ngClass]="treelist.readers.show?'anticon anticon-down-circle-o':'anticon anticon-left-circle-o'"></i></ng-template>
+                            </nz-input>
+                            <input formControlName="readers" type="hidden">
+                            <s-tree class="tree" *ngIf="treelist.readers.show" [data]="nodes" [menu]="readmenu" (onSelectMenu)="selectmenu($event,{id:'readers',name:'readerNames'})" (onClose)="closeTree({id:'readers',name:'readerNames'})" (onApprove)="selectedTree({id:'readers',name:'readerNames'})"></s-tree>
+                        </div>
                     </div>
                 </div>
             </div>

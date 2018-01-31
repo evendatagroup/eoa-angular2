@@ -17,6 +17,12 @@ export class SearchTreeComponent implements OnInit {
     //输入数据
     @Input() data: Array<TreeData>;
 
+    //快捷菜单
+    @Input() menu: any = [];
+
+    //快捷菜单
+    @Input() showall: boolean = false;
+
     //单击事件
     @Output()
     onClick = new EventEmitter();
@@ -32,6 +38,14 @@ export class SearchTreeComponent implements OnInit {
     //确认事件
     @Output()
     onClose = new EventEmitter();
+
+    //快捷菜单事件
+    @Output()
+    onSelectMenu = new EventEmitter();
+
+    //全选事件
+    @Output()
+    onSelectAll = new EventEmitter();
 
     //所有数据
     private allData: Array<TreeData>;
@@ -89,6 +103,20 @@ export class SearchTreeComponent implements OnInit {
      */
     close() {
         this.onClose.emit();
+    }
+
+    /**
+     * 快捷键选择
+     */
+    selectmenu(option) {
+        this.onSelectMenu.emit(option);
+    }
+
+    /**
+     * 全选键选择
+     */
+    selectall() {
+        this.onSelectAll.emit();
     }
 
 

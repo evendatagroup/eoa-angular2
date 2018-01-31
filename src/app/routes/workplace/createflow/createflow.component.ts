@@ -27,11 +27,21 @@ export class CreateflowComponent {
     path = { id: '', name: '' };
     // tree
     nodes: Array<TreeData> = []
+    menu = [
+      {label:'全公司',value:'0'},
+      {label:'发起人',value:'1'},
+      {label:'发起人部门全员',value:'2'},
+    ]
+    readmenu = [
+      {label:'全公司',value:'0'},
+    ]
+    showread = false;
     search = '';
     treelist:any = {
       launchs:{show:false},
       approvals:{show:false},
-      exes:{show:false}
+      exes:{show:false},
+      readers:{show:false}
     }
     flowType = [
       {label:'公司新闻动态',value:11},
@@ -68,6 +78,8 @@ export class CreateflowComponent {
             approvalNames: [null,],
             exes: [null, [Validators.required]],
             exeNames: [null,],
+            readers: [null, [Validators.required]],
+            readerNames: [null,],
             flowType: [null, [Validators.required]]
         });
     }
@@ -200,6 +212,30 @@ export class CreateflowComponent {
         return this.validateForm.controls[name];
     }
 
+    selectFlowType(e) {
+      if(!e && !!this.getFormControl("flowType").value) {
+        this.showread = true;
+        let flowType = this.getFormControl("flowType").value;
+        if(flowType>20 && flowType<30){
+          //部门
+          this.readmenu = [
+            {label:'发起人',value:'1'},
+            {label:'发起人部门全员',value:'2'},
+          ]
+          this.getFormControl("readers").setValue('2');
+          this.getFormControl("readerNames").setValue('发起人部门全员');
+        }else {
+          this.readmenu = [
+            {label:'全公司',value:'0'},
+            {label:'发起人',value:'1'},
+            {label:'发起人部门全员',value:'2'},
+          ]
+          this.getFormControl("readers").setValue('0');
+          this.getFormControl("readerNames").setValue('全公司');
+        }
+      }
+    }
+
     // cleanUserAddress(path) {
     //     this.checkedList = [];
     //     this.getFormControl(path.id).setValue('');
@@ -227,6 +263,18 @@ export class CreateflowComponent {
       this.getFormControl(path.id).setValue(ids.join(','));
       this.getFormControl(path.name).setValue(names.join(','));
       this.treelist[path.id].show = false;
+      this.search = ''
+    }
+    selectmenu(menu,path) {
+      this.getFormControl(path.id).setValue(menu.value);
+      this.getFormControl(path.name).setValue(menu.label);
+      this.treelist[path.id].show = false
+      this.search = ''
+    }
+    selectall(path) {
+      this.getFormControl(path.id).setValue('0');
+      this.getFormControl(path.name).setValue('全公司');
+      this.treelist[path.id].show = false
       this.search = ''
     }
     find(arr, fname) {
