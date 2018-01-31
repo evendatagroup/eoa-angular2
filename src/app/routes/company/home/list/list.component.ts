@@ -44,10 +44,15 @@ export class ListComponent implements OnInit {
     }
 
     showPdf(l) {
-        console.log(l)
-        this.getPdf(l);
-
-        
+        console.log(l.url.substring(l.url.length - 3, l.url.length))
+        if(l.url.substring(l.url.length - 3, l.url.length) == 'pdf'){
+            window.open(environment.FILE_URL + l.url, "", "width=600, height=600");
+            if(l.readStatus == 0){
+                this.editRead(l);
+            }
+        }else{
+            this.getPdf(l);   
+        }
     }
 
     getPdf(l) {
@@ -99,11 +104,15 @@ export class ListComponent implements OnInit {
         var win = window.open(environment.FILE_URL + l.url, "", "width=600, height=600");
         pdfMake.createPdf(data).open({}, win);
         if(l.readStatus == 0){
-            this.userService.editRead({ inforId: l.inforId, userVid: this.userVid, readStatus: 1 })
-                .then(res => {
-                    this.getList()
-                })
+            this.editRead(l);
         }
+    }
+
+    editRead(l) {
+        this.userService.editRead({ inforId: l.inforId, userVid: this.userVid, readStatus: 1 })
+            .then(res => {
+                this.getList()
+            })
     }
 
     showModal(inforId) {
