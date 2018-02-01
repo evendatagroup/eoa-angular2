@@ -6,7 +6,9 @@
                 <div class="left height1" *ngIf="imglist&&imglist.length>0">
                     <nz-carousel nzAutoPlay class="height1" style="overflow: hidden;">
                       <div style="width: 262px; height: 210px; line-height: 210px;" nz-carousel-content *ngFor="let item of imglist">
-                        <img width="100%" height="100%" src="{{item.imgs}}">
+                        <a (click)="showPdf(item)">
+                            <img width="100%" height="100%" src="{{item.imgs}}">
+                        </a>
                       </div>
                     </nz-carousel>
                 </div>

@@ -236,7 +236,6 @@ export class HeaderTodoComponent implements OnInit {
                 this.editRead(res);
             }
         }else if(res.title == '待办'){
-            this.randNum = Math.random();
             // console.log(res)
             this.modal.title = this.role[res.item.progress.progressRole]
             this.modal.progress = res.item.progress
