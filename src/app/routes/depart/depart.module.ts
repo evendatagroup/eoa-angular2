@@ -12,6 +12,7 @@ import { ShowComponent } from './show/show.component';
 import { ListComponent } from './home/list/list.component';
 
 import { ListService } from '../../service/list.service';
+import { OtherComponent } from './other/other.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,7 @@ import { ListService } from '../../service/list.service';
     DepartRoutingModule,
     SharedModule
   ],
-  declarations: [HomeComponent, NewsComponent, NotifyComponent, DocComponent, SysComponent, ShowComponent, ListComponent],
+  declarations: [HomeComponent, NewsComponent, NotifyComponent, DocComponent, SysComponent, ShowComponent, ListComponent, OtherComponent],
   providers: [ListService]
 })
 export class DepartModule { }

@@ -367,7 +367,7 @@ export class CreateflowComponent {
 
         const pdfDocGenerator = pdfMake.createPdf(dds);
         pdfDocGenerator.getDataUrl((dataUrl) => {
-            const targetElement = document.querySelector('#pdfDiv2');
+            const targetElement = document.querySelector('#pdfDiv3');
             const iframe = document.createElement('iframe');
             iframe.src = dataUrl;
             iframe.width = '100%';

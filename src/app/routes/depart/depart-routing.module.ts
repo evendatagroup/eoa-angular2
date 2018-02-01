@@ -7,6 +7,7 @@ import { NotifyComponent } from './notify/notify.component';
 import { DocComponent } from './doc/doc.component';
 import { SysComponent } from './sys/sys.component';
 import { ShowComponent } from './show/show.component';
+import { OtherComponent } from './other/other.component';
 
 const routes: Routes = [
 	{ path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -15,7 +16,8 @@ const routes: Routes = [
 	{ path: 'notify', component: NotifyComponent },
 	{ path: 'doc', component: DocComponent },
 	{ path: 'sys', component: SysComponent },
-	{ path: 'show', component: ShowComponent }
+	{ path: 'show', component: ShowComponent },
+	{ path: 'other', component: OtherComponent }
 ];
 
 @NgModule({
