@@ -53,7 +53,6 @@ export class ReviewProgressComponent implements OnInit {
                     data.templetJson = data.templetJson.replace(`$#${key}#$`, data.formjson[key])
                 }
                 let pdfjson = JSON.parse(data.templetJson)
-                console.log(pdfjson)
                 this.getProgressUser(pdfjson)
             });
     }

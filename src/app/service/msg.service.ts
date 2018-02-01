@@ -62,4 +62,13 @@ export class MsgService {
                 })
         })
     }
+
+    clearMsgRead(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.http.post('oaRead/updateReadStatus')
+                .subscribe((res: any) => {
+                    resolve(res);
+                })
+        })
+    }
 }

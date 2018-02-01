@@ -89,6 +89,7 @@ export class ReviewComponent implements OnInit {
     }
 
     showMsg(i) {
+        this.randNum = Math.random();
         this.modal.title = '审核'
         this.modal.progress = i
         this.modal.status = true

@@ -73,27 +73,3 @@
     </div>
   </ng-template>
 </nz-modal>
-<!-- <nz-modal [nzWrapClassName]="'vertical-center-modal'" [nzVisible]="isVisible" [nzTitle]="'查阅情况'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
-  <ng-template #modalContent>
-    <nz-table #nzTable [nzDataSource]="readerList">
-      <thead nz-thead>
-        <tr>
-          <th nz-th><span>部门</span></th>
-          <th nz-th><span>已读人</span></th>
-          <th nz-th><span>未读人</span></th>
-          <th nz-th><span>占比</span></th>
-        </tr>
-      </thead>
-      <tbody nz-tbody>
-        <tr nz-tbody-tr *ngFor="let data of readerList">
-          <td nz-td>{{data.depart}}</td>
-          <td nz-td>{{data.readed}}</td>
-          <td nz-td>{{data.noread}}</td>
-          <td nz-td>
-            <nz-progress [ngModel]="data.rate" [nzStrokeWidth]="5"></nz-progress>
-          </td>
-        </tr>
-      </tbody>
-    </nz-table>
-  </ng-template>
-</nz-modal> -->

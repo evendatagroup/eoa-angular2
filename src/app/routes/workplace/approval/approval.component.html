@@ -61,7 +61,7 @@
 
 <nz-modal [nzFooter]="modalFooter" [nzClosable]="false" [nzWidth]="'1024'" [nzWrapClassName]="'vertical-center-modal'" [nzContent]="modalContent2" [nzVisible]="modal.status" [nzTitle]="modal.title">
   <ng-template #modalContent2>
-    <app-progress [progress]="modal.progress"></app-progress>
+    <app-progress [progress]="modal.progress" [id]="'pdfDiv'"></app-progress>
   </ng-template>
   <ng-template #modalFooter>
     <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="handleClose($event)">

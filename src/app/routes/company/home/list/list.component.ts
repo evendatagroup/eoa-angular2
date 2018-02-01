@@ -22,7 +22,6 @@ export class ListComponent implements OnInit {
     progressUser: ProgressUser[];
     role = ["", "发起", "审核", "会签", "批准", "执行"];
     // progress: Progress;
-    affairId = 123;
     userVid = JSON.parse(window.localStorage._token).userVid
     @Input() parames: any;
 
@@ -56,6 +55,7 @@ export class ListComponent implements OnInit {
     }
 
     getPdf(l) {
+        console.log(l)
         this.progressService.getAffairById(l.affairId)
             .then(data => {
                 for (let key in data.formjson) {

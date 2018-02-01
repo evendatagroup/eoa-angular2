@@ -61,20 +61,14 @@
 
 <nz-modal [nzFooter]="modalFooter" [nzClosable]="false" [nzWidth]="'1024'" [nzWrapClassName]="'vertical-center-modal'" [nzContent]="modalContent2" [nzVisible]="modal.status" [nzTitle]="modal.title">
   <ng-template #modalContent2>
-    <app-progress [progress]="modal.progress"></app-progress>
+    <app-progress [progress]="modal.progress" [id]="'pdfDiv'"></app-progress>
   </ng-template>
   <ng-template #modalFooter>
     <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="handleClose($event)">
       返 回
     </button>
-    <!-- <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="handleSubmit($event)">
-      存档
-    </button>
     <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="handleSubmit($event)">
-      打印
-    </button> -->
-    <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="handleSubmit($event)">
-      发布
+      发 布
     </button>
   </ng-template>
 </nz-modal>
