@@ -13,8 +13,12 @@
             <li nz-menu-item (click)="msgSrv.success('logout')">{{ 'logout' | translate }}</li>
         </ul>
     </nz-dropdown> -->
-    <div class="item" (click)="toggleCollapsedSideabar()" style="float:right;margin:10px;">
-        <i class="anticon anticon-menu-{{settings.layout.collapsed ? 'unfold' : 'fold'}}"></i>
+    <div class="item" (click)="toggleCollapsedSideabar()" style="width: 100%; height: 35px; line-height: 35px; text-align: center; cursor: pointer; border-bottom: 2px solid #398BFB;">
+        <nz-tooltip [nzTitle]="settings.layout.collapsed ? '展开菜单' : '折叠菜单'" [nzMouseEnterDelay]="1" [nzTrigger]="'hover'">
+          <span nz-tooltip>
+            <i class="anticon anticon-menu-{{settings.layout.collapsed ? 'unfold' : 'fold'}}"></i>
+          </span>
+        </nz-tooltip>
     </div>
     <sidebar-nav class="d-block py-lg"></sidebar-nav>
 </div>

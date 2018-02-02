@@ -20,13 +20,18 @@ import { ProgressComponent } from '../../../../routes/workplace/launch/progress/
 @Component({
     selector: 'header-todo',
     template: `
-    <notice-icon
-        [data]="data"
-        [count]="count"
-        [loading]="loading"
-        (select)="select($event)"
-        (clear)="clear($event)"
-        (popupVisibleChange)="loadData($event)"></notice-icon>
+    <nz-tooltip [nzTitle]="'新事务通知及待办事项提醒'" [nzMouseEnterDelay]="1" [nzTrigger]="'hover'">
+      <span nz-tooltip>
+          <notice-icon
+            [data]="data"
+            [count]="count"
+            [loading]="loading"
+            (select)="select($event)"
+            (clear)="clear($event)"
+            (popupVisibleChange)="loadData($event)"></notice-icon>
+      </span>
+    </nz-tooltip>
+    
     <nz-modal [nzFooter]="modalFooter4" [nzClosable]="false" [nzWidth]="'1024'" [nzWrapClassName]="'vertical-center-modal'" [nzContent]="modalContent4" [nzVisible]="modal.status" [nzTitle]="modal.title">
       <ng-template #modalContent4>
         <app-progress [progress]="modal.progress" (onSuccessF)="onSuccess($event)" [id]="'pdfDiv2'"></app-progress>
@@ -160,9 +165,10 @@ export class HeaderTodoComponent implements OnInit {
         }else{
             this.data[1].list = [];
         }
-        // console.log(data)
-        this.loading = true;
-        this.parseGroup(ArrayObservable.of(data).pipe(delay(1000)));
+        // console.log(data.length)
+        if(data.length > 0){
+            this.parseGroup(ArrayObservable.of(data).pipe(delay(1000)));
+        }
     }
 
     // 获取通知列表

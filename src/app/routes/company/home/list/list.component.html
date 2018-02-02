@@ -1,7 +1,14 @@
 <ul>
 	<li class="list" *ngFor="let l of list">
 		<div class="list_left">
-			<a (click)="showPdf(l)"><ellipsis lines="1">{{l.value}}<span style="color:red" *ngIf="l.readStatus==0"> new</span></ellipsis></a>
+			<a (click)="showPdf(l)">
+				<ellipsis lines="1">
+					<nz-tooltip [nzTitle]="l.value" [nzMouseEnterDelay]="1" [nzTrigger]="'hover'">
+				      <span nz-tooltip>{{l.value}}</span>
+				    </nz-tooltip>
+					<span style="color:red" *ngIf="l.readStatus==0"> new</span>
+				</ellipsis>
+			</a>
 		</div>
 		<div class="list_right">
 		  <span>{{l.createTimestamp*1000 | date:"yyyy-MM-dd"}}</span>
@@ -11,6 +18,10 @@
 		</div>
 	</li>
 </ul>
+
+<div *ngIf="isShowPdf">
+	<app-dialog-review-progress [modal]="modal"></app-dialog-review-progress>
+</div>
 
 <nz-modal class="ant-modal-content" [nzWrapClassName]="'vertical-center-modal'" [nzVisible]="isVisible" [nzTitle]="modalTitle" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
   <ng-template #modalContent style="margin-top: 100px;">

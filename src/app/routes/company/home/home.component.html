@@ -45,3 +45,7 @@
         </nz-card>
     </div>
 </div>
+
+<div *ngIf="isShowPdf">
+    <app-dialog-review-progress [modal]="modal"></app-dialog-review-progress>
+</div>

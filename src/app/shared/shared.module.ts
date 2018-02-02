@@ -22,7 +22,9 @@ import { ReviewProgressComponent } from '../routes/workplace/launch/review-progr
 import { TreeComponent } from '../routes/component/tree/tree.component';
 import { treeNodeComponent } from '../routes/component/tree/tree-node.component';
 import { SearchTreeComponent } from '../routes/component/tree/search-tree.component';
-const COMPONENTS = [ProgressComponent,ReviewProgressComponent,TreeComponent,treeNodeComponent,SearchTreeComponent];
+import { DialogProgressComponent } from '../layout/default/dialog-progress/dialog-progress.component';
+import { DialogReviewProgressComponent } from '../layout/default/dialog-review-progress/dialog-review-progress.component';
+const COMPONENTS = [ProgressComponent,ReviewProgressComponent,TreeComponent,treeNodeComponent,SearchTreeComponent,DialogProgressComponent,DialogReviewProgressComponent];
 const DIRECTIVES = [];
 // endregion
 

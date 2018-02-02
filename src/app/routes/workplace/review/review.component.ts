@@ -70,7 +70,7 @@ export class ReviewComponent implements OnInit {
             .getListByPage(parames)
             .then(res => {
                 this.data = res.data;
-                // console.log(res.data)
+                console.log(res.data)
                 this.total = parseInt(res.msg)
             });
     }

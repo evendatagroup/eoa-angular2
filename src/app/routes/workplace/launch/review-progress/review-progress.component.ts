@@ -31,7 +31,10 @@ export class ReviewProgressComponent implements OnInit {
     }
 
     ngOnInit() {
+        
     }
+
+
 
     ngOnChanges() {
         const targetElement = document.querySelector('#pdfDiv1');
@@ -49,6 +52,7 @@ export class ReviewProgressComponent implements OnInit {
     getPdf() {
         this.progressService.getAffairById(this.progress.affairId)
             .then(data => {
+                console.log(data)
                 for (let key in data.formjson) {
                     data.templetJson = data.templetJson.replace(`$#${key}#$`, data.formjson[key])
                 }
@@ -95,12 +99,16 @@ export class ReviewProgressComponent implements OnInit {
         pdfDocGenerator.getDataUrl((dataUrl) => {
             const targetElement = document.querySelector('#pdfDiv1');
             const iframe = document.createElement('iframe');
-            iframe.src = dataUrl;
+            iframe.src = "http://192.168.0.10/eoa/fileAction/download?id=Fc26419e0f3124b748d694e797c9b68a3";
             iframe.width = '100%';
             iframe.height = '100%';
             iframe.style.marginTop = "-24px";
             targetElement.innerHTML = '';
             targetElement.appendChild(iframe);
         });
+    }
+
+    showAttach() {
+
     }
 }

@@ -134,6 +134,7 @@ export class LaunchFormComponent {
             this._message.error("操作错误")
             break;
         }
+        console.log(this.validateForm)
       }
     }
 
