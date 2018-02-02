@@ -204,7 +204,7 @@ const MOCKMODULE = !environment.production || environment.chore === true ?
             login_url: `/passport/login`,
             store_key: '_token',
             token_send_key: 'token',
-            token_send_place: 'url',
+            token_send_place: 'header',
 
         }),
         // acl

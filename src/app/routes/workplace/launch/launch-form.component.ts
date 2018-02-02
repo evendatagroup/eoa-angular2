@@ -122,7 +122,7 @@ export class LaunchFormComponent {
           case 'done':
             this._message.success("上传成功")
             this.imglist = [e.file];
-            this.getFormControl(key).setValue(environment.FILE_URL+e.file.response.data)
+            this.getFormControl(key).setValue(e.file.response.data)
             break;
           case 'error':
             this._message.error("上传失败")
