@@ -67,7 +67,7 @@
 </nz-card>
 
 <div *ngIf="isShowPdf">
-  <app-dialog-review-progress [modal]="modal"></app-dialog-review-progress>
+  <app-dialog-review-progress [modal]="modal" [id]="'id14'"></app-dialog-review-progress>
 </div>
 
 <nz-modal class="ant-modal-content" [nzWrapClassName]="'vertical-center-modal'" [nzVisible]="isVisible" [nzTitle]="'已读人员'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">

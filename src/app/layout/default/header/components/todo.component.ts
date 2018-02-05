@@ -33,7 +33,7 @@ import { ProgressComponent } from '../../../../routes/workplace/launch/progress/
     </nz-tooltip>
 
     <div *ngIf="isShowPdf">
-      <app-dialog-review-progress [modal]="modal2"></app-dialog-review-progress>
+      <app-dialog-review-progress [modal]="modal2" [id]="'#id6'"></app-dialog-review-progress>
     </div>
     
     <nz-modal [nzFooter]="modalFooter4" [nzClosable]="false" [nzWidth]="'1024'" [nzWrapClassName]="'vertical-center-modal'" [nzContent]="modalContent4" [nzVisible]="modal.status" [nzTitle]="modal.title">

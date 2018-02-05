@@ -6,7 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
 @Component({
   selector: 'app-dialog-review-progress',
   templateUrl: './dialog-review-progress.component.html',
-  inputs: ['modal'],
+  inputs: ['modal', 'id'],
   styles: [`
   	.Absolute-Center {  
 	  margin: auto;  
@@ -18,6 +18,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class DialogReviewProgressComponent implements OnInit {
 
     private modal: any;
+    private id: any;
 	attachs: any;
 
     constructor() { }
@@ -40,26 +41,34 @@ export class DialogReviewProgressComponent implements OnInit {
     }
 
     getData() {
+        console.log(2);
         if(this.modal.infor != ''){
+            console.log(3);
             this.attachs = this.modal.infor.url.split(',')
-            this.show(this.attachs[0])
+            console.log(4);
+            setTimeout(this.show(this.attachs[0]), 1000)
         }
     }
 
     ngOnChanges() {
         // console.log(this.modal)
+        console.log(1);
         this.getData();
     }
 
     show(url) {
     	// console.log(url)
-    	const targetElement = document.querySelector('#show1');
+        let i = '#' + this.id
+    	const targetElement = document.querySelector(i);
     	// console.log(targetElement)
         const iframe = document.createElement('iframe');
         iframe.src = url;
         iframe.width = '100%';
         iframe.height = '100%';
+        console.log(5);
+        console.log(targetElement);
         targetElement.innerHTML = '';
+        console.log(6);
         targetElement.appendChild(iframe);
     }
 
