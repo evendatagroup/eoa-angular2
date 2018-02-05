@@ -105,7 +105,8 @@ export class ProgressComponent implements OnInit {
         // iframe.src = 'https://www.baidu.com/?qq-pf-to=pcqq.c2c';
         iframe.width = '100%';
         iframe.height = '100%';
-        // targetElement.innerHTML = '';
+        iframe.tabIndex = 100
+        targetElement.innerHTML = '';
         targetElement.appendChild(iframe);
     }
 
@@ -136,6 +137,8 @@ export class ProgressComponent implements OnInit {
                     this.msg.success('提交失败！');
                 }
             });
+        const targetElement = document.querySelector('#progress1uuu');
+        targetElement.innerHTML = "";
     }
 
     // 修改办事大厅的未办事项数

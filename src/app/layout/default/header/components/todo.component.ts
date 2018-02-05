@@ -31,6 +31,10 @@ import { ProgressComponent } from '../../../../routes/workplace/launch/progress/
             (popupVisibleChange)="loadData($event)"></notice-icon>
       </span>
     </nz-tooltip>
+
+    <div *ngIf="isShowPdf">
+      <app-dialog-review-progress [modal]="modal2"></app-dialog-review-progress>
+    </div>
     
     <nz-modal [nzFooter]="modalFooter4" [nzClosable]="false" [nzWidth]="'1024'" [nzWrapClassName]="'vertical-center-modal'" [nzContent]="modalContent4" [nzVisible]="modal.status" [nzTitle]="modal.title">
       <ng-template #modalContent4>
@@ -69,6 +73,12 @@ export class HeaderTodoComponent implements OnInit {
     private progressComponent: ProgressComponent;
 
     role = ["", "发起", "审核", "会签", "批准", "执行"];
+    isShowPdf = false;
+    modal2 = {
+        title: '',
+        status: false,
+        infor: ''
+    }
 
     constructor(private msg: NzMessageService,
                 private settings: SettingsService,
@@ -131,6 +141,7 @@ export class HeaderTodoComponent implements OnInit {
         // console.log(this.msgList)
         // console.log(this.data)
         if(this.msgList.length > 0){
+            // console.log(this.msgList)
             for (let msg in this.msgList) {
                 let m = this.msgList[msg];
                 datetime = this.datePipe.transform(new Date(m.createTimestamp * 1000), "yyyy-MM-dd");
@@ -140,6 +151,7 @@ export class HeaderTodoComponent implements OnInit {
                     title: m.inforTitle,
                     datetime: datetime,
                     url: m.url,
+                    imgs: m.imgs,
                     readStatus: m.readStatus,
                     type: '通知'
                 }
@@ -237,7 +249,15 @@ export class HeaderTodoComponent implements OnInit {
     select(res: any) {
         // console.log(res)
         if(res.title == '通知'){
-            window.open(environment.FILE_URL + res.item.url, "", "width=600, height=600");
+            console.log(res)
+            this.isShowPdf = true;
+            this.modal2.infor = res.item;
+            this.modal2.status = true;
+            this.modal2.title = res.title;
+            // if(l.readStatus == 0){
+            //   this.editRead(l);
+            // }
+            // window.open(environment.FILE_URL + res.item.url, "", "width=600, height=600");
             if(res.item.readStatus == 0){
                 this.editRead(res);
             }

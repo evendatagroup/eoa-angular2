@@ -1,4 +1,4 @@
-<nz-modal [nzFooter]="modalFooterDialogP" [nzClosable]="false" [nzWidth]="1024" [nzWrapClassName]="'vertical-center-modal'" [nzContent]="modalContentDialogP" [nzVisible]="modal.status" [nzTitle]="modal.infor.inforTitle">
+<nz-modal [nzFooter]="modalFooterDialogP" [nzClosable]="false" [nzWidth]="1024" [nzWrapClassName]="'vertical-center-modal'" [nzContent]="modalContentDialogP" [nzVisible]="modal.status" [nzTitle]="modal.title">
   <ng-template #modalContentDialogP>
   	<div nz-row [nzGutter]="16">
 	    <div nz-col [nzXs]="24" [nzSm]="8" style="width: 320px;">
@@ -27,8 +27,11 @@
 	</div>
   </ng-template>
   <ng-template #modalFooterDialogP>
-    <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="handleClose($event)">
-      关 闭
+    <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="handleClose($event)">
+      返 回
+    </button>
+    <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="handleSubmit($event)">
+      提 交
     </button>
   </ng-template>
 </nz-modal>

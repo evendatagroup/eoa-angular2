@@ -23,24 +23,24 @@ export class DialogReviewProgressComponent implements OnInit {
     constructor() { }
 
     ngOnInit() {
-    	// console.log(this.modal)
+    	console.log(this.modal)
     	if(this.modal.infor != ''){
     		this.attachs = this.modal.infor.imgs.split(',');
     		let urls = this.modal.infor.url.split(',');
     		for(let u in urls){
     			this.attachs.push(urls[u])
     		}
+    		this.attachs = this.attachs.filter(item => item != "");
     	}
     	// console.log(this.attachs)
     }
 
     show(url) {
-    	console.log(url)
+    	// console.log(url)
     	const targetElement = document.querySelector('#show1');
     	// console.log(targetElement)
         const iframe = document.createElement('iframe');
-        // iframe.src = url;
-        iframe.src = 'https://www.baidu.com/?qq-pf-to=pcqq.c2c';
+        iframe.src = url;
         iframe.width = '100%';
         iframe.height = '100%';
         targetElement.innerHTML = '';
@@ -49,8 +49,9 @@ export class DialogReviewProgressComponent implements OnInit {
 
     handleClose() {
     	// console.log(this.modal)
+    	const targetElement = document.querySelector('#show1');
+    	targetElement.innerHTML = '';
     	this.modal.status = false;
-    	this.show('');
     }
 
 }
