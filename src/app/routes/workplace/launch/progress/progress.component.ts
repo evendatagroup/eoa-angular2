@@ -20,6 +20,7 @@ import { Progress } from '../../../../class/progress.class';
 export class ProgressComponent implements OnInit {
     data = [];
     attachs: any;
+    divId = '';
     more = '同意';
     radioValue = '2';
     private progressId;
@@ -98,7 +99,8 @@ export class ProgressComponent implements OnInit {
 
     show(url) {
         console.log('url',url)
-        const targetElement = document.querySelector('#progress1uuu');
+        let i = '#' + this.id
+        const targetElement = document.querySelector(i);
         console.log(targetElement)
         const iframe = document.createElement('iframe');
         iframe.src = url;
