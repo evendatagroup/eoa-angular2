@@ -139,8 +139,6 @@ export class ProgressComponent implements OnInit {
                     this.msg.success('提交失败！');
                 }
             });
-        const targetElement = document.querySelector('#progress1uuu');
-        targetElement.innerHTML = "";
     }
 
     // 修改办事大厅的未办事项数

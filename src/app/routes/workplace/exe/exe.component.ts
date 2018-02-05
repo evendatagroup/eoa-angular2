@@ -70,6 +70,7 @@ export class ExeComponent implements OnInit {
             .getListByPage(parames)
             .then(res => {
                 this.data = res.data;
+                // console.log(this.data)
                 this.total = parseInt(res.msg)
             });
     }
@@ -103,12 +104,14 @@ export class ExeComponent implements OnInit {
 
     handleClose(e) {
         console.log('点击了关闭')
+        this.progressComponent.show('')
         this.modal.status = false;
     }
 
     handleSubmit(e) {
         console.log('点击了提交')
         this.progressComponent.submit();
+        this.progressComponent.show('');
         this.modal.status = false;
     }
 
