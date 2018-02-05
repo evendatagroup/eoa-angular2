@@ -96,7 +96,7 @@ export class ExeComponent implements OnInit {
 
     showMsg2(i) {
         this.randNum = Math.random();
-        this.modal2.title = '查阅进度'
+        this.modal2.title = '查阅进度';
         this.modal2.progress = i
         this.modal2.status = true
     }

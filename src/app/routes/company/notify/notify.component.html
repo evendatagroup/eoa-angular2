@@ -66,6 +66,10 @@
   </nz-table>
 </nz-card>
 
+<div *ngIf="isShowPdf">
+  <app-dialog-review-progress [modal]="modal"></app-dialog-review-progress>
+</div>
+
 <nz-modal class="ant-modal-content" [nzWrapClassName]="'vertical-center-modal'" [nzVisible]="isVisible" [nzTitle]="'已读人员'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
   <ng-template #modalContent style="margin-top: 100px;">
     <div *ngFor="let item of readerList">

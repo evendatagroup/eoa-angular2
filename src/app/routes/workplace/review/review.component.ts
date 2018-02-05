@@ -70,7 +70,7 @@ export class ReviewComponent implements OnInit {
             .getListByPage(parames)
             .then(res => {
                 this.data = res.data;
-                console.log(res.data)
+                // console.log(res.data)
                 this.total = parseInt(res.msg)
             });
     }
@@ -105,6 +105,7 @@ export class ReviewComponent implements OnInit {
     handleClose(e) {
         console.log('点击了关闭')
         this.modal.status = false;
+        // this.progressComponent.show('')
     }
 
     handleSubmit(e) {

@@ -24,7 +24,8 @@ import { treeNodeComponent } from '../routes/component/tree/tree-node.component'
 import { SearchTreeComponent } from '../routes/component/tree/search-tree.component';
 import { DialogProgressComponent } from '../layout/default/dialog-progress/dialog-progress.component';
 import { DialogReviewProgressComponent } from '../layout/default/dialog-review-progress/dialog-review-progress.component';
-const COMPONENTS = [ProgressComponent,ReviewProgressComponent,TreeComponent,treeNodeComponent,SearchTreeComponent,DialogProgressComponent,DialogReviewProgressComponent];
+import { DialogProgressReviewComponent } from '../layout/default/dialog-progress-review/dialog-progress-review.component';
+const COMPONENTS = [ProgressComponent,ReviewProgressComponent,TreeComponent,treeNodeComponent,SearchTreeComponent,DialogProgressComponent,DialogReviewProgressComponent,DialogProgressReviewComponent];
 const DIRECTIVES = [];
 // endregion
 
