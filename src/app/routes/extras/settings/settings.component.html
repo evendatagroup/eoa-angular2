@@ -21,7 +21,7 @@
                                 <label for="name" nz-form-item-required>name</label>
                             </div>
                             <div nz-form-control nz-col [nzHasFeedback]="'true'" [nzValidateStatus]="name">
-                                <nz-input formControlName="name" [nzId]="'name'"></nz-input>
+                                <nz-input formControlName="name"></nz-input>
                                 <div *ngIf="name.invalid && (name.dirty || name.touched)">
                                     <div nz-form-explain *ngIf="name.errors.required">required</div>
                                     <div nz-form-explain *ngIf="name.errors.pattern">must match pattern [-_a-zA-Z0-9]</div>
@@ -45,7 +45,7 @@
                                 <label for="bio">Bio</label>
                             </div>
                             <div nz-form-control nz-col>
-                                <nz-input formControlName="bio" [nzId]="'bio'" [nzType]="'textarea'" [nzRows]="'4'" [nzPlaceHolder]="'Tell us a little bit about yourself'"></nz-input>
+                                <nz-input formControlName="bio" [nzType]="'textarea'" [nzRows]="'4'" [nzPlaceHolder]="'Tell us a little bit about yourself'"></nz-input>
                                 <div nz-form-explain>You can <strong>@mention</strong> other users and organizations to link to them.</div>
                             </div>
                         </div>
@@ -54,7 +54,7 @@
                                 <label for="url">URL</label>
                             </div>
                             <div nz-form-control nz-col>
-                                <nz-input formControlName="url" [nzId]="'url'"></nz-input>
+                                <nz-input formControlName="url"></nz-input>
                             </div>
                         </div>
                         <div nz-form-item nz-row>
@@ -62,7 +62,7 @@
                                 <label for="company">Company</label>
                             </div>
                             <div nz-form-control nz-col>
-                                <nz-input formControlName="company" [nzId]="'company'"></nz-input>
+                                <nz-input formControlName="company" ></nz-input>
                                 <div nz-form-explain>You can <strong>@mention</strong> your company's GitHub organization to link it.</div>
                             </div>
                         </div>
@@ -71,7 +71,7 @@
                                 <label for="location">Location</label>
                             </div>
                             <div nz-form-control nz-col>
-                                <nz-input formControlName="location" [nzId]="'location'"></nz-input>
+                                <nz-input formControlName="location" ></nz-input>
                             </div>
                         </div>
                         <div nz-row>
@@ -97,7 +97,7 @@
                                 <label for="old_password" nz-form-item-required>Old password</label>
                             </div>
                             <div nz-form-control nz-col>
-                                <nz-input [(ngModel)]="pwd.old_password" name="old_password" [nzId]="'old_password'" [nzType]="'password'" required></nz-input>
+                                <nz-input [(ngModel)]="pwd.old_password" [nzType]="'password'" required></nz-input>
                             </div>
                         </div>
                         <div nz-form-item nz-row>
@@ -105,7 +105,7 @@
                                 <label for="new_password" nz-form-item-required>New password</label>
                             </div>
                             <div nz-form-control nz-col>
-                                <nz-input [(ngModel)]="pwd.new_password" name="new_password" [nzId]="'new_password'" [nzType]="'password'" required></nz-input>
+                                <nz-input [(ngModel)]="pwd.new_password" [nzType]="'password'" required></nz-input>
                             </div>
                         </div>
                         <div nz-form-item nz-row>
@@ -113,7 +113,7 @@
                                 <label for="confirm_new_password" nz-form-item-required>Confirm new password</label>
                             </div>
                             <div nz-form-control nz-col>
-                                <nz-input [(ngModel)]="pwd.confirm_new_password" name="confirm_new_password" [nzId]="'confirm_new_password'" [nzType]="'password'" required></nz-input>
+                                <nz-input [(ngModel)]="pwd.confirm_new_password" [nzType]="'password'" required></nz-input>
                             </div>
                         </div>
                         <div nz-row>

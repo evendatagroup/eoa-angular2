@@ -17,7 +17,7 @@
         <label nz-form-item-required>标题</label>
       </div>
       <div nz-form-control nz-col [nzSpan]="14" nzHasFeedback>
-        <nz-input [nzSize]="'large'" formControlName="affairTitle" [nzId]="'affairTitle'"></nz-input>
+        <nz-input [nzSize]="'large'" formControlName="affairTitle" ></nz-input>
         <div nz-form-explain *ngIf="getFormControl('affairTitle').dirty&&getFormControl('affairTitle').hasError('affairTitle')">The input is not valid E-mail!</div>
       </div>
     </div>
@@ -67,7 +67,7 @@
       </div>
       <div nz-form-control nz-col [nzSpan]="14">
         <div [ngSwitch]="item.questionType">
-          <nz-input *ngSwitchCase="'input'" [formControlName]="item.key" [nzSize]="'large'" [nzId]="item.key"></nz-input>
+          <nz-input *ngSwitchCase="'input'" [formControlName]="item.key" [nzSize]="'large'"></nz-input>
 
           <nz-select *ngSwitchCase="'select'" [formControlName]="item.key" [nzSize]="'large'">
             <nz-option *ngFor="let option of item.children" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>

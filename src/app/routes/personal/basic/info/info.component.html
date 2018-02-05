@@ -7,7 +7,7 @@
             </div>
             <div nz-form-control nz-col [nzSm]="18" nzHasFeedback [nzValidateStatus]="realName">
                 <!-- <nz-input formControlName="realName" nzPlaceHolder="" [nzId]="'realName'"></nz-input> -->
-                <nz-input formControlName="realName" [nzId]="'realName'"></nz-input>
+                <nz-input formControlName="realName" ></nz-input>
                 <ng-container *ngIf="realName.dirty || realName.touched">
                     <p nz-form-explain *ngIf="realName.errors?.required">请输入您的姓名！</p>
                     <p nz-form-explain *ngIf="realName.errors?.checked">Only input 'cipchk'</p>
@@ -32,7 +32,7 @@
                 <label for="EMail" nz-form-item-required>E-mail</label>
             </div>
             <div nz-form-control nz-col [nzSm]="18" nzHasFeedback [nzValidateStatus]="EMail">
-                <nz-input formControlName="EMail" [nzId]="'EMail'"></nz-input>
+                <nz-input formControlName="EMail" ></nz-input>
                 <div nz-form-explain *ngIf="(EMail.dirty || EMail.touched) && EMail.errors?.EMail">请输入有效的邮箱！</div>
             </div>
         </div>

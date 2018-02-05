@@ -93,8 +93,7 @@
                           <label for="name">用户姓名</label>
                       </div>
                       <div nz-form-control nz-col [nzSm]="17">
-                          <nz-input [(ngModel)]="input_name" name="
-                          " [nzId]="'input_name'">
+                          <nz-input [(ngModel)]="input_name">
                             <ng-template #addOnAfter><i (click)="showModal()" [ngClass]="'fa fa-list-ul'"></i></ng-template>
                           </nz-input>
                       </div>
@@ -114,13 +113,13 @@
                       <div nz-form-control nz-col [nzSm]="17">
                         <nz-datepicker [(ngModel)]="end_date" name="end_date" [nzPlaceHolder]="'结束时间'"></nz-datepicker>
                       </div>
-                  </div>                
+                  </div>
                   <div nz-row nz-form-item [nzGutter]="16" class="mb0">
                       <div nz-form-label nz-col [nzSm]="7">
                           <label for="userid">聊天内容</label>
                       </div>
                       <div nz-form-control nz-col [nzSm]="17">
-                          <nz-input [(ngModel)]="input_content" name="input_content" [nzId]="'input_content'"></nz-input>
+                          <nz-input [(ngModel)]="input_content"></nz-input>
                       </div>
                   </div>
                   <div style="height: 24px;"></div>

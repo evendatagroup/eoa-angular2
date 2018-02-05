@@ -102,6 +102,10 @@ export class ExeComponent implements OnInit {
         this.modal2.status = true
     }
 
+    cancel() {
+      
+    }
+
     handleClose(e) {
         console.log('点击了关闭')
         // this.progressComponent.show('')
