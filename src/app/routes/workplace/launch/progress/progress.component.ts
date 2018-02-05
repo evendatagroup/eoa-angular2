@@ -75,6 +75,7 @@ export class ProgressComponent implements OnInit {
                     console.log(data)
                     this.data = [];
                     this.attachs = data.urls.split(',');
+                    this.show(this.attachs[0]);
                     this.data.push({title: '标题', content: data.formjson.affairTitle})
                     this.data.push({title: '发起人', content: data.formjson.exe})
                     if(data.formjson.question_3 != undefined){

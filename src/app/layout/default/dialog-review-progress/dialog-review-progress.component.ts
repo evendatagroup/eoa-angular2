@@ -17,22 +17,38 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class DialogReviewProgressComponent implements OnInit {
 
-	private modal: any;
+    private modal: any;
 	attachs: any;
 
     constructor() { }
 
     ngOnInit() {
-    	console.log(this.modal)
-    	if(this.modal.infor != ''){
-    		this.attachs = this.modal.infor.imgs.split(',');
-    		let urls = this.modal.infor.url.split(',');
-    		for(let u in urls){
-    			this.attachs.push(urls[u])
-    		}
-    		this.attachs = this.attachs.filter(item => item != "");
-    	}
+    	// console.log(this.modal)
+    	// if(this.modal.infor != ''){
+     //        this.attachs = this.modal.infor.url.split(',')
+     //  //       console.log(this.modal.infor.url)
+    	// 	// console.log(this.modal.infor.url.split(','))
+    	// 	// let urls = this.modal.infor.url.split(',');
+    	// 	// for(let u in urls){
+    	// 	// 	this.attachs.push(urls[u])
+    	// 	// }
+    	// 	// this.attachs = this.attachs.filter(item => item != "");
+     //        // this.show(this.attachs[0]);
+    	// }
     	// console.log(this.attachs)
+
+    }
+
+    getData() {
+        if(this.modal.infor != ''){
+            this.attachs = this.modal.infor.url.split(',')
+            this.show(this.attachs[0])
+        }
+    }
+
+    ngOnChanges() {
+        // console.log(this.modal)
+        this.getData();
     }
 
     show(url) {
@@ -49,8 +65,6 @@ export class DialogReviewProgressComponent implements OnInit {
 
     handleClose() {
     	// console.log(this.modal)
-    	const targetElement = document.querySelector('#show1');
-    	targetElement.innerHTML = '';
     	this.modal.status = false;
     }
 

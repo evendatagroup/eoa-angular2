@@ -9,8 +9,8 @@
 		        </ng-template>
 		        <div nz-row [nzType]="'flex'" [nzJustify]="'center'" [nzAlign]="'middle'" class="py-sm bg-grey-lighter-h point"
 		            *ngFor="let item of attachs; let idx=index">
-		            <div nz-col [nzSpan]="20" style="margin-left: 24px;">
-		                <strong><a (click)="show(item)">附件{{idx}}</a></strong>
+		            <div nz-col [nzSpan]="20" style="margin-left: 24px;" (click)="show(item)">
+		                <strong><a >附件{{idx}}</a></strong>
 		            </div>
 		        </div>
 		    </nz-card>

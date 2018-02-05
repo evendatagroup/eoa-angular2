@@ -39,6 +39,13 @@ export class TodoComponent implements OnInit {
   // roleShow = ["", "", "#/workplace/review", "#/workplace/sign", "#/workplace/approval", "#/workplace/exe"]
   title1 = ''
   title2 = ''
+  isShowPdf = false;
+  modal2 = {
+      title: '',
+      status: false,
+      infor: ''
+  }
+  userVid = JSON.parse(window.localStorage._token).userVid
 
   constructor(private listService: ListService,
               private userService: UserService,
@@ -93,12 +100,31 @@ export class TodoComponent implements OnInit {
   }
 
   showPdf(l) {
-    window.open(environment.FILE_URL + l.url);
-    this.userService.editRead({ inforId: l.inforId, userVid: this.settingService.user.userVid, readStatus: 1 })
+    this.isShowPdf = true;
+    this.modal2.infor = l;
+    // console.log(l)
+    this.modal2.status = true;
+    this.modal2.title = l.value;
+    if(l.readStatus == 0){
+      // this.editRead(l);
+    }
+  }
+
+  editRead(l) {
+    this.userService.editRead({ inforId: l.inforId, userVid: this.userVid, readStatus: 1 })
         .then(res => {
-            this.getList()
+          console.log(res)
         })
   }
+
+
+  // showPdf(l) {
+  //   window.open(environment.FILE_URL + l.url);
+  //   this.userService.editRead({ inforId: l.inforId, userVid: this.settingService.user.userVid, readStatus: 1 })
+  //       .then(res => {
+  //           this.getList()
+  //       })
+  // }
 
   showMsg(i) {
     console.log(i.progressStatus)
