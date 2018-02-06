@@ -9,13 +9,8 @@ import { Progress } from '../../../../class/progress.class';
 @Component({
     selector: 'app-progress',
     templateUrl: './progress.component.html',
-    styles: [`
-    .pdfV {
-		width: inherit;
-		background-color: #0f0;
-	}
-  ` ],
-    inputs: ['progressId', 'officeId', 'progress', 'randNum', 'id']
+    inputs: ['progressId', 'officeId', 'progress', 'randNum', 'id'],
+    styleUrls: ['./progress.component.css']
 })
 export class ProgressComponent implements OnInit {
     data = [];
@@ -58,6 +53,8 @@ export class ProgressComponent implements OnInit {
 
     @Output()
     onSuccessF = new EventEmitter();
+
+    isExpd = false;
 
     constructor(private progressService: ProgressService,
                 private msg: NzMessageService,
@@ -151,5 +148,13 @@ export class ProgressComponent implements OnInit {
                     }
                 })
             })
+    }
+
+    isExpand() {
+        this.isExpd = true;
+    }
+
+    noExpand() {
+        this.isExpd = false;
     }
 }

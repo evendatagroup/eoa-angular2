@@ -33,9 +33,14 @@
 	    </nz-card>
 	</div>
     <div nz-col [nzXs]="24" [nzSm]="progress.progressRole!=5?10:18">
-        <nz-card style=" height: 320px; margin-top: 0; overflow-y: scroll; " id='{{id}}'>
+    	<!-- <button nz-button [nzType]="'primary'" [nzSize]="'large'" >
+	      放 大
+	    </button> -->
+	    <i class="fa fa-expand" style="float: right; cursor: pointer;" (click)="isExpand()"></i>
+        <nz-card [ngClass]="{true:'card',false:'nocard'}[isExpd]" class="isExpd?card:nocard" id='{{id}}'>
         	
         </nz-card>
+        <i *ngIf="isExpd" class="fa fa-compress" style="position: fixed; top: 5%;right: 5%; z-index: 10000; cursor: pointer;" (click)="noExpand()"></i>
     </div>
    <!--  <div nz-col [nzXs]="24" [nzSm]="progress.progressRole!=5?16:24">
     	<nz-card [nzBordered]="false">

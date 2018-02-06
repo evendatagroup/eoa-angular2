@@ -7,13 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
   selector: 'app-dialog-review-progress',
   templateUrl: './dialog-review-progress.component.html',
   inputs: ['modal', 'id', 'randNum'],
-  styles: [`
-  	.Absolute-Center {
-	  margin: auto;
-	  position: absolute;
-	  top: 0; left: 0; bottom: 0; right: 0;
-	}
-  `]
+  styleUrls: ['./dialog-review-progress.component.css']
 })
 export class DialogReviewProgressComponent implements OnInit {
 
@@ -21,6 +15,7 @@ export class DialogReviewProgressComponent implements OnInit {
     id: any;
     randNum: any;
 	attachs: any;
+    isExpd = false;
 
     constructor() {
     }
@@ -56,6 +51,14 @@ export class DialogReviewProgressComponent implements OnInit {
 
     handleClose() {
     	this.modal.status = false;
+    }
+
+    isExpand() {
+        this.isExpd = true;
+    }
+
+    noExpand() {
+        this.isExpd = false;
     }
 
 }

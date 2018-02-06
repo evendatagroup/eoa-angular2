@@ -16,8 +16,10 @@
 		    </nz-card>
 	    </div>
 	    <div nz-col [nzXs]="24" [nzSm]="12">
-	        <nz-card style=" height: 320px; margin-top: 0; overflow-y: scroll; margin-right: -186px;" id='{{id}}'>
+	    	<i class="fa fa-expand" style="float: right; cursor: pointer;" (click)="isExpand()"></i>
+	        <nz-card [ngClass]="{true:'card',false:'nocard'}[isExpd]" id='{{id}}'>
 	        </nz-card>
+	        <i *ngIf="isExpd" class="fa fa-compress" style="position: fixed; top: 5%;right: 5%; z-index: 10000; cursor: pointer;" (click)="noExpand()"></i>
 	    </div>
 	</div>
   </ng-template>
