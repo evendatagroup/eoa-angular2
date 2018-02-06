@@ -107,7 +107,6 @@ export class ProgressComponent implements OnInit {
         console.log(targetElement)
         const iframe = document.createElement('iframe');
         iframe.src = url;
-        // iframe.src = 'https://www.baidu.com/?qq-pf-to=pcqq.c2c';
         iframe.width = '100%';
         iframe.height = '100%';
         iframe.tabIndex = 100
@@ -118,15 +117,6 @@ export class ProgressComponent implements OnInit {
 
     ngOnChanges() {
         this.getData();
-        // let i = '#' + this.id
-        // const targetElement = document.querySelector(i);
-        // if (targetElement != null) {
-        //     if (targetElement.children != null) {
-        //         if (targetElement.children.length != 0) {
-        //             this.getPdf();
-        //         }
-        //     }
-        // }
     }
 
     submit() {
@@ -162,37 +152,4 @@ export class ProgressComponent implements OnInit {
                 })
             })
     }
-
-    // getPdf() {
-    //     // console.log(this.progress.affairId)
-    //     if(this.progress.affairId != undefined){
-    //         this.progressService.getAffairById(this.progress.affairId)
-    //             .then(data => {
-    //                 console.log(data.formjson)
-    //                 for (let key in data.formjson) {
-    //                     data.templetJson = data.templetJson.replace(`$#${key}#$`, data.formjson[key])
-    //                 }
-    //                 let pdfjson = JSON.parse(data.templetJson)
-    //                 this.generatePdf(pdfjson);
-    //             });
-    //     }else{
-    //         // console.log('affairId:', this.progress.affairId);
-    //     }            
-    // }
-
-    // generatePdf(data) {
-    //     const pdfDocGenerator = pdfMake.createPdf(data);
-
-    //     pdfDocGenerator.getDataUrl((dataUrl) => {
-    //         let i = '#' + this.id
-    //         const targetElement = document.querySelector(i);
-    //         const iframe = document.createElement('iframe');
-    //         iframe.src = dataUrl;
-    //         iframe.width = '100%';
-    //         iframe.height = '100%';
-    //         iframe.style.marginTop = "-24px";
-    //         targetElement.innerHTML = '';
-    //         targetElement.appendChild(iframe);
-    //     });
-    // }
 }

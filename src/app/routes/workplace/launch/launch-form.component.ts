@@ -156,6 +156,7 @@ export class LaunchFormComponent {
                     }
                 })
                 this.flowList = res;
+                console.log(res)
             })
     }
 

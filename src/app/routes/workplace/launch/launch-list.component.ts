@@ -133,7 +133,6 @@ export class LaunchListComponent {
       progressStatus: this.selectStatus,
       order: 'oa_progress.create_timestamp desc'
     }
-    // console.log(parames)
     this.progressService
         .getListByPage(parames)
         .then(res => {

@@ -67,12 +67,10 @@ export class ExeComponent implements OnInit {
             progressStatus: this.selectStatus,
             order: 'oa_progress.create_timestamp desc'
         }
-        // console.log(parames)
         this.progressService
             .getListByPage(parames)
             .then(res => {
                 this.data = res.data;
-                // console.log(this.data)
                 this.total = parseInt(res.msg)
             });
     }
@@ -110,7 +108,6 @@ export class ExeComponent implements OnInit {
 
     handleClose(e) {
         console.log('点击了关闭')
-        // this.progressComponent.show('')
         this.modal.status = false;
     }
 
@@ -126,5 +123,4 @@ export class ExeComponent implements OnInit {
         console.log('点击了关闭')
         this.modal2.status = false;
     }
-
 }

@@ -40,14 +40,12 @@ export class DialogReviewProgressComponent implements OnInit {
     }
 
     ngOnChanges() {
-        console.log('changes')
         this.getData();
     }
 
     show(url) {
         let i = '#' + this.id
     	const targetElement = document.querySelector(i);
-    	// console.log(targetElement)
         const iframe = document.createElement('iframe');
         iframe.src = url;
         iframe.width = '100%';

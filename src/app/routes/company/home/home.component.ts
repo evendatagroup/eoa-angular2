@@ -77,7 +77,6 @@ export class HomeComponent implements OnInit {
         .then(res => {
           this.imglist = res.data
           this.imglist.map(item => item.imgs = item.imgs.split(',')[0]);
-          // console.log(this.imglist)
         });
   }
 
