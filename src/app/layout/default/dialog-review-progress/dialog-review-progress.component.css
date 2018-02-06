@@ -1,0 +1,21 @@
+.Absolute-Center {
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+}
+
+.nocard {
+	height: 320px; 
+	margin-top: 0; 
+	overflow-y: scroll; 
+}
+
+.card {
+	overflow-y: scroll; 
+	position: fixed;
+	top: 5%;
+	left: 5%;
+	width: 90%;
+	height: 90%;
+	z-index: 999;
+}

@@ -1,0 +1,20 @@
+.pdfV {
+	width: inherit;
+	background-color: #0f0;
+}
+
+.nocard {
+	height: 320px; 
+	margin-top: 0; 
+	overflow-y: scroll;
+}
+
+.card {
+	overflow-y: scroll;
+	position: fixed;
+	top: 5%;
+	left: 5%;
+	width: 90%;
+	height: 90%;
+	z-index: 999;
+}
