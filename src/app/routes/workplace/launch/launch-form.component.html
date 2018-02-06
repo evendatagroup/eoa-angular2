@@ -5,7 +5,7 @@
         <label nz-form-item-required>流程</label>
       </div>
       <div nz-form-control nz-col [nzSpan]="14">
-        <nz-select formControlName="select" (nzOpenChange)="selectFlow($event)" [nzSize]="'large'" [nzPlaceHolder]="'请选择需要加载的流程模版'">
+        <nz-select formControlName="select" (nzOpenChange)="selectFlow($event)" [nzSize]="'large'" [nzPlaceHolder]="'请选择需要加载的流程模版'" nzShowSearch>
           <nz-option *ngFor="let flow of flowList;let i = index" [nzLabel]="flow.flowName" [nzValue]="i"></nz-option>
 
         </nz-select>

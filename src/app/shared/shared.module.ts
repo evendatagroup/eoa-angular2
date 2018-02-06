@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
 // delon
 import { NgZorroAntdExtraModule } from 'ng-zorro-antd-extra';
 import { AlainThemeModule } from '@delon/theme';
@@ -40,7 +39,6 @@ const DIRECTIVES = [];
         CommonModule,
         FormsModule,
         RouterModule,
-        PdfViewerModule,
         ReactiveFormsModule,
         ...ZORROMODULES,
         NgZorroAntdExtraModule,

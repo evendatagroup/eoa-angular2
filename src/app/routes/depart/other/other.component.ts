@@ -81,7 +81,7 @@ export class OtherComponent implements OnInit {
   showPdf(l) {
       console.log(l.url.substring(l.url.length - 3, l.url.length))
       if(!!l.url&&l.url.substring(l.url.length - 3, l.url.length) == 'pdf'){
-          window.open(environment.FILE_URL + l.url, "", "width=600, height=600");
+          //window.open(environment.FILE_URL + l.url, "", "width=600, height=600");
           if(l.readStatus == 0){
               this.editRead(l);
           }
@@ -137,7 +137,7 @@ export class OtherComponent implements OnInit {
 
   generatePdf(data, l) {
       // console.log(data)
-      var win = window.open(environment.FILE_URL + l.url, "", "width=600, height=600");
+      //var win = window.open(environment.FILE_URL + l.url, "", "width=600, height=600");
       //pdfMake.createPdf(data).open({}, win);
       if(l.readStatus == 0){
           this.editRead(l);
