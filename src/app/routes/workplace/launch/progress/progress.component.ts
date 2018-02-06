@@ -23,10 +23,10 @@ export class ProgressComponent implements OnInit {
     divId = '';
     more = '同意';
     radioValue = '2';
-    private progressId;
-    private officeId;
-    private randNum: any;
-    private id: string;
+    progressId;
+    officeId;
+    randNum: any;
+    id: string;
     progress: Progress;
     pdfSrc = '';
     page = 1;

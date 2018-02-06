@@ -17,9 +17,9 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class DialogReviewProgressComponent implements OnInit {
 
-    private modal: any;
-    private id: any;
-    private randNum: any;
+    modal: any;
+    id: any;
+    randNum: any;
 	attachs: any;
 
     constructor() {
