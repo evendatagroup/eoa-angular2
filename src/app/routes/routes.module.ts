@@ -32,7 +32,7 @@ import { Exception500Component } from './exception/500.component';
         CallbackComponent,
         Exception403Component,
         Exception404Component,
-        Exception500Component
+        Exception500Component,
     ]
 })
 

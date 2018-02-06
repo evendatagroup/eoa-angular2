@@ -66,6 +66,7 @@ export class ProgressComponent implements OnInit {
 
     ngOnInit() {
         // console.log(JSON.stringify(this.dds))   // 有用：根据dds产生字符串形成模板，放数据库里
+        
     }
 
     getData() {
@@ -99,8 +100,9 @@ export class ProgressComponent implements OnInit {
     }
 
     show(url) {
-        console.log('url',url)
+        // console.log('url',url)
         let i = '#' + this.id
+        console.log(i)
         const targetElement = document.querySelector(i);
         console.log(targetElement)
         const iframe = document.createElement('iframe');

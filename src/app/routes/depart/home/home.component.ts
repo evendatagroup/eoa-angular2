@@ -58,6 +58,7 @@ export class HomeComponent implements OnInit {
     status: false,
     infor: ''
   }
+  randNum: any;
 
   constructor(public msg: NzMessageService,
               private listService: ListService,
@@ -81,6 +82,7 @@ export class HomeComponent implements OnInit {
 
   showPdf(l) {
     this.isShowPdf = true;
+    this.randNum = Math.random();
     this.modal.infor = l;
     this.modal.status = true;
     this.modal.title = l.value;

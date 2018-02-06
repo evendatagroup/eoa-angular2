@@ -30,6 +30,7 @@ export class ListComponent implements OnInit {
         status: false,
         infor: ''
     }
+    randNum: any;
 
     constructor(private progressService: ProgressService,
                 private listService: ListService,
@@ -51,9 +52,10 @@ export class ListComponent implements OnInit {
     showPdf(l) {
         this.modal = {infor:l,status:true,title:l.value}
         this.isShowPdf = true;
-        // this.modal.infor = l;
-        // this.modal.status = true;
-        // this.modal.title = l.value;
+        this.randNum = Math.random();
+        this.modal.infor = l;
+        this.modal.status = true;
+        this.modal.title = l.value;
         if(l.readStatus == 0){
             this.editRead(l);
         }

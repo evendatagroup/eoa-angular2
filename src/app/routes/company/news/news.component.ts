@@ -41,6 +41,7 @@ export class NewsComponent implements OnInit {
         status: false,
         infor: ''
     }
+    randNum: any;
 
     constructor(private progressService: ProgressService,
                 private listService: ListService,
@@ -87,6 +88,7 @@ export class NewsComponent implements OnInit {
 
     showPdf(l) {
         this.isShowPdf = true;
+        this.randNum = Math.random();
         this.modal.infor = l;
         this.modal.status = true;
         this.modal.title = l.value;

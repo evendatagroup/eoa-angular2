@@ -57,11 +57,11 @@
 </div>
 
 <div *ngIf="isShowPdf">
-  <app-dialog-review-progress [modal]="modal2" [id]="'id5'"></app-dialog-review-progress>
+  <app-dialog-review-progress [modal]="modal2" [id]="'id5'" [randNum]="randNum"></app-dialog-review-progress>
 </div>
 
 <!-- 处理事项：审核、会签、批准、执行 -->
-<nz-modal [nzFooter]="modalFooter" [nzWidth]="'1024'" [nzClosable]="false" [nzWrapClassName]="'vertical-center-modal'" [nzContent]="modalContent2" [nzVisible]="modal.status" [nzTitle]="modal.title">
+<nz-modal [nzFooter]="modalFooter" [nzWidth]="1024" [nzClosable]="false" [nzWrapClassName]="'vertical-center-modal'" [nzContent]="modalContent2" [nzVisible]="modal.status" [nzTitle]="modal.title">
   <ng-template #modalContent2>
     <app-progress [progress]="modal.progress" (onSuccessF)="onSuccess($event)" [id]="'pdfDiv8'"></app-progress>
   </ng-template>

@@ -45,6 +45,7 @@ export class TodoComponent implements OnInit {
       status: false,
       infor: ''
   }
+  randNum: any;
   userVid = JSON.parse(window.localStorage._token).userVid
 
   constructor(private listService: ListService,
@@ -101,6 +102,7 @@ export class TodoComponent implements OnInit {
 
   showPdf(l) {
     this.isShowPdf = true;
+    this.randNum = Math.random();
     this.modal2.infor = l;
     // console.log(l)
     this.modal2.status = true;

@@ -33,7 +33,7 @@ import { ProgressComponent } from '../../../../routes/workplace/launch/progress/
     </nz-tooltip>
 
     <div *ngIf="isShowPdf">
-      <app-dialog-review-progress [modal]="modal2" [id]="'#id6'"></app-dialog-review-progress>
+      <app-dialog-review-progress [modal]="modal2" [id]="'id6'" [randNum]="randNum"></app-dialog-review-progress>
     </div>
     
     <nz-modal [nzFooter]="modalFooter4" [nzClosable]="false" [nzWidth]="'1024'" [nzWrapClassName]="'vertical-center-modal'" [nzContent]="modalContent4" [nzVisible]="modal.status" [nzTitle]="modal.title">
@@ -79,6 +79,7 @@ export class HeaderTodoComponent implements OnInit {
         status: false,
         infor: ''
     }
+    randNum: any;
 
     constructor(private msg: NzMessageService,
                 private settings: SettingsService,
@@ -122,11 +123,6 @@ export class HeaderTodoComponent implements OnInit {
     }
 
     loadData(res) {
-        // console.log('outside:', res, this.loading)
-        // if (!res || this.loading){
-        //     console.log('inside:', res, this.loading)
-        //     // return;
-        // } 
         let data = [];
         let list1 = [];
         let id = '';
@@ -138,10 +134,7 @@ export class HeaderTodoComponent implements OnInit {
         let description = '';
         let extra = '未开始';
         let status = 'todo';
-        // console.log(this.msgList)
-        // console.log(this.data)
         if(this.msgList.length > 0){
-            // console.log(this.msgList)
             for (let msg in this.msgList) {
                 let m = this.msgList[msg];
                 datetime = this.datePipe.transform(new Date(m.createTimestamp * 1000), "yyyy-MM-dd");
@@ -177,7 +170,6 @@ export class HeaderTodoComponent implements OnInit {
         }else{
             this.data[1].list = [];
         }
-        // console.log(data.length)
         if(data.length > 0){
             this.parseGroup(ArrayObservable.of(data).pipe(delay(1000)));
         }
@@ -193,9 +185,7 @@ export class HeaderTodoComponent implements OnInit {
         this.listService
             .getList(parames)
             .then(res => {
-                // console.log('1', res)
                 this.msgList = res.data
-                // console.log(res)
                 if(this.count1 > 0 && this.count >= this.count1){
                     this.count -= this.count1;
                 }
@@ -204,7 +194,6 @@ export class HeaderTodoComponent implements OnInit {
                 if (this.count2 != undefined) {
                     this.count = this.count1 + this.count2;
                 }
-                // console.log('2', this.count2)
                 this.loadData(res);
             });
     }
@@ -222,7 +211,6 @@ export class HeaderTodoComponent implements OnInit {
             .getListByPage(parames)
             .then(res => {
                 this.todoList = res.data;
-                // console.log('2', res.msg)
                 if(this.count2 > 0 && this.count >= this.count2){
                     this.count -= this.count2;
                 }
@@ -230,7 +218,6 @@ export class HeaderTodoComponent implements OnInit {
                 if (this.count1 != undefined) {
                     this.count = this.count1 + this.count2;
                 }
-                // console.log('1', this.count1)
                 this.loadData(res);
             });
     }
@@ -240,7 +227,6 @@ export class HeaderTodoComponent implements OnInit {
             this.loading = false;
             this.clearMsgRead();
             this.msg.success(`清空了 ${type}`);
-            //this.data[0].list = [];
         }else if(type == '待办'){
             this.msg.warning('无法清空，请速处理！');
         }
@@ -251,24 +237,18 @@ export class HeaderTodoComponent implements OnInit {
         if(res.title == '通知'){
             console.log(res)
             this.isShowPdf = true;
+            this.randNum = Math.random();
             this.modal2.infor = res.item;
             this.modal2.status = true;
             this.modal2.title = res.title;
-            // if(l.readStatus == 0){
-            //   this.editRead(l);
-            // }
-            // window.open(environment.FILE_URL + res.item.url, "", "width=600, height=600");
             if(res.item.readStatus == 0){
                 this.editRead(res);
             }
         }else if(res.title == '待办'){
-            // console.log(res)
             this.modal.title = this.role[res.item.progress.progressRole]
             this.modal.progress = res.item.progress
-            // console.log(this.modal.progress)
             this.modal.status = true
         }
-        // this.msg.success(`点击了 ${res.title} 的 ${res.item.title}`);
     }
 
     handleClose(e) {
@@ -283,17 +263,14 @@ export class HeaderTodoComponent implements OnInit {
     }
 
     onSuccess(res) {
-        // console.log('res',res);
         if(res == '操作成功'){
           this.getTodo();
         }
     }
 
-
     editRead(l) {
         this.userService.editRead({ inforId: l.item.id, userVid: this.userVid, readStatus: 1 })
             .then(res => {
-                // console.log(res)
                 this.getMsg();
             })
     }
@@ -302,7 +279,6 @@ export class HeaderTodoComponent implements OnInit {
         this.msgService
                 .clearMsgRead()
                 .then(res => {
-                    // console.log(res)
                     this.getMsg();
                 })
     }
