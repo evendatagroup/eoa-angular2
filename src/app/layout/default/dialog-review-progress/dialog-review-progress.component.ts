@@ -8,23 +8,22 @@ import { Component, OnInit, Input } from '@angular/core';
   templateUrl: './dialog-review-progress.component.html',
   inputs: ['modal', 'id'],
   styles: [`
-  	.Absolute-Center {  
-	  margin: auto;  
-	  position: absolute;  
-	  top: 0; left: 0; bottom: 0; right: 0;  
-	}  
+  	.Absolute-Center {
+	  margin: auto;
+	  position: absolute;
+	  top: 0; left: 0; bottom: 0; right: 0;
+	}
   `]
 })
 export class DialogReviewProgressComponent implements OnInit {
 
     private modal: any;
     private id: any;
-	attachs: any;
+	  attachs: any;
 
     constructor() { }
 
     ngOnInit() {
-    	// console.log(this.modal)
     	// if(this.modal.infor != ''){
      //        this.attachs = this.modal.infor.url.split(',')
      //  //       console.log(this.modal.infor.url)
@@ -59,7 +58,7 @@ export class DialogReviewProgressComponent implements OnInit {
     show(url) {
     	// console.log(url)
         let i = '#' + this.id
-    	const targetElement = document.querySelector(i);
+    	  const targetElement = document.querySelector(i);
     	// console.log(targetElement)
         const iframe = document.createElement('iframe');
         iframe.src = url;

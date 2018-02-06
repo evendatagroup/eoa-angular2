@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { Observable } from 'rxjs/Observable';
 
 import { NzMessageService } from 'ng-zorro-antd';
+import { NzNotificationService } from 'ng-zorro-antd';
 
 import { UserService } from '../../../service/user.service';
 import { AnyService } from '../../../service/any.service';
@@ -63,6 +64,7 @@ export class CreateflowComponent {
 
     constructor(
         private _message: NzMessageService,
+        private _notification: NzNotificationService,
         private fb: FormBuilder,
         private userService: UserService,
         private settingsService: SettingsService,
@@ -165,8 +167,10 @@ export class CreateflowComponent {
         // console.log(data);
         this.anyService.edit({ url: 'Flow', data: data })
             .then(res => {
-                this._message.create('success', res);
+                this._notification.create('success', '建模', `"${this.getFormControl('flowName').value}":创建成功`,{nzDuration: 20000});
                 this.resetForm();
+                this.current=0;
+                this.changeContent();
             })
     };
 
@@ -289,94 +293,94 @@ export class CreateflowComponent {
         })
     }
 
-    // 获取模板样式
-    getCaptcha() {
-        let v = this.getFormControl('templetId').value;
-        if(v == null){
-            this._message.create('warning', '请选择一个样式模板！');
-        }else{
-            this.showPdfModal(v);
-        }
-    }
-
-    // 显示样式模板
-    showPdfModal(v) {
-        this.isVisible = true;
-        let dds;
-        if(v == 1){
-            dds = {
-                content: [
-                    { text: '新闻模板样式', style: 'header', alignment: 'center' },
-                    {
-                        style: 'tableExample',
-                        table: {
-                            widths: [200, '*'],
-                            body: [
-                                ['申请人', { text: '', italics: true, color: 'gray', style: 'title' }],
-                                ['附件上传', { text: '', italics: true, color: 'gray', style: 'title' }],
-                                ['图片上传', { text: '', italics: true, color: 'gray', style: 'title' }]
-                            ]
-                        }
-                    }
-                ],
-                styles: {
-                    title: {
-                        fontSize: 22,
-                        bold: true
-                    },
-                    header: {
-                        fontSize: 25,
-                        bold: true
-                    }
-                },
-                defaultStyle: {
-                    font: 'fzytk'
-                }
-            };
-        }else if(v == 2){
-            dds = {
-                content: [
-                    { text: '请假单模板样式', style: 'header', alignment: 'center' },
-                    {
-                        style: 'tableExample',
-                        table: {
-                            widths: [200, '*'],
-                            body: [
-                                ['申请人', { text: '', italics: true, color: 'gray', style: 'title' }],
-                                ['请假事由', { text: '', italics: true, color: 'gray', style: 'title' }],
-                                ['请假时间', { text: '', italics: true, color: 'gray', style: 'title' }]
-                            ]
-                        }
-                    }
-                ],
-                styles: {
-                    title: {
-                        fontSize: 22,
-                        bold: true
-                    },
-                    header: {
-                        fontSize: 25,
-                        bold: true
-                    }
-                },
-                defaultStyle: {
-                    font: 'fzytk'
-                }
-            };
-        }
-
-        const pdfDocGenerator = pdfMake.createPdf(dds);
-        pdfDocGenerator.getDataUrl((dataUrl) => {
-            const targetElement = document.querySelector('#pdfDiv3');
-            const iframe = document.createElement('iframe');
-            iframe.src = dataUrl;
-            iframe.width = '100%';
-            iframe.height = '100%';
-            iframe.style.marginTop = "-24px";
-            targetElement.innerHTML = '';
-            targetElement.appendChild(iframe);
-        });
-    }
+    // // 获取模板样式
+    // getCaptcha() {
+    //     let v = this.getFormControl('templetId').value;
+    //     if(v == null){
+    //         this._message.create('warning', '请选择一个样式模板！');
+    //     }else{
+    //         this.showPdfModal(v);
+    //     }
+    // }
+    //
+    // // 显示样式模板
+    // showPdfModal(v) {
+    //     this.isVisible = true;
+    //     let dds;
+    //     if(v == 1){
+    //         dds = {
+    //             content: [
+    //                 { text: '新闻模板样式', style: 'header', alignment: 'center' },
+    //                 {
+    //                     style: 'tableExample',
+    //                     table: {
+    //                         widths: [200, '*'],
+    //                         body: [
+    //                             ['申请人', { text: '', italics: true, color: 'gray', style: 'title' }],
+    //                             ['附件上传', { text: '', italics: true, color: 'gray', style: 'title' }],
+    //                             ['图片上传', { text: '', italics: true, color: 'gray', style: 'title' }]
+    //                         ]
+    //                     }
+    //                 }
+    //             ],
+    //             styles: {
+    //                 title: {
+    //                     fontSize: 22,
+    //                     bold: true
+    //                 },
+    //                 header: {
+    //                     fontSize: 25,
+    //                     bold: true
+    //                 }
+    //             },
+    //             defaultStyle: {
+    //                 font: 'fzytk'
+    //             }
+    //         };
+    //     }else if(v == 2){
+    //         dds = {
+    //             content: [
+    //                 { text: '请假单模板样式', style: 'header', alignment: 'center' },
+    //                 {
+    //                     style: 'tableExample',
+    //                     table: {
+    //                         widths: [200, '*'],
+    //                         body: [
+    //                             ['申请人', { text: '', italics: true, color: 'gray', style: 'title' }],
+    //                             ['请假事由', { text: '', italics: true, color: 'gray', style: 'title' }],
+    //                             ['请假时间', { text: '', italics: true, color: 'gray', style: 'title' }]
+    //                         ]
+    //                     }
+    //                 }
+    //             ],
+    //             styles: {
+    //                 title: {
+    //                     fontSize: 22,
+    //                     bold: true
+    //                 },
+    //                 header: {
+    //                     fontSize: 25,
+    //                     bold: true
+    //                 }
+    //             },
+    //             defaultStyle: {
+    //                 font: 'fzytk'
+    //             }
+    //         };
+    //     }
+    //
+    //     const pdfDocGenerator = pdfMake.createPdf(dds);
+    //     pdfDocGenerator.getDataUrl((dataUrl) => {
+    //         const targetElement = document.querySelector('#pdfDiv3');
+    //         const iframe = document.createElement('iframe');
+    //         iframe.src = dataUrl;
+    //         iframe.width = '100%';
+    //         iframe.height = '100%';
+    //         iframe.style.marginTop = "-24px";
+    //         targetElement.innerHTML = '';
+    //         targetElement.appendChild(iframe);
+    //     });
+    // }
 
     handleCancel = (e) => {
       console.log(e);

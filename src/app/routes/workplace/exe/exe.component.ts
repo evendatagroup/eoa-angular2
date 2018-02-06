@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
+import { NzNotificationService } from 'ng-zorro-antd';
 
 import { ProgressComponent } from '../launch/progress/progress.component';
 import { ProgressService } from '../../../service/progress.service';
@@ -34,6 +35,7 @@ export class ExeComponent implements OnInit {
 
     input_title = ''
     selectStatus = 1
+    title = '发布至**\n阅读权限：**\n确认发布？'
 
     userVid = JSON.parse(window.localStorage._token).userVid
 
@@ -50,7 +52,7 @@ export class ExeComponent implements OnInit {
     modal = { title: '', status: false, progress: '', option: 1 };
     modal2 = { title: '', status: false, pgId: '', ofId: '', progress: '' };
 
-    constructor(private progressService: ProgressService, public msg: NzMessageService) { }
+    constructor(private progressService: ProgressService, public msg: NzMessageService,private _notification: NzNotificationService) { }
 
     getList(reset = false) {
         if (reset) {
@@ -103,7 +105,7 @@ export class ExeComponent implements OnInit {
     }
 
     cancel() {
-      
+
     }
 
     handleClose(e) {
@@ -117,6 +119,7 @@ export class ExeComponent implements OnInit {
         this.progressComponent.submit();
         this.progressComponent.show('');
         this.modal.status = false;
+        this._notification.create('success', '', '已发布');
     }
 
     handleClose2(e) {

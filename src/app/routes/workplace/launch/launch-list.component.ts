@@ -14,7 +14,7 @@ import { ProgressService } from '../../../service/progress.service';
                         <div nz-form-item class="d-flex">
                             <div nz-form-label><label for="status">标题</label></div>
                             <div nz-form-control class="flex-1">
-                                <nz-input [(ngModel)]="input_title" ></nz-input>
+                                <nz-input [(ngModel)]="input_title" name="input_title" ></nz-input>
                             </div>
                         </div>
                     </div>

@@ -138,7 +138,7 @@ export class OtherComponent implements OnInit {
   generatePdf(data, l) {
       // console.log(data)
       var win = window.open(environment.FILE_URL + l.url, "", "width=600, height=600");
-      pdfMake.createPdf(data).open({}, win);
+      //pdfMake.createPdf(data).open({}, win);
       if(l.readStatus == 0){
           this.editRead(l);
       }
@@ -174,4 +174,3 @@ export class OtherComponent implements OnInit {
   }
 
 }
-

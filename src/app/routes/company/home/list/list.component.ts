@@ -49,10 +49,11 @@ export class ListComponent implements OnInit {
     }
 
     showPdf(l) {
+        this.modal = {infor:l,status:true,title:l.value}
         this.isShowPdf = true;
-        this.modal.infor = l;
-        this.modal.status = true;
-        this.modal.title = l.value;
+        // this.modal.infor = l;
+        // this.modal.status = true;
+        // this.modal.title = l.value;
         if(l.readStatus == 0){
             this.editRead(l);
         }

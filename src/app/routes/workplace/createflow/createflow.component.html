@@ -71,14 +71,14 @@
                         <div nz-form-label nz-col [nzSpan]="6">
                             <label nz-form-item-required>模版</label>
                         </div>
-                        <div nz-form-control nz-col [nzSpan]="10">
+                        <div nz-form-control nz-col [nzSpan]="14">
                             <nz-select formControlName="templetId" [nzSize]="'large'">
                                 <nz-option *ngFor="let item of templetList" [nzLabel]="item.templetName" [nzValue]="item.templetId"></nz-option>
                             </nz-select>
                         </div>
-                        <div nz-col [nzSpan]="4">
+                        <!-- <div nz-col [nzSpan]="4">
                             <button nz-button [nzSize]="'large'" (click)="getCaptcha($event)">查看模版样式</button>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 

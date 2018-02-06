@@ -7,7 +7,7 @@
                 <div nz-form-item class="d-flex">
                     <div nz-form-label><label for="status">标题</label></div>
                     <div nz-form-control class="flex-1">
-                        <nz-input [(ngModel)]="input_title"  ></nz-input>
+                        <nz-input [(ngModel)]="input_title" name="input_title"  ></nz-input>
                     </div>
                 </div>
             </div>
@@ -67,7 +67,7 @@
     <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="handleClose($event)">
       返 回
     </button>
-    <nz-popconfirm [nzTitle]="'Are you sure？'" [nzOkText]="'ok'" [nzCancelText]="'cancel'" (nzOnConfirm)="handleSubmit($event)" (nzOnCancel)="cancel()">
+    <nz-popconfirm [nzTitle]="title" [nzOkText]="'发布'" [nzCancelText]="'取消'" (nzOnConfirm)="handleSubmit($event)" (nzOnCancel)="cancel()">
       <button nz-popconfirm nz-button [nzType]="'primary'" [nzSize]="'large'" >
         发 布
       </button>

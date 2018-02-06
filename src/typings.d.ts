@@ -16,4 +16,3 @@ declare var require: NodeRequire;
 declare var G2: any;
 declare var Slider: any;
 declare var Cloud: any;
-declare var pdfMake: any;
