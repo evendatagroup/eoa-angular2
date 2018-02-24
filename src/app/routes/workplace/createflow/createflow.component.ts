@@ -28,6 +28,7 @@ export class CreateflowComponent {
     path = { id: '', name: '' };
     // tree
     nodes: Array<TreeData> = []
+    newnodes: string
     menu = [
       {label:'全公司',value:'0'},
       {label:'发起人',value:'1'},
@@ -92,6 +93,7 @@ export class CreateflowComponent {
         this.addField();
         this.userService.getRoleAddress().then(res=>{
           this.nodes = res
+          this.newnodes = JSON.stringify(res);
         });
         this.anyService.getList({ url: 'Templet' }).then(list => {
             this.templetList = list;
@@ -250,6 +252,7 @@ export class CreateflowComponent {
     treeoc(key) {
       this.treelist[key].show = !this.treelist[key].show
       this.search = ''
+      this.nodes = JSON.parse(this.newnodes)
     }
     closeTree(path) {
       this.treelist[path.id].show = false

@@ -35,7 +35,7 @@ export class ExeComponent implements OnInit {
 
     input_title = ''
     selectStatus = 1
-    title = '发布至**\n阅读权限：**\n确认发布？'
+    title = '确认发布？'
 
     userVid = JSON.parse(window.localStorage._token).userVid
 
