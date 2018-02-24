@@ -59,7 +59,7 @@
     </nz-table>
 </nz-card>
 
-<nz-modal [nzFooter]="modalFooter" [nzClosable]="false" [nzWidth]="'1024'" [nzWrapClassName]="'vertical-center-modal'" [nzContent]="modalContent2" [nzVisible]="modal.status" [nzTitle]="modal.title">
+<nz-modal [nzFooter]="modalFooter" [nzClosable]="false" [nzWidth]="1024" [nzWrapClassName]="'vertical-center-modal'" [nzContent]="modalContent2" [nzVisible]="modal.status" [nzTitle]="modal.title">
   <ng-template #modalContent2>
     <app-progress [progress]="modal.progress" [id]="'pdfDiv'"></app-progress>
   </ng-template>
@@ -73,7 +73,7 @@
   </ng-template>
 </nz-modal>
 
-<nz-modal [nzFooter]="modalFooter2" [nzClosable]="false" [nzWidth]="'1024'" [nzWrapClassName]="'vertical-center-modal'" [nzContent]="modalContent3" [nzVisible]="modal2.status" [nzTitle]="modal2.title">
+<nz-modal [nzFooter]="modalFooter2" [nzClosable]="false" [nzWidth]="1024" [nzWrapClassName]="'vertical-center-modal'" [nzContent]="modalContent3" [nzVisible]="modal2.status" [nzTitle]="modal2.title">
   <ng-template #modalContent3>
     <app-review-progress [progress]="modal2.progress" [randNum]="randNum"></app-review-progress>
   </ng-template>
