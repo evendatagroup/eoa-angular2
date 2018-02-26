@@ -88,7 +88,7 @@ export class LaunchFormComponent {
           this.nodes = res
         });
     }
-
+    //多附件
     uploadAction(e,key) {
       if(e && e.file && e.file.status){
         switch(e.file.status) {
@@ -97,9 +97,9 @@ export class LaunchFormComponent {
             break;
           case 'done':
             this._message.success("上传成功")
-            this.uploadlistZ = [e.file];
-            console.log(e.file,key)
-            this.getFormControl(key).setValue(e.file.response.data)
+            //this.uploadlistZ = [e.file];
+            //console.log(e.file,key)
+            //this.getFormControl(key).setValue(e.file.response.data)
             break;
           case 'error':
             this._message.error("上传失败")
@@ -112,7 +112,10 @@ export class LaunchFormComponent {
             break;
         }
       }
+      let arr = this.uploadlistZ.filter(item=>item.status=='done').map(ele=>ele=ele.response.data)
+      this.getFormControl(key).setValue(arr.join(','))
     }
+    //单图片
     imgAction(e,key) {
       if(e && e.file && e.file.status){
         switch(e.file.status) {
